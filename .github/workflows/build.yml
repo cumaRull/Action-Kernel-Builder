@@ -284,18 +284,7 @@ jobs:
         env : 
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           generate_release_notes: true
-
-
-      - name: Upload to Release
-      uses: softprops/action-gh-release@v1
-      with:
-        files: | 
-            files: ${{ env.WORKSPACE }}/${{ env.KERNEL_DEVICE }}-${{ env.KERNEL_NAME }}_${{ env.builddate }}.zip
-       tag_name: v${{ env.builddate }}.${{ github.run_number }}
-        body: |
-          
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          
+          body: |
+          Target: "${{ env.WORKSPACE }}/${{ env.KERNEL_DEVICE }}-${{ env.KERNEL_NAME }}_${{ env.builddate }}.zip"
              
              
