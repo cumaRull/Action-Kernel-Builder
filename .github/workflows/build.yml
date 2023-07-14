@@ -281,10 +281,10 @@ jobs:
         with:
           
           files: "${{ env.WORKSPACE }}/${{ env.KERNEL_DEVICE }}-${{ env.KERNEL_NAME }}_${{ env.builddate }}.zip"
-        env : 
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          generate_release_notes: true
           body: |
           Target: "${{ env.WORKSPACE }}/${{ env.KERNEL_DEVICE }}-${{ env.KERNEL_NAME }}_${{ env.builddate }}.zip"
+         env:
+              GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+              generate_release_notes: true
              
              
