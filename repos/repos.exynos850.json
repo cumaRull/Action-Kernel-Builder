@@ -3,11 +3,11 @@
     "kernelSource": {
       "name": "M12-Kernel",
       "repo": "https://github.com/SpacingBat3/android_kernel_samsung-m127f_a13",
-      "branch": "4.19.111-samsung+kernelsu",
+      "branch": "4.19.111-samsung",
       "device": "m12",
       "defconfig": "exynos850-m12nsxx-spacingbat3_defconfig"
     },
-    "withKernelSU": true,
+    "withKernelSU": false,
     "toolchains": [
       {
         "repo": "https://github.com/kdrag0n/proton-clang",
