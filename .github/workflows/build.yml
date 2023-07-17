@@ -282,7 +282,7 @@ jobs:
           
           files: |
                ${{ env.WORKSPACE }}/${{ env.KERNEL_DEVICE }}-${{ env.KERNEL_NAME }}_${{ env.builddate }}.zip
-          name: ${{ github.run_id }}
+          name: ${{ env.KERNEL_NAME }}-${{ github.run_id }}
           tag_name: ${{ github.run_id }}
           body: |
           Target: ${{ env.WORKSPACE }}/${{ env.KERNEL_DEVICE }}-${{ env.KERNEL_NAME }}_${{ env.builddate }}.zip
