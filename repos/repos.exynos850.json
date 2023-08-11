@@ -12,28 +12,28 @@
       {
         "repo": "https://github.com/SpacingBat3/toolchains-for-exynos-850",
         "branch": "main",
-        "name": "toolchains-for-exynos-850",
+        "name": "./toolchains",
         "binPath": ["./bin"]
       }
     ],
     "ccache": true,
     "params": {
       "ARCH": "arm64",
-      "CC": "toolchains-for-exynos-850/android_prebuilts_clang_host_linux-x86_clang-5484270-9.0/bin/",
+      "CC": "./toolchains/android_prebuilts_clang_host_linux-x86_clang-5484270-9.0/bin/",
       "externalCommand": {
-        "CROSS_COMPILE": "toolchains-for-exynos-850/aarch64-linux-android-4.9/bin/aarch64-linux-android-",
-        "CROSS_COMPILE_ARM32": "toolchains-for-exynos-850/proton-clang-13-clang/bin/aarch64-linux-gnu-",
+        "CROSS_COMPILE": "./toolchains/aarch64-linux-android-4.9/bin/aarch64-linux-android-",
+        "CROSS_COMPILE_ARM32": "./toolchains/proton-clang-13-clang/bin/aarch64-linux-gnu-",
         "LD": "toolchains-for-exynos-850/bin/ld.lld",
-        "AR": "toolchains-for-exynos-850/bin/llvm-ar",
-        "NM": "toolchains-for-exynos-850/bin/llvm-nm",
-        "OBJCOPY": "toolchains-for-exynos-850/bin/llvm-objcopy",
-        "OBJDUMP": "toolchains-for-exynos-850/bin/llvm-objdump",
-        "READELF": "toolchains-for-exynos-850/bin/llvm-readelf",
-        "OBJSIZE": "toolchains-for-exynos-850/bin/llvm-size",
-        "STRIP": "toolchains-for-exynos-850/bin/llvm-strip",
-        "LDGOLD": "toolchains-for-exynos-850/bin/aarch64-linux-gnu-ld.gold",
-        "LLVM_AR": "toolchains-for-exynos-850/bin/llvm-ar",
-        "LLVM_DIS": "toolchains-for-exynos-850/bin/llvm-dis"
+        "AR": "./toolchains/bin/llvm-ar",
+        "NM": "./toolchainsbin/llvm-nm",
+        "OBJCOPY": "./toolchains/bin/llvm-objcopy",
+        "OBJDUMP": "./toolchains/bin/llvm-objdump",
+        "READELF": "./toolchains/bin/llvm-readelf",
+        "OBJSIZE": "./toolchains/bin/llvm-size",
+        "STRIP": "./toolchains/bin/llvm-strip",
+        "LDGOLD": "./toolchains/bin/aarch64-linux-gnu-ld.gold",
+        "LLVM_AR": "./toolchains/bin/llvm-ar",
+        "LLVM_DIS": "./toolchains/bin/llvm-dis"
       }
     },
     "AnyKernel3": {
