@@ -1,0 +1,46 @@
+[
+  {
+    "kernelSource": {
+      "name": "M12-Kernel",
+      "repo": "https://github.com/SpacingBat3/android_kernel_samsung-m127f_a13",
+      "branch": "4.19.111-samsung+kernelsu",
+      "device": "m12",
+      "defconfig": "exynos850-m12nsxx-spacingbat3_defconfig"
+    },
+    "withKernelSU": true,
+    "toolchains": [
+      {
+        "repo": "https://github.com/SpacingBat3/toolchains-for-exynos-850",
+        "branch": "main",
+        "name": "toolchains-for-exynos-850",
+        "binPath": ["./bin"]
+      }
+    ],
+    "ccache": true,
+    "params": {
+      "ARCH": "arm64",
+      "CC": "toolchains-for-exynos-850/android_prebuilts_clang_host_linux-x86_clang-5484270-9.0/bin/",
+      "externalCommand": {
+        "CROSS_COMPILE": "toolchains-for-exynos-850/aarch64-linux-android-4.9/bin/aarch64-linux-android-",
+        "CROSS_COMPILE_ARM32": "toolchains-for-exynos-850/proton-clang-13-clang/bin/aarch64-linux-gnu-",
+        "LD": "toolchains-for-exynos-850/bin/ld.lld",
+        "AR": "toolchains-for-exynos-850/bin/llvm-ar",
+        "NM": "toolchains-for-exynos-850/bin/llvm-nm",
+        "OBJCOPY": "toolchains-for-exynos-850/bin/llvm-objcopy",
+        "OBJDUMP": "toolchains-for-exynos-850/bin/llvm-objdump",
+        "READELF": "toolchains-for-exynos-850/bin/llvm-readelf",
+        "OBJSIZE": "toolchains-for-exynos-850/bin/llvm-size",
+        "STRIP": "toolchains-for-exynos-850/bin/llvm-strip",
+        "LDGOLD": "toolchains-for-exynos-850/bin/aarch64-linux-gnu-ld.gold",
+        "LLVM_AR": "toolchains-for-exynos-850/bin/llvm-ar",
+        "LLVM_DIS": "toolchains-for-exynos-850/bin/llvm-dis"
+      }
+    },
+    "AnyKernel3": {
+      "use": false,
+      "release": false,
+      "repo": "https://github.com/TheUnknownName/AnyKernel3/",
+      "branch": "even"
+    }
+  }
+]
