@@ -3,7 +3,7 @@
     "kernelSource": {
       "name": "Liquid-Kernel",
       "repo": "https://github.com/Rem01Gaming/liquid_kernel_realme_even",
-      "branch": "OSS-RUI2",
+      "branch": "feature/OSS-RUI2/KernelSU",
       "device": "even",
       "defconfig": "even_defconfig"
     },
