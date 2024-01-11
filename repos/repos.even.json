@@ -2,7 +2,7 @@
   {
     "kernelSource": {
       "name": "Liquid-Kernel",
-      "repo": "https://github.com/liquidprjkt/liquid_kernel_realme_even.git",
+      "repo": "https://github.com/cumaRull/liquid_kernel_realme_even",
       "branch": "OSS-RUI2",
       "device": "even",
       "defconfig": "even_ksu_defconfig"
@@ -10,7 +10,7 @@
     "withKernelSU": true,
     "toolchains": [
       {
-        "repo": "https://github.com/kdrag0n/proton-clang.git",
+        "repo": "https://github.com/kdrag0n/proton-clang",
         "branch": "master",
         "name": "proton-clang",
         "binPath": ["./bin"]
