@@ -267,27 +267,24 @@ jobs:
           cd AnyKernel3/
           zip -q -r "${{ env.anykernel }}.zip" *
 
-      - name: "Upload AnyKernel3 image => (${{ env.builddate }})"
+      - name: " Upload AnyKernel3 image => (${{ env.BUILD_DATE }})"
+        env:
+          ANYKERNEL3_FILE: "AnyKernel3-${{ env.KERNEL_NAME }}-${{ env.BUILD_DATE }}"
         uses: actions/upload-artifact@v3
-        if: ${{ env.useAnykernel == 'true' }}
+        if: ${{ env.USE_ANYKERNEL3 == 'true' }}
         with:
-          name: "${{ env.KERNEL_DEVICE }}-${{ env.KERNEL_NAME }}_${{ env.builddate }}"
+          name: "${{ env.ANYKERNEL3_FILE }}"
           path: AnyKernel3/*
 
-      - name: Create GitHub Release => (${{ env.builddate }})
+      - name: Create GitHub Release => (${{ env.BUILD_DATE }})
+        env:
+          ANYKERNEL3_FILE: "${{ env.WORKSPACE }}/AnyKernel3-${{ env.KERNEL_NAME }}-${{ env.BUILD_DATE }}"
         continue-on-error: true
         uses: softprops/action-gh-release@v1
-        if: ${{ env.useAnykernel == 'true' && env.release == 'true' }}
+        if: ${{ env.USE_ANYKERNEL3 == 'true' && env.CONFIRM_RELEASE == 'true' }}
         with:
-          
-          files: |
-               ${{ env.WORKSPACE }}/${{ env.KERNEL_DEVICE }}-${{ env.KERNEL_NAME }}_${{ env.builddate }}.zip
-          name: ${{ env.KERNEL_NAME }}-${{ github.run_id }}
-          tag_name: ${{ github.run_id }}
-          body: |
-          Target: ${{ env.WORKSPACE }}/${{ env.KERNEL_DEVICE }}-${{ env.KERNEL_NAME }}_${{ env.builddate }}.zip
-        env:
-              GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-              generate_release_notes: true
+          tag_name: v${{ env.BUILD_DATE }}.${{ github.run_number }}
+          files: "${{ env.ANYKERNEL3_FILE }}.zip"
+          generate_release_notes: true
              
              
