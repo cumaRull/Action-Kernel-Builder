@@ -5,7 +5,7 @@
       "repo": "https://github.com/cumaRull/realme_C25_C25s_narzo-50A-AndroidT-kernel-source",
       "branch": "master",
       "device": "even",
-      "defconfig": "k6893v1_64_k419_defconfig"
+      "defconfig": "gki_defconfig"
     },
     "withKernelSU": false,
     "toolchains": [
