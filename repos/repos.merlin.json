@@ -1,0 +1,60 @@
+[
+  {
+    "kernelSource": {
+      "name": "Even-Kernel",
+      "repo": "https://github.com/mt6768-dev/android_kernel_xiaomi_mt6768.git",
+      "branch": "lineage-20",
+      "device": "merlin",
+      "defconfig": "merlin_defconfig"
+    },
+    "withKernelSU": true,
+    "toolchains": [
+      {
+        
+      "repo": "https://github.com/EternalX-project/aarch64-linux-gnu",
+        "branch": "amd64",
+        "name": "aarch64",
+        "binPath": ["bin"]
+      },
+      {
+        "repo": "https://github.com/EternalX-project/arm-linux-gnueabi",
+        "branch": "amd64",
+        "name": "arm32",
+        "binPath": ["bin"]
+      },
+      {
+        "repo": "https://github.com/kdrag0n/proton-clang",
+        "branch": "master",
+        "name": "proton-clang",
+        "binPath": ["bin"]
+      }
+  
+    ],
+    "ccache": true,
+    "params": {
+      "ARCH": "arm64",
+      "CC": "proton-clang/bin/clang",
+      "externalCommand": {
+        "CROSS_COMPILE": "aarch64/bin/aarch64-linux-gnu-",
+        "CROSS_COMPILE_ARM32": "arm32/bin/arm-linux-gnueabi-",
+        "LD": "proton-clang/bin/ld.lld",
+        "AR": "proton-clang/bin/llvm-ar",
+        "NM": "proton-clang/bin/llvm-nm",
+        "OBJCOPY": "proton-clang/bin/llvm-objcopy",
+        "OBJDUMP": "proton-clang/bin/llvm-objdump",
+        "READELF": "proton-clang/bin/llvm-readelf",
+        "OBJSIZE": "proton-clang/bin/llvm-size",
+        "STRIP": "proton-clang/bin/llvm-strip",
+        "LDGOLD": "proton-clang/bin/aarch64-linux-gnu-ld.gold",
+        "LLVM_AR": "proton-clang/bin/llvm-ar",
+        "LLVM_DIS": "proton-clang/bin/llvm-dis"
+      }
+    },
+    "AnyKernel3": {
+      "use": true,
+      "release": true,
+      "repo": "https://github.com/TheUnknownName/AnyKernel3/",
+      "branch": "even"
+    }
+  }
+]
