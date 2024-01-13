@@ -10,18 +10,8 @@
     "withKernelSU": false,
     "toolchains": [
       {
-        "repo": "https://github.com/EternalX-project/aarch64-linux-gnu",
-        "branch": "amd64",
-        "name": "aarch64",
-        "binPath": ["bin"]
-      },
-      {
-        "repo": "https://github.com/EternalX-project/arm-linux-gnueabi",
-        "branch": "amd64",
-        "name": "arm32",
-        "binPath": ["bin"]
-      },
-      {
+        
+      
         "repo": "https://github.com/kdrag0n/proton-clang",
         "branch": "master",
         "name": "proton-clang",
@@ -33,8 +23,8 @@
       "ARCH": "arm64",
       "CC": "proton-clang/bin/clang",
       "externalCommand": {
-        "CROSS_COMPILE": "aarch64/bin/aarch64-linux-gnu-",
-        "CROSS_COMPILE_ARM32": "arm32/bin/arm-linux-gnueabi-",
+        "CROSS_COMPILE": "proton-clang/bin/aarch64-linux-gnu-",
+        "CROSS_COMPILE_ARM32": "proton-clang/bin/arm-linux-gnueabi-",
         "LD": "proton-clang/bin/ld.lld",
         "AR": "proton-clang/bin/llvm-ar",
         "NM": "proton-clang/bin/llvm-nm",
