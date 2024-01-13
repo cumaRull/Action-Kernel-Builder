@@ -276,7 +276,7 @@ jobs:
           name: "${{ env.ANYKERNEL3_FILE }}"
           path: AnyKernel3/*
 
-      - name: Create GitHub Release => (${{ env.BUILD_DATE }})
+      - name: ® Create GitHub Release => (${{ env.BUILD_DATE }})
         env:
           ANYKERNEL3_FILE: "${{ env.WORKSPACE }}/AnyKernel3-${{ env.KERNEL_NAME }}-${{ env.BUILD_DATE }}"
         continue-on-error: true
@@ -286,5 +286,6 @@ jobs:
           tag_name: v${{ env.BUILD_DATE }}.${{ github.run_number }}
           files: "${{ env.ANYKERNEL3_FILE }}.zip"
           generate_release_notes: true
-             
-             
+
+
+          
