@@ -13,19 +13,19 @@
         "repo": "https://github.com/EternalX-project/aarch64-linux-gnu",
         "branch": "amd64",
         "name": "aarch64",
-        "binPath": [".bin"]
+        "binPath": ["bin"]
       },
       {
         "repo": "https://github.com/EternalX-project/arm-linux-gnueabi",
         "branch": "amd64",
         "name": "arm32",
-        "binPath": [".bin"]
+        "binPath": ["bin"]
       },
       {
         "repo": "https://github.com/kdrag0n/proton-clang",
         "branch": "master",
         "name": "proton-clang",
-        "binPath": [".bin"]
+        "binPath": ["bin"]
       }
     ],
     "ccache": true,
