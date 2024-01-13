@@ -2,10 +2,10 @@
   {
     "kernelSource": {
       "name": "EvenT-Kernel",
-      "repo": "https://github.com/cumaRull/realme_C25_C25s_narzo-50A-AndroidT-kernel-source",
-      "branch": "master",
+      "repo": "https://github.com/liquidprjkt/liquid_kernel_realme_even",
+      "branch": "OSS-RUI2",
       "device": "even",
-      "defconfig": "gki_defconfig"
+      "defconfig": "even_defconfig"
     },
     "withKernelSU": false,
     "toolchains": [
