@@ -23,8 +23,8 @@
         "binPath": ["bin"]
       },
       {
-        "repo": "https://gitlab.com/havoc-devices/android_prebuilts_clang_host_linux-x86_clang-r437112",
-        "branch": "12.0",
+        "repo": "https://github.com/ArrowOS-Devices/android_prebuilts_clang_host_linux-x86_clang-r416183b1",
+        "branch": "arrow-11.0",
         "name": "clang",
         "binPath": ["bin"]
       }
