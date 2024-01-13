@@ -27,9 +27,6 @@
         "name": "proton-clang",
         "binPath": ["/.bin"]
       }
-   
-      
-   
     ],
     "ccache": true,
     "params": {
