@@ -12,20 +12,20 @@
       {
         "repo": "https://github.com/EternalX-project/aarch64-linux-gnu",
         "branch": "amd64",
-        "name": "aarch64-linux-gnu",
-        "binPath": ["./bin"]
+        "name": "aarch64",
+        "binPath": ["bin"]
       },
       {
         "repo": "https://github.com/EternalX-project/arm-linux-gnueabi",
         "branch": "amd64",
-        "name": "arm-linux-gnueabi",
-        "binPath": ["./bin"]
+        "name": "arm32",
+        "binPath": ["bin"]
       },
       {
         "repo": "https://github.com/kdrag0n/proton-clang",
         "branch": "master",
         "name": "proton-clang",
-        "binPath": ["./bin"]
+        "binPath": ["bin"]
       }
    
       
@@ -36,8 +36,8 @@
       "ARCH": "arm64",
       "CC": "proton-clang/bin/clang",
       "externalCommand": {
-        "CROSS_COMPILE": "aarch64-linux-gnu/bin/aarch64-linux-gnu-",
-        "CROSS_COMPILE_ARM32": "arm-linux-gnueabi/bin/arm-linux-gnueabi-",
+        "CROSS_COMPILE": "aarch64/bin/aarch64-linux-gnu-",
+        "CROSS_COMPILE_ARM32": "arm32/bin/arm-linux-gnueabi-",
         "LD": "proton-clang/bin/ld.lld",
         "AR": "proton-clang/bin/llvm-ar",
         "NM": "proton-clang/bin/llvm-nm",
@@ -46,7 +46,7 @@
         "READELF": "proton-clang/bin/llvm-readelf",
         "OBJSIZE": "proton-clang/bin/llvm-size",
         "STRIP": "proton-clang/bin/llvm-strip",
-        "LDGOLD": "aarch64-linux-gnu/bin/aarch64-linux-gnu-ld.gold",
+        "LDGOLD": "proton-clang/bin/aarch64-linux-gnu-ld.gold",
         "LLVM_AR": "proton-clang/bin/llvm-ar",
         "LLVM_DIS": "proton-clang/bin/llvm-dis"
       }
