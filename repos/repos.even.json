@@ -5,7 +5,7 @@
       "repo": "https://github.com/liquidprjkt/liquid_kernel_realme_even.git",
       "branch": "OSS-RUI2",
       "device": "even",
-      "defconfig": "gki_defconfig"
+      "defconfig": "even_defconfig"
     },
     "withKernelSU": true,
     "toolchains": [
