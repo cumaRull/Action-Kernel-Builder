@@ -17,13 +17,13 @@
         "binPath": ["bin"]
       },
       {
-        "repo": "https://github.com/radcolor/arm-linux-gnueabi",
-        "branch": "master",
+        "repo": "https://github.com/EternalX-project/arm-linux-gnueabi",
+        "branch": "amd64",
         "name": "arm32",
         "binPath": ["bin"]
       },
       {
-        "repo": "https://gitlab.com/LeCmnGend/proton-clang.git",
+        "repo": "ttp://git.linaro.org/toolchain/jenkins-scripts.git 09f505cadfbe9987730e641398ab9a2ca0cdb67f",
         "branch": "clang-17",
         "name": "clang",
         "binPath": ["bin"]
