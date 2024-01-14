@@ -3,7 +3,7 @@
     "kernelSource": {
       "name": "Merlin-Kernel",
       "repo": "https://github.com/Yourfurina/kernel_xiaomi_mt6768.git",
-      "branch": "r2",
+      "branch": "14.0",
       "device": "merlin",
       "defconfig": "cuttlefish_defconfig"
     },
