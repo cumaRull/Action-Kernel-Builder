@@ -1,0 +1,60 @@
+[
+  {
+    "kernelSource": {
+      "name": "Even-Kernel",
+      "repo": "https://github.com/Rem01Gaming/android_kernel_realme_even",
+      "branch": "master",
+      "device": "even",
+      "defconfig": "even_defconfig"
+    },
+    "withKernelSU": true,
+    "toolchains": [
+      {
+        
+      "repo": "https://github.com/ArrowOS/android_prebuilts_gcc_linux-x86_aarch64_aarch64-linux-android-4.9",
+        "branch": "arrow-13.1",
+        "name": "aarch64",
+        "binPath": ["bin"]
+      },
+      {
+        "repo": "https://github.com/radcolor/arm-linux-gnueabi",
+        "branch": "master",
+        "name": "arm32",
+        "binPath": ["bin"]
+      },
+      {
+        "repo": "https://gitlab.com/LeCmnGend/proton-clang.git",
+        "branch": "clang-17",
+        "name": "clang",
+        "binPath": ["bin"]
+      }
+  
+    ],
+    "ccache": true,
+    "params": {
+      "ARCH": "arm64",
+      "CC": "clang/bin/clang",
+      "externalCommand": {
+        "CROSS_COMPILE": "aarch64/bin/aarch64-linux-gnu-",
+        "CROSS_COMPILE_ARM32": "arm32/bin/arm-linux-gnueabi-",
+        "LD": "clang/bin/ld.lld",
+        "AR": "clang/bin/llvm-ar",
+        "NM": "clang/bin/llvm-nm",
+        "OBJCOPY": "clang/bin/llvm-objcopy",
+        "OBJDUMP": "clang/bin/llvm-objdump",
+        "READELF": "clang/bin/llvm-readelf",
+        "OBJSIZE": "clang/bin/llvm-size",
+        "STRIP": "clang/bin/llvm-strip",
+        "LDGOLD": "clang/bin/aarch64-linux-gnu-ld.gold",
+        "LLVM_AR": "clang/bin/llvm-ar",
+        "LLVM_DIS": "clang/bin/llvm-dis"
+      }
+    },
+    "AnyKernel3": {
+      "use": true,
+      "release": true,
+      "repo": "https://github.com/TheUnknownName/AnyKernel3/",
+      "branch": "even"
+    }
+  }
+]
