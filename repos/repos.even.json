@@ -11,14 +11,14 @@
     "toolchains": [
       {
         
-      "repo": "https://github.com/EternalX-project/aarch64-linux-gnu",
-        "branch": "amd64",
+      "repo": "https://github.com/ArrowOS/android_prebuilts_gcc_linux-x86_aarch64_aarch64-linux-android-4.9",
+        "branch": "arrow-13.1",
         "name": "aarch64",
         "binPath": ["bin"]
       },
       {
-        "repo": "https://github.com/EternalX-project/arm-linux-gnueabi",
-        "branch": "amd64",
+        "repo": "https://github.com/radcolor/arm-linux-gnueabi",
+        "branch": "master",
         "name": "arm32",
         "binPath": ["bin"]
       },
