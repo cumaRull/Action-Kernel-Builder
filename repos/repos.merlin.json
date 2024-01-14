@@ -23,7 +23,7 @@
         "binPath": ["bin"]
       },
       {
-        "repo": "https://gitlab.com/LeCmnGend/proton-clang.git",
+        "repo": "https://gitlab.com/LeCmnGend/proton-clang",
         "branch": "clang-17",
         "name": "proton-clang",
         "binPath": ["bin"]
