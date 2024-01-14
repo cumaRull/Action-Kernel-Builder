@@ -23,8 +23,8 @@
         "binPath": ["bin"]
       },
       {
-        "repo": "https://github.com/ArrowOS-Devices/android_prebuilts_clang_host_linux-x86_clang-r416183b1",
-        "branch": "arrow-11.0",
+        "repo": "https://gitlab.com/LeCmnGend/proton-clang.git",
+        "branch": "clang-17",
         "name": "clang",
         "binPath": ["bin"]
       }
