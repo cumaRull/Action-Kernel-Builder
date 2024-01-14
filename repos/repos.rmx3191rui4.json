@@ -23,8 +23,8 @@
         "binPath": ["bin"]
       },
       {
-        "repo": "https://gitlab.com/LeCmnGend/proton-clang.git",
-        "branch": "clang-17",
+        "repo": "https://github.com/EternalX-project/arm-linux-gnueabi",
+        "branch": "amd64",
         "name": "clang",
         "binPath": ["bin"]
       }
