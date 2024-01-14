@@ -23,8 +23,8 @@
         "binPath": ["bin"]
       },
       {
-        "repo": "https://gitlab.com/LeCmnGend/proton-clang",
-        "branch": "clang-17",
+        "repo": "https://github.com/SayuZX/android_prebuilts_clang_host_linux-x86_clang-r437112",
+        "branch": "master",
         "name": "proton-clang",
         "binPath": ["bin"]
       }
