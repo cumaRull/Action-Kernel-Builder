@@ -1,9 +1,9 @@
 [
   {
     "kernelSource": {
-      "name": "Evens-Kernel",
-      "repo": "https://github.com/cumaRull/realme_C25_C25s_Narzo-50A-AndroidS-kernel-source.git",
-      "branch": "master",
+      "name": "Even-Kernel",
+      "repo": "https://github.com/Rem01Gaming/liquid_kernel_realme_even.git",
+      "branch": "OSS-RUI2",
       "device": "even",
       "defconfig": "even_defconfig"
     },
@@ -11,8 +11,8 @@
     "toolchains": [
       {
         
-      "repo": "https://github.com/ArrowOS/android_prebuilts_gcc_linux-x86_aarch64_aarch64-linux-android-4.9",
-        "branch": "arrow-13.1",
+      "repo": "https://github.com/EternalX-project/aarch64-linux-gnu.git",
+        "branch": "amd64",
         "name": "aarch64",
         "binPath": ["bin"]
       },
