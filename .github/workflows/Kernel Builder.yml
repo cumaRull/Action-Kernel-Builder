@@ -139,11 +139,12 @@ jobs:
       run: |
        
        cd ~/kernel
-      
+       printf "\nFinal Repository kernel Should Look Like...\n" && ls -lAog ~/kernel
        export ARCH=arm64
 
       
-      
+       [ -d "out" ] && rm -rf out
+       
        mkdir -p out
 
        make O=out ARCH=arm64 ${{ github.event.inputsKERNEL_DEFCONFIG }}
