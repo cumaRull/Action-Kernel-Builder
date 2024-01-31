@@ -123,9 +123,9 @@ jobs:
     - name: Clone Clang And GCC
       run: |
        cd ~/kernel
-       git clone --depth=1 ${{ github.event.inputs.CLANG_URL }} -b ${{ github.event.inputs.CLANG_BRANCH }} clang
-       git clone --depth=1 ${{ github.event.inputs.AARCH64_URL }} -b ${{ github.event.inputs.AARCH64_BRANCH }} aarch64-gcc
-       git clone --depth=1 ${{ github.event.inputs.ARM_LINUX_URL }} -b ${{ github.event.inputs.ARM_LINUX_BRANCH_URL }} aarch32-gcc
+       git clone --depth=1 ${{ github.event.inputs.CLANG_URL }} clang
+       git clone --depth=1 ${{ github.event.inputs.AARCH64_URL }} aarch64-gcc
+       git clone --depth=1 ${{ github.event.inputs.ARM_LINUX_URL }} aarch32-gcc
       working-directory: ${{ steps.pwd.outputs.workspace-folder }}
 
     - name: Sync Device Dependencies
