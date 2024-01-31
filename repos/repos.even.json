@@ -8,28 +8,33 @@
       "defconfig": "even_defconfig"
     },
     "withKernelSU": true,
-    "toolchains": [
+    "clang": [
       {
         
       "repo": "https://github.com/EternalX-project/aarch64-linux-gnu.git",
         "branch": "amd64",
         "name": "aarch64",
         "binPath": ["bin"]
-      },
+      }]
+
+    "aarch64": [
       {
-        "repo": "https://github.com/EternalX-project/arm-linux-gnueabi",
+        
+      "repo": "https://github.com/EternalX-project/aarch64-linux-gnu.git",
         "branch": "amd64",
-        "name": "arm32",
+        "name": "aarch64",
         "binPath": ["bin"]
-      },
+      }]
+
+    "gcc": [
       {
-        "repo": "https://github.com/kdrag0n/proton-clang",
-        "branch": "master",
-        "name": "clang",
+        
+      "repo": "https://github.com/EternalX-project/aarch64-linux-gnu.git",
+        "branch": "amd64",
+        "name": "aarch64",
         "binPath": ["bin"]
-      }
-  
-    ],
+      }]
+      
     "ccache": true,
     "params": {
       "ARCH": "arm64",
