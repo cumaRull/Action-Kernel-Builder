@@ -124,16 +124,16 @@ jobs:
       
     - name: Clone kernel tree
       run: |
-      git clone --depth=1 --recurse-submodules -j8 --single-branch ${{ github.event.inputs.KERNEL_URL }} ~/kernel
-      cd ~/kernel
+       git clone --depth=1 --recurse-submodules -j8 --single-branch ${{ github.event.inputs.KERNEL_URL }} ~/kernel
+       cd ~/kernel
       working-directory: ${{ steps.pwd.outputs.workspace-folder }}
 
     - name: Clone Clang And GCC
       run: |
-      cd ~/kernel
-      git clone --depth=1 ${{ github.event.inputs.CLANG_URL }} -b ${{ github.event.inputs.CLANG_BRANCH }} clang
-      git clone --depth=1 ${{ github.event.inputs.AARCH64_URL }} -b ${{ github.event.inputs.AARCH64_BRANCH }} aarch64-gcc
-      git clone --depth=1 ${{ github.event.inputs.ARM_LINUX_URL }} -b ${{ github.event.inputs.ARM_LINUX_BRANCH_URL }} aarch32-gcc
+       cd ~/kernel
+       git clone --depth=1 ${{ github.event.inputs.CLANG_URL }} -b ${{ github.event.inputs.CLANG_BRANCH }} clang
+       git clone --depth=1 ${{ github.event.inputs.AARCH64_URL }} -b ${{ github.event.inputs.AARCH64_BRANCH }} aarch64-gcc
+       git clone --depth=1 ${{ github.event.inputs.ARM_LINUX_URL }} -b ${{ github.event.inputs.ARM_LINUX_BRANCH_URL }} aarch32-gcc
       working-directory: ${{ steps.pwd.outputs.workspace-folder }}
 
     - name: Sync Device Dependencies
@@ -150,28 +150,27 @@ jobs:
 
     - name: Building Kernel
       run: |
-      compile() {
-      cd ~/kernel
-      #ubah nama kernel dan dev builder
-      printf "\nFinal Repository kernel Should Look Like...\n" && ls -lAog ~/kernel
-      export ARCH=arm64
+       compile() {
+       cd ~/kernel
+      
+       export ARCH=arm64
 
-      #mulai mengcompile kernel
-      [ -d "out" ] && rm -rf out
-      mkdir -p out
+      
+      
+       mkdir -p out
 
-      make O=out ARCH=arm64 ${{ github.event.inputsKERNEL_DEFCONFIG }}
+       make O=out ARCH=arm64 ${{ github.event.inputsKERNEL_DEFCONFIG }}
 
-      PATH="${PWD}/clang/bin:${PATH}:${PWD}/aarch32-gcc/bin:${PATH}:${PWD}/aarch64-gcc/bin:${PATH}" \
-      make -j$(nproc --all) O=out \
-      ARCH=arm64 \
-      CC="clang" \
-      CLANG_TRIPLE=aarch64-linux-gnu- \
-      CROSS_COMPILE="${PWD}/aarch64-gcc/bin/aarch64-linux-gnu-" \
-      CROSS_COMPILE_ARM32="${PWD}/aarch32-gcc/bin/arm-linux-gnueabihf-" \
-      CONFIG_NO_ERROR_ON_MISMATCH=y \
-      V=0 $DEFCONFIG_FLAG
-      }
+       PATH="${PWD}/clang/bin:${PATH}:${PWD}/aarch32-gcc/bin:${PATH}:${PWD}/aarch64-gcc/bin:${PATH}" \
+       make -j$(nproc --all) O=out \
+       ARCH=arm64 \
+       CC="clang" \
+       CLANG_TRIPLE=aarch64-linux-gnu- \
+       CROSS_COMPILE="${PWD}/aarch64-gcc/bin/aarch64-linux-gnu-" \
+       CROSS_COMPILE_ARM32="${PWD}/aarch32-gcc/bin/arm-linux-gnueabihf-" \
+       CONFIG_NO_ERROR_ON_MISMATCH=y \
+       V=0 $DEFCONFIG_FLAG
+       }
       working-directory: ${{ steps.pwd.outputs.workspace-folder }}
 
     - name: Test Upload to Telegram
