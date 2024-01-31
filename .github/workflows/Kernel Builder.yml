@@ -78,11 +78,10 @@ jobs:
       # That's it! Now use your normal steps
     - name: Prepare the environment
       run: |
-        sudo apt update
-        sudo apt -y upgrade
-        sudo apt install wget git -y
-        wget https://raw.githubusercontent.com/TheUnknownName/toolFW/main/setup.sh
-        bash setup.sh
+          sudo apt-get update
+          sudo apt-get install -y build-essential bc gcc-aarch64-linux-gnu gcc-arm-linux-gnueabi libssl-dev libfl-dev
+          sudo apt-get install -y curl git ftp lftp wget libarchive-tools ccache python2 python2-dev
+          sudo apt-get install -y zip unzip tar gzip bzip2 rar unrar
 
     - name: Setup SSH Keys
       if: ${{ startsWith(github.event.inputs.MANIFEST_URL, 'git@github.com') }}
@@ -91,14 +90,7 @@ jobs:
           ssh-private-key: |
               ${{ secrets.SSH_PRIVATE_KEY }}
 
-    - name: Notify in Telegram
-      run: |
-             
-              curl -s -X POST "https://api.telegram.org/bot${{ secrets.TG_BOT_TOKEN }}/sendMessage" \
-              -d chat_id="${{ secrets.TG_CHAT_ID }}" \
-              -d text="Build Started With: <code>GithubAction</code>%0A USING MANIFEST:<b>${{ github.event.inputs.MANIFEST_URL }}</b>%0AMANIFEST BRANCH:<b>${{ github.event.inputs.MANIFEST_BRANCH }}</b>Device Tree:${{ github.event.inputs.DEVICE_TREE_URL }}%0ADevice Name: <b>${{ github.event.inputs.DEVICE_NAME }}</b>%0ADevice Tree Branch: ${{ github.event.inputs.DEVICE_TREE_BRANCH }}%0ABuild Target: <b>${{ github.event.inputs.BUILD_TARGET }}</b>" \
-              -d parse_mode=html \
-              -d disable_web_page_preview=true 
+     
               
 #    - name: Install repo
 #      run: |
