@@ -11,9 +11,9 @@
     "clang": [
       {
         
-      "repo": "https://github.com/EternalX-project/aarch64-linux-gnu.git",
+      "repo": "https://gitlab.com/clangsantoni/zyc_clang.git",
         "branch": "amd64",
-        "name": "aarch64",
+        "name": "clang",
         "binPath": ["bin"]
       }]
 
@@ -29,7 +29,7 @@
     "gcc": [
       {
         
-      "repo": "https://github.com/EternalX-project/aarch64-linux-gnu.git",
+      "repo": "https://github.com/EternalX-project/arm-linux-gnueabi.git",
         "branch": "amd64",
         "name": "aarch64",
         "binPath": ["bin"]
