@@ -128,12 +128,7 @@ jobs:
        git clone --depth=1 ${{ github.event.inputs.ARM_LINUX_URL }} aarch32-gcc
       working-directory: ${{ steps.pwd.outputs.workspace-folder }}
 
-    - name: Sync Device Dependencies
-      run: |
-        bash ${GITHUB_WORKSPACE}/scripts/convert.sh ${{ github.event.inputs.DEVICE_PATH }}/${{ steps.buildtree.outputs.value }}.dependencies
-        repo sync -j$(nproc --all)
-      working-directory: ${{ steps.pwd.outputs.workspace-folder }}
-      continue-on-error: true
+    
 
     - name: Set Swap Space
       uses: pierotofy/set-swap-space@master
@@ -142,7 +137,7 @@ jobs:
 
     - name: Building Kernel
       run: |
-       compile() {
+       
        cd ~/kernel
       
        export ARCH=arm64
@@ -162,27 +157,7 @@ jobs:
        CROSS_COMPILE_ARM32="${PWD}/aarch32-gcc/bin/arm-linux-gnueabihf-" \
        CONFIG_NO_ERROR_ON_MISMATCH=y \
        V=0 $DEFCONFIG_FLAG
-       }
+       
       working-directory: ${{ steps.pwd.outputs.workspace-folder }}
-
-    - name: Test Upload to Telegram
-      run: |
-              img=workspace/out/target/product/${{ github.event.inputs.DEVICE_NAME }}/${{ github.event.inputs.BUILD_TARGET }}.zip
-              cd workspace/out/target/product/${{ github.event.inputs.DEVICE_NAME }}
-              zip -r9 ${{ github.event.inputs.BUILD_TARGET }}.zip
-              curl -F document=@$img "https://api.telegram.org/bot${{ secrets.TG_BOT_TOKEN }}/sendDocument" \
-              -F chat_id="${{ secrets.TG_CHAT_ID }}" \
-              -F parse_mode=html \
-              -F disable_web_page_preview=true 
-              
-    - name: Build finished Notify in Telegram
-      run: |
-             
-              curl -s -X POST "https://api.telegram.org/bot${{ secrets.TG_BOT_TOKEN }}/sendMessage" \
-              -d chat_id="${{ secrets.TG_CHAT_ID }}" \
-              -d text="<b>Build Finished!!</b>Device Tree:${{ github.event.inputs.DEVICE_TREE_URL }}%0ADevice Name: <b>${{ github.event.inputs.DEVICE_NAME }}</b>%0ADevice Tree Branch: ${{ github.event.inputs.DEVICE_TREE_BRANCH }}%0ABuild Target: <b>${{ github.event.inputs.BUILD_TARGET }}</b>" \
-              -d parse_mode=html \
-              -d disable_web_page_preview=true 
-              
 
     
