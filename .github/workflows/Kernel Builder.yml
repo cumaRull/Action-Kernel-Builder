@@ -1,0 +1,197 @@
+name: Kernel Builder by ismasrull
+
+on:
+  workflow_dispatch:
+    inputs:
+      KERNEL_URL:
+        description: 'KernelUrl (if want to use SSH keys, use git@github.com:XXXXX)'
+        required: true
+        default: 'https://github.com/Rem01Gaming/liquid_kernel_realme_even.git'
+        
+      KERNEL_DEFCONFIG:
+        description: 'DEFCONFIG (if want to use SSH keys, use git@github.com:XXXXX)'
+        required: true
+        default: 'even_defconfig'
+        
+      KERNEL_BRANCH:
+        description: 'Kernel Branch'
+        required: true
+        default: ''
+        
+        
+      CLANG_URL:
+        description: 'Clang Url'
+        required: true
+        default: 'https://gitlab.com/clangsantoni/zyc_clang.git'
+      CLANG_BRANCH:
+        description: 'Clang Branch'
+        required: false
+        default: ''
+      AARCH64_URL:
+        description: 'Arrch64-GCC'
+        required: true
+        default: 'https://github.com/EternalX-project/aarch64-linux-gnu.git'
+      AARCH64_BRANCH:
+        description: 'AARCH64-GCC BRANCH'
+        required: false
+        default: ''
+      ARM_LINUX_URL:
+        description: 'ARM-LINUX-GNU'
+        required: true
+        default: 'https://github.com/EternalX-project/arm-linux-gnueabi.git'
+      ARM_LINUX_BRANCH:
+        description: 'ARM LINUX GNU BRANCH'
+        required: false
+        default: ''  
+      
+      
+
+jobs:
+  build:
+    if: github.event.repository.owner.id == github.event.sender.id
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+    - name: Display Run Parameters
+      run: |
+        echo "::group::User Environment Variables"
+        echo "Kernel URL: ${{ github.event.inputs.KERNEL_URL }}"
+        echo "Kernel Branch: ${{ github.event.inputs.KERNEL_BRANCH }}"
+        echo "Kernel Defconfig: ${{ github.event.inputsKERNEL_DEFCONFIG }}"
+        echo "Clang URL: ${{ github.event.inputs.CLANG_URL }}"
+        echo "Clang Branch: ${{ github.event.inputs.CLANG_BRANCH }}"
+        echo "Aarch64-gnu Url: ${{ github.event.inputs.AARCH64_URL }}"
+        echo "AARCH64-BRANCH: ${{ github.event.inputs.AARCH64_BRANCH }}"
+        echo "Arm Linux GnubUrl: ${{ github.event.inputs.ARM_LINUX_URL }}"
+        echo "Arm Linux Gny Branch: ${{ github.event.inputs.ARM_LINUX_BRANCH }}"
+        echo "::endgroup::"
+ 
+    # You might want to Checkout your repo first, but not mandatory
+    - name: Check Out
+      uses: actions/checkout@v3
+    # Cleanup The Actions Workspace Using Custom Composite Run Actions
+    
+    - name: Cleanup
+      uses: rokibhasansagar/slimhub_actions@main
+
+      # That's it! Now use your normal steps
+    - name: Prepare the environment
+      run: |
+        sudo apt update
+        sudo apt -y upgrade
+        sudo apt install wget git -y
+        wget https://raw.githubusercontent.com/TheUnknownName/toolFW/main/setup.sh
+        bash setup.sh
+
+    - name: Setup SSH Keys
+      if: ${{ startsWith(github.event.inputs.MANIFEST_URL, 'git@github.com') }}
+      uses: webfactory/ssh-agent@v0.5.4
+      with:
+          ssh-private-key: |
+              ${{ secrets.SSH_PRIVATE_KEY }}
+
+    - name: Notify in Telegram
+      run: |
+             
+              curl -s -X POST "https://api.telegram.org/bot${{ secrets.TG_BOT_TOKEN }}/sendMessage" \
+              -d chat_id="${{ secrets.TG_CHAT_ID }}" \
+              -d text="Build Started With: <code>GithubAction</code>%0A USING MANIFEST:<b>${{ github.event.inputs.MANIFEST_URL }}</b>%0AMANIFEST BRANCH:<b>${{ github.event.inputs.MANIFEST_BRANCH }}</b>Device Tree:${{ github.event.inputs.DEVICE_TREE_URL }}%0ADevice Name: <b>${{ github.event.inputs.DEVICE_NAME }}</b>%0ADevice Tree Branch: ${{ github.event.inputs.DEVICE_TREE_BRANCH }}%0ABuild Target: <b>${{ github.event.inputs.BUILD_TARGET }}</b>" \
+              -d parse_mode=html \
+              -d disable_web_page_preview=true 
+              
+#    - name: Install repo
+#      run: |
+#        mkdir ~/bin
+#        curl https://storage.googleapis.com/git-repo-downloads/repo > ~/bin/repo
+#        chmod a+x ~/bin/repo
+#        sudo ln -sf ~/bin/repo /usr/bin/repo
+      
+#    - name: Initialize repo
+#      run: |
+#        mkdir workspace
+#        cd workspace
+#        echo "workspace-folder=$(pwd)" >> $GITHUB_OUTPUT
+#        git config --global user.name "cumaRull"
+#        git config --global user.email "rulsmods@gmail.com"
+#        repo init --depth=1 -u ${{ github.event.inputs.MANIFEST_URL }} -b ${{ github.event.inputs.MANIFEST_BRANCH }}
+#      id: pwd
+    
+#    - name: Repo Sync
+#      run: |
+#        repo sync -j$(nproc --all) --force-sync
+#      working-directory: workspace
+      
+    - name: Clone kernel tree
+      run: |
+      git clone --depth=1 --recurse-submodules -j8 --single-branch ${{ github.event.inputs.KERNEL_URL }} ~/kernel
+      cd ~/kernel
+      working-directory: ${{ steps.pwd.outputs.workspace-folder }}
+
+    - name: Clone Clang And GCC
+      run: |
+      cd ~/kernel
+      git clone --depth=1 ${{ github.event.inputs.CLANG_URL }} -b ${{ github.event.inputs.CLANG_BRANCH }} clang
+      git clone --depth=1 ${{ github.event.inputs.AARCH64_URL }} -b ${{ github.event.inputs.AARCH64_BRANCH }} aarch64-gcc
+      git clone --depth=1 ${{ github.event.inputs.ARM_LINUX_URL }} -b ${{ github.event.inputs.ARM_LINUX_BRANCH_URL }} aarch32-gcc
+      working-directory: ${{ steps.pwd.outputs.workspace-folder }}
+
+    - name: Sync Device Dependencies
+      run: |
+        bash ${GITHUB_WORKSPACE}/scripts/convert.sh ${{ github.event.inputs.DEVICE_PATH }}/${{ steps.buildtree.outputs.value }}.dependencies
+        repo sync -j$(nproc --all)
+      working-directory: ${{ steps.pwd.outputs.workspace-folder }}
+      continue-on-error: true
+
+    - name: Set Swap Space
+      uses: pierotofy/set-swap-space@master
+      with:
+        swap-size-gb: 12
+
+    - name: Building Kernel
+      run: |
+      compile() {
+      cd ~/kernel
+      #ubah nama kernel dan dev builder
+      printf "\nFinal Repository kernel Should Look Like...\n" && ls -lAog ~/kernel
+      export ARCH=arm64
+
+      #mulai mengcompile kernel
+      [ -d "out" ] && rm -rf out
+      mkdir -p out
+
+      make O=out ARCH=arm64 ${{ github.event.inputsKERNEL_DEFCONFIG }}
+
+      PATH="${PWD}/clang/bin:${PATH}:${PWD}/aarch32-gcc/bin:${PATH}:${PWD}/aarch64-gcc/bin:${PATH}" \
+      make -j$(nproc --all) O=out \
+      ARCH=arm64 \
+      CC="clang" \
+      CLANG_TRIPLE=aarch64-linux-gnu- \
+      CROSS_COMPILE="${PWD}/aarch64-gcc/bin/aarch64-linux-gnu-" \
+      CROSS_COMPILE_ARM32="${PWD}/aarch32-gcc/bin/arm-linux-gnueabihf-" \
+      CONFIG_NO_ERROR_ON_MISMATCH=y \
+      V=0 $DEFCONFIG_FLAG
+      }
+      working-directory: ${{ steps.pwd.outputs.workspace-folder }}
+
+    - name: Test Upload to Telegram
+      run: |
+              img=workspace/out/target/product/${{ github.event.inputs.DEVICE_NAME }}/${{ github.event.inputs.BUILD_TARGET }}.zip
+              cd workspace/out/target/product/${{ github.event.inputs.DEVICE_NAME }}
+              zip -r9 ${{ github.event.inputs.BUILD_TARGET }}.zip
+              curl -F document=@$img "https://api.telegram.org/bot${{ secrets.TG_BOT_TOKEN }}/sendDocument" \
+              -F chat_id="${{ secrets.TG_CHAT_ID }}" \
+              -F parse_mode=html \
+              -F disable_web_page_preview=true 
+              
+    - name: Build finished Notify in Telegram
+      run: |
+             
+              curl -s -X POST "https://api.telegram.org/bot${{ secrets.TG_BOT_TOKEN }}/sendMessage" \
+              -d chat_id="${{ secrets.TG_CHAT_ID }}" \
+              -d text="<b>Build Finished!!</b>Device Tree:${{ github.event.inputs.DEVICE_TREE_URL }}%0ADevice Name: <b>${{ github.event.inputs.DEVICE_NAME }}</b>%0ADevice Tree Branch: ${{ github.event.inputs.DEVICE_TREE_BRANCH }}%0ABuild Target: <b>${{ github.event.inputs.BUILD_TARGET }}</b>" \
+              -d parse_mode=html \
+              -d disable_web_page_preview=true 
+              
+
+    
