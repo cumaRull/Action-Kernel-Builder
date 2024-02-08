@@ -157,7 +157,7 @@ jobs:
        CROSS_COMPILE="${PWD}/aarch64-gcc/bin/aarch64-linux-gnu-" \
        CROSS_COMPILE_ARM32="${PWD}/aarch32-gcc/bin/arm-linux-gnueabihf-" \
        CONFIG_NO_ERROR_ON_MISMATCH=y \
-       V=0 $DEFCONFIG_FLAG
+       
        
       working-directory: ${{ steps.pwd.outputs.workspace-folder }}
 
