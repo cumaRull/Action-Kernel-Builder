@@ -84,7 +84,6 @@ jobs:
           sudo apt-get install -y zip unzip tar gzip bzip2 rar unrar
 
     - name: Setup SSH Keys
-      if: ${{ startsWith(github.event.inputs.MANIFEST_URL, 'git@github.com') }}
       uses: webfactory/ssh-agent@v0.5.4
       with:
           ssh-private-key: |
@@ -106,7 +105,7 @@ jobs:
 #        echo "workspace-folder=$(pwd)" >> $GITHUB_OUTPUT
 #        git config --global user.name "cumaRull"
 #        git config --global user.email "rulsmods@gmail.com"
-#        repo init --depth=1 -u ${{ github.event.inputs.MANIFEST_URL }} -b ${{ github.event.inputs.MANIFEST_BRANCH }}
+#        repo init -depth=1 -u ${{ github.event.inputs.MANIFEST_URL }} -b ${{ github.event.inputs.MANIFEST_BRANCH }}
 #      id: pwd
     
 #    - name: Repo Sync
@@ -118,7 +117,7 @@ jobs:
       run: |
        git clone --depth=1 --recurse-submodules -j8 --single-branch ${{ github.event.inputs.KERNEL_URL }} ~/kernel
        cd ~/kernel
-      working-directory: ${{ steps.pwd.outputs.workspace-folder }}
+      
 
     - name: Clone Clang And GCC
       run: |
@@ -126,7 +125,7 @@ jobs:
        git clone --depth=1 ${{ github.event.inputs.CLANG_URL }} clang
        git clone --depth=1 ${{ github.event.inputs.AARCH64_URL }} aarch64-gcc
        git clone --depth=1 ${{ github.event.inputs.ARM_LINUX_URL }} aarch32-gcc
-      working-directory: ${{ steps.pwd.outputs.workspace-folder }}
+      
 
     
 
@@ -159,6 +158,6 @@ jobs:
        CONFIG_NO_ERROR_ON_MISMATCH=y \
        
        
-      working-directory: ${{ steps.pwd.outputs.workspace-folder }}
+      
 
     
