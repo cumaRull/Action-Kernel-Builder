@@ -16,7 +16,7 @@ on:
       KERNEL_BRANCH:
         description: 'Kernel Branch'
         required: true
-        default: ''
+        default: 'OSS-RUI2'
         
         
       CLANG_URL:
@@ -112,49 +112,54 @@ jobs:
 #      run: |
 #        repo sync -j$(nproc --all) --force-sync
 #      working-directory: workspace
-      
-    - name: Clone kernel tree
-      run: |
-       git clone --depth=1 --recurse-submodules -j8 --single-branch ${{ github.event.inputs.KERNEL_URL }} ~/kernel
-       cd ~/kernel
-      
 
     - name: Clone Clang And GCC
       run: |
-       cd ~/kernel
-       git clone --depth=1 ${{ github.event.inputs.CLANG_URL }} clang
-       git clone --depth=1 ${{ github.event.inputs.AARCH64_URL }} aarch64-gcc
-       git clone --depth=1 ${{ github.event.inputs.ARM_LINUX_URL }} aarch32-gcc
+       mkdir -p android && cd android
+       git config --global advice.detachedHead false
+       git clone --depth=1 ${{ github.event.inputs.CLANG_URL }} ./clang
+       git clone --depth=1 ${{ github.event.inputs.AARCH64_URL }} ./aarch64-gcc
+       git clone --depth=1 ${{ github.event.inputs.ARM_LINUX_URL }} ./aarch32-gcc
       
 
-    
+    - name: Clone kernel tree
+      run: |
+       cd android
+       git clone --depth=1 --recurse-submodules -j8 --single-branch ${{ github.event.inputs.KERNEL_URL }} ./kernel
+       
 
     - name: Set Swap Space
       uses: pierotofy/set-swap-space@master
       with:
         swap-size-gb: 12
 
+
+    - name: Set Properties
+      run: |
+        echo "BUILD_DATE=$(TZ=Asia/Jakarta date +%Y%m%d)" >> $GITHUB_ENV
+
+
     - name: Building Kernel
       run: |
        
-       cd ~/kernel
-       printf "\nFinal Repository kernel Should Look Like...\n" && ls -lAog ~/kernel
+       
+       
        export ARCH=arm64
 
       
-       [ -d "out" ] && rm -rf out
        
-       mkdir -p out
 
+       
+
+       PATH="${GITHUB_WORKSPACE}/android/clang/bin:${PATH}:${GITHUB_WORKSPACE}/android/aarch32-gcc/bin:${PATH}:${GITHUB_WORKSPACE}/android/aarch64-gcc/bin:${PATH}" \
+       cd android/kernel
        make O=out ARCH=arm64 ${{ github.event.inputsKERNEL_DEFCONFIG }}
-
-       PATH="${PWD}/clang/bin:${PATH}:${PWD}/aarch32-gcc/bin:${PATH}:${PWD}/aarch64-gcc/bin:${PATH}" \
        make -j$(nproc --all) O=out \
        ARCH=arm64 \
        CC="clang" \
        CLANG_TRIPLE=aarch64-linux-gnu- \
-       CROSS_COMPILE="${PWD}/aarch64-gcc/bin/aarch64-linux-gnu-" \
-       CROSS_COMPILE_ARM32="${PWD}/aarch32-gcc/bin/arm-linux-gnueabihf-" \
+       CROSS_COMPILE="${GITHUB_WORKSPACE}/android/aarch64-gcc/bin/aarch64-linux-gnu-" \
+       CROSS_COMPILE_ARM32="${GITHUB_WORKSPACE}/android/aarch32-gcc/bin/arm-linux-gnueabihf-" \
        CONFIG_NO_ERROR_ON_MISMATCH=y \
        
        
