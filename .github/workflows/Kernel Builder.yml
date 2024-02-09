@@ -136,7 +136,6 @@ jobs:
 
     - name: Set Properties
       run: |
-        make O=out ARCH=arm64 LLVM=1 CROSS_COMPILE=aarch64-linux-gnu CROSS_COMPILE_COMPAT=arm-linux-gnueabi
         echo "BUILD_DATE=$(TZ=Asia/Jakarta date +%Y%m%d)" >> $GITHUB_ENV
 
 
