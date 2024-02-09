@@ -89,8 +89,7 @@ jobs:
           ssh-private-key: |
               ${{ secrets.SSH_PRIVATE_KEY }}
 
-     
-              
+    
 #    - name: Install repo
 #      run: |
 #        mkdir ~/bin
@@ -139,6 +138,15 @@ jobs:
         echo "BUILD_DATE=$(TZ=Asia/Jakarta date +%Y%m%d)" >> $GITHUB_ENV
 
 
+    - name: Notify in Telegram
+      run: |
+              
+              curl -s -X POST "https://api.telegram.org/bot${{ secrets.TG_BOT_TOKEN }}/sendMessage" \
+              -d chat_id="${{ secrets.TG_CHAT_ID }}" \
+              -d text="%0A| USING DEFCONFIG <b>${{ github.event.inputs.KERNEL_DEFCONFIG }}</b> |%0ABuild started on <code>GithubAction</code>%0A | Build By <b>${{ github.actor }}</b> | %0A branch <code>$(git rev-parse --abbrev-ref HEAD)</code> (master)%0AUnder commit <code>$(git log --pretty=format:'"%h : %s"' -1)</code>%0AUsing compiler: <code>$(~android/kernel/clang/bin/clang --version | head -n 1 | perl -pe 's/\(http.*?\)//gs' | sed -e 's/ */ /g')</code>%0AStarted on <code>$(TZ=Asia/Jakarta date +%Y%m%d)</code>%0A<b>Build Status:</b> Beta"
+              -d parse_mode=html \
+              -d disable_web_page_preview=true 
+ 
     - name: Building Kernel
       run: |
        
