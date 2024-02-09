@@ -176,7 +176,7 @@ jobs:
       run: | 
              cd ${GITHUB_WORKSPACE}/android/AnyKernel
              zip -r9 Kernel-${{ env.BUILD_DATE }}-${{ github.event.inputs.KERNEL_DEFCONFIG }}.zip *
-             
+             cd ..
     - name: Push To telegram
       run: |
              cd ${GITHUB_WORKSPACE}/android/AnyKernel
