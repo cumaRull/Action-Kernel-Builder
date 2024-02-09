@@ -58,7 +58,7 @@ jobs:
         echo "::group::User Environment Variables"
         echo "Kernel URL: ${{ github.event.inputs.KERNEL_URL }}"
         echo "Kernel Branch: ${{ github.event.inputs.KERNEL_BRANCH }}"
-        echo "Kernel Defconfig: ${{ github.event.inputsKERNEL_DEFCONFIG }}"
+        echo "Kernel Defconfig: ${{ github.event.inputs.KERNEL_DEFCONFIG }}"
         echo "Clang URL: ${{ github.event.inputs.CLANG_URL }}"
         echo "Clang Branch: ${{ github.event.inputs.CLANG_BRANCH }}"
         echo "Aarch64-gnu Url: ${{ github.event.inputs.AARCH64_URL }}"
@@ -146,7 +146,7 @@ jobs:
        export ARCH=arm64
        PATH="${PWD}/android/clang/bin:${PATH}:${PWD}/android/aarch32-gcc/bin:${PATH}:${PWD}/android/aarch64-gcc/bin:${PATH}" \
        cd android/kernel
-       make O=out ARCH=arm64 ${{ github.event.inputsKERNEL_DEFCONFIG }}
+       make O=out ARCH=arm64 ${{ github.event.inputs.KERNEL_DEFCONFIG }}
        make -j$(nproc --all) O=out \
        ARCH=arm64 \
        CC="clang" \
