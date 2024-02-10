@@ -177,7 +177,7 @@ jobs:
       run: | 
             cd android
             git clone --depth=1 ${{ github.event.inputs.ANYKERNEL_URL }} ./AnyKernel
-            cd kernel/out/arch/arm64/boot && cp -r image.gz-dtb ${GITHUB_WORKSPACE}/android/AnyKernel
+            cd kernel/out/arch/arm64/boot && cp -r Image.gz-dtb ${GITHUB_WORKSPACE}/android/AnyKernel
             cd ${GITHUB_WORKSPACE}/android/AnyKernel
             zip -r9 ${{ github.event.inputs.KERNEL_DEFCONFIG }}-${{ env.BUILD_DATE }}.zip * -x .git README.md *placeholder
   #  - name: Push To telegram
