@@ -184,11 +184,11 @@ jobs:
       run: |
              cd ${GITHUB_WORKSPACE}/android/AnyKernel
              img=${{ github.event.inputs.KERNEL_DEFCONFIG }}-${{ env.BUILD_DATE }}.zip
-             curl -F document=@$img "https://api.telegram.org/bot${{ secrets.TG_BOT_TOKEN }}/sendDocument" \
-             -F chat_id="${{ secrets.TG_CHAT_ID }}" \
-             -F caption="<b>Finished!!</b>%0A Pushing!" \
-             -F parse_mode=html \
-             -F disable_web_page_preview=true
+             curl -s -F document=@$img "https://api.telegram.org/bot${{ secrets.TG_BOT_TOKEN }}/sendDocument" \
+             -s -F chat_id="${{ secrets.TG_CHAT_ID }}" \
+             -s -F caption="<b>Finished!!</b>%0A Pushing!" \
+             -s -F parse_mode=html \
+             -s -F disable_web_page_preview=true
 
              
     - name: Upload to Release
