@@ -144,15 +144,15 @@ jobs:
       run: |
         echo "BUILD_DATE=$(TZ=Asia/Jakarta date +%Y%m%d)" >> $GITHUB_ENV
 
-    - name: Setup KernelSU
-      working-directory: android/kernel
-      run: |
+   # - name: Setup KernelSU
+   #   working-directory: android/kernel
+   #   run: |
           
-          curl -LSs "https://raw.githubusercontent.com/tiann/KernelSU/main/kernel/setup.sh" | bash -s main
-          echo -e "CONFIG_KPROBES=y" >> arch/arm64/configs/${{ github.event.inputs.KERNEL_DEFCONFIG }}
-          echo -e "CONFIG_HAVE_KPROBES=y" >> arch/arm64/configs/${{ github.event.inputs.KERNEL_DEFCONFIG }}
-          echo -e "CONFIG_KPROBE_EVENTS=y" >> arch/arm64/configs/${{ github.event.inputs.KERNEL_DEFCONFIG }}
-          cat arch/arm64/configs/${{ github.event.inputs.KERNEL_DEFCONFIG }}
+   #       curl -LSs "https://raw.githubusercontent.com/tiann/KernelSU/main/kernel/setup.sh" | bash -s main
+   #       echo -e "CONFIG_KPROBES=y" >> arch/arm64/configs/${{ github.event.inputs.KERNEL_DEFCONFIG }}
+   #       echo -e "CONFIG_HAVE_KPROBES=y" >> arch/arm64/configs/${{ github.event.inputs.KERNEL_DEFCONFIG }}
+   #       echo -e "CONFIG_KPROBE_EVENTS=y" >> arch/arm64/configs/${{ github.event.inputs.KERNEL_DEFCONFIG }}
+   #       cat arch/arm64/configs/${{ github.event.inputs.KERNEL_DEFCONFIG }}
           
 
 
@@ -171,7 +171,7 @@ jobs:
       run: |
        
        cd android/kernel
-       lunch kenv--eng && make clean && make bootimage -j24
+       make clean && make bootimage -j$(nproc --all)
        export ARCH=arm64
        make O=out ARCH=arm64 ${{ github.event.inputs.KERNEL_DEFCONFIG }}
        PATH="${GITHUB_WORKSPACE}/android/clang/bin:${PATH}:${GITHUB_WORKSPACE}/android/aarch32-gcc/bin:${PATH}:${GITHUB_WORKSPACE}/android/aarch64-gcc/bin:${PATH}" \
