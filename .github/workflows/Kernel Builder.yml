@@ -39,10 +39,10 @@ on:
         description: 'ARM-LINUX-GNU'
         required: true
         default: 'https://github.com/EternalX-project/arm-linux-gnueabi.git'
-      ARM_LINUX_BRANCH:
-        description: 'ARM LINUX GNU BRANCH'
-        required: false
-        default: ''
+      WITH_KERNEL_SU:
+        description: 'With kernelsu?, Dont activate it if the kernel doesnt support it '
+        required: true
+        default: 'false'
       ANYKERNEL_URL:
         description: 'YOUR ANYKERNEL LINK'
         required: true
@@ -68,7 +68,7 @@ jobs:
         echo "Aarch64-gnu Url: ${{ github.event.inputs.AARCH64_URL }}"
         echo "AARCH64-BRANCH: ${{ github.event.inputs.AARCH64_BRANCH }}"
         echo "Arm Linux GnubUrl: ${{ github.event.inputs.ARM_LINUX_URL }}"
-        echo "Arm Linux Gny Branch: ${{ github.event.inputs.ARM_LINUX_BRANCH }}"
+        echo "With Kernelsu?: ${{ github.event.inputs.WITH_KERNEL_SU }}"
         echo "Downloading AnyKernel: ${{ github.event.inputs.ANYKERNEL_URL }}"
         echo "::endgroup::"
  
@@ -144,15 +144,16 @@ jobs:
       run: |
         echo "BUILD_DATE=$(TZ=Asia/Jakarta date +%Y%m%d)" >> $GITHUB_ENV
 
-   # - name: Setup KernelSU
-   #   working-directory: android/kernel
-   #   run: |
+    - name: Setup KernelSU
+      working-directory: android/kernel
+      if : ${{ github.event.inputs.WITH_KERNEL_SU == 'true' }}
+      run: |
           
-   #       curl -LSs "https://raw.githubusercontent.com/tiann/KernelSU/main/kernel/setup.sh" | bash -s main
-   #       echo -e "CONFIG_KPROBES=y" >> arch/arm64/configs/${{ github.event.inputs.KERNEL_DEFCONFIG }}
-   #       echo -e "CONFIG_HAVE_KPROBES=y" >> arch/arm64/configs/${{ github.event.inputs.KERNEL_DEFCONFIG }}
-   #       echo -e "CONFIG_KPROBE_EVENTS=y" >> arch/arm64/configs/${{ github.event.inputs.KERNEL_DEFCONFIG }}
-   #       cat arch/arm64/configs/${{ github.event.inputs.KERNEL_DEFCONFIG }}
+          curl -LSs "https://raw.githubusercontent.com/tiann/KernelSU/main/kernel/setup.sh" | bash -s main
+          echo -e "CONFIG_KPROBES=y" >> arch/arm64/configs/${{ github.event.inputs.KERNEL_DEFCONFIG }}
+          echo -e "CONFIG_HAVE_KPROBES=y" >> arch/arm64/configs/${{ github.event.inputs.KERNEL_DEFCONFIG }}
+          echo -e "CONFIG_KPROBE_EVENTS=y" >> arch/arm64/configs/${{ github.event.inputs.KERNEL_DEFCONFIG }}
+          cat arch/arm64/configs/${{ github.event.inputs.KERNEL_DEFCONFIG }}
           
 
 
