@@ -171,16 +171,7 @@ jobs:
        CROSS_COMPILE_ARM32="${GITHUB_WORKSPACE}/android/aarch32-gcc/bin/arm-linux-gnueabihf-" \
        CONFIG_NO_ERROR_ON_MISMATCH=y 
        V=0
-    - name: Check Kernel
-      run: |
-        cd android
-        if [ -f kernel/out/arch/arm64/boot/image.gz-dtb ]; then
-            echo "KERNEL_IS_OK=true" >> $GITHUB_ENV
-            echo "KERNEL_VERSION=$(cat kernel/out/include/config/kernel.release)" >> $GITHUB_ENV
-        else
-            echo "Kernel out directory is empty. Maybe(?) your name input did not exist at all. Try other kernel name."
-            exit 1
-        fi
+    
        
     - name: Zipping Kernel
       run: | 
@@ -201,7 +192,6 @@ jobs:
 
              
     - name: Upload to Release
-      if: env.KERNEL_IS_OK == 'true'
       uses: softprops/action-gh-release@v1
       with:
         files: |
@@ -211,6 +201,6 @@ jobs:
         tag_name: ${{ github.run_id }}
         body: |
          ### Notes
-          * Kernel were built/compiled using proton-clang.
+          * Kernel were built/compiled using custom clang and gcc
           * Test at your own risk.
           * Use kernel flasher or any custom recoveries to flash the compressed kernel zip file.
