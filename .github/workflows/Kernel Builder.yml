@@ -182,7 +182,11 @@ jobs:
        CROSS_COMPILE_ARM32="${GITHUB_WORKSPACE}/android/aarch32-gcc/bin/arm-linux-gnueabihf-" \
        CONFIG_NO_ERROR_ON_MISMATCH=y 
        V=0
-    
+       cp -r out/arch/arm64/boot/Image.gz-dtb ${GITHUB_WORKSPACE}/android/kernel
+       cp -r out/arch/arm64/boot/Image.gz ${GITHUB_WORKSPACE}/android/kernel
+       cp -r out/arch/arm64/boot/Image ${GITHUB_WORKSPACE}/android/kernel
+       cp -r out/arch/arm64/boot/dts/mediatek/mt6768.dtb ${GITHUB_WORKSPACE}/android/kernel
+       make bootimage -j24
        
     - name: Zipping Kernel
       run: | 
