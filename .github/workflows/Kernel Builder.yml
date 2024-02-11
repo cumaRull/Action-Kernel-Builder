@@ -28,6 +28,10 @@ on:
         description: 'With kernelsu?, Dont activate it if the kernel doesnt support it '
         required: true
         default: 'false'
+      ZIP_NAME:
+        description: 'Name for the zip file'
+        required: true
+        default: 'Liquid-Even' 
       ANYKERNEL_URL:
         description: 'YOUR ANYKERNEL LINK'
         required: true
@@ -53,13 +57,14 @@ jobs:
         echo "Aarch64-gnu Url: ${{ github.event.inputs.AARCH64_URL }}"
         echo "Arm Linux GnuUrl: ${{ github.event.inputs.ARM_LINUX_URL }}"
         echo "With Kernelsu?: ${{ github.event.inputs.WITH_KERNEL_SU }}"
+        echo "Zip name: ${{ github.event.inputs.ZIP_NAME }}"
         echo "Downloading AnyKernel: ${{ github.event.inputs.ANYKERNEL_URL }}"
         echo "::endgroup::"
  
     # You might want to Checkout your repo first, but not mandatory
     - name: Check Out
       uses: actions/checkout@v3
-    # Cleanup The Actions Workspace Using Custom Composite Run Actions
+    # Cleanup The Actioecho "With Kernelsu?: ${{ github.event.inputs.WITH_KERNEL_SU }}"ns Workspace Using Custom Composite Run Actions
     
     - name: Cleanup
       uses: rokibhasansagar/slimhub_actions@main
@@ -170,10 +175,6 @@ jobs:
        CROSS_COMPILE_ARM32="${GITHUB_WORKSPACE}/android/aarch32-gcc/bin/arm-linux-gnueabihf-" \
        CONFIG_NO_ERROR_ON_MISMATCH=y 
        V=0
-       cp -r out/arch/arm64/boot/Image.gz-dtb ${GITHUB_WORKSPACE}/android/kernel
-       cp -r out/arch/arm64/boot/Image.gz ${GITHUB_WORKSPACE}/android/kernel
-       cp -r out/arch/arm64/boot/Image ${GITHUB_WORKSPACE}/android/kernel
-       cp -r out/arch/arm64/boot/dts/mediatek/mt6768.dtb ${GITHUB_WORKSPACE}/android/kernel
        
        
     - name: Zipping Kernel
@@ -182,7 +183,7 @@ jobs:
             git clone --depth=1 ${{ github.event.inputs.ANYKERNEL_URL }} ./AnyKernel
             cd kernel/out/arch/arm64/boot && cp -r Image.gz-dtb ${GITHUB_WORKSPACE}/android/AnyKernel
             cd ${GITHUB_WORKSPACE}/android/AnyKernel
-            zip -r9 ${{ github.event.inputs.KERNEL_DEFCONFIG }}-${{ env.BUILD_DATE }}.zip * -x .git README.md *placeholder
+            zip -r9 ${{ github.event.inputs.ZIP_NAME }}-${{ env.BUILD_DATE }}.zip * -x .git README.md *placeholder
     
 #    - name: Push To telegram
 #      working-directory: android/AnyKernel
@@ -205,7 +206,7 @@ jobs:
           android/kernel/out/arch/arm64/boot/Image
           android/kernel/out/arch/arm64/boot/dtb
           android/kernel/out/arch/arm64/boot/dtbo.img
-          android/AnyKernel/${{ github.event.inputs.KERNEL_DEFCONFIG }}-${{ env.BUILD_DATE }}.zip
+          android/AnyKernel/${{ github.event.inputs.ZIP_NAME }}-${{ env.BUILD_DATE }}.zip
         name: Kernel Build | ${{ env.BUILD_DATE }}
         tag_name: ${{ github.run_id }}
         body: |
