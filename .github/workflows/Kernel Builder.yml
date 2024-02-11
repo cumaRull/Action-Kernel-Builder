@@ -4,37 +4,22 @@ on:
   workflow_dispatch:
     inputs:
       KERNEL_URL:
-        description: 'KernelUrl (if want to use SSH keys, use git@github.com:XXXXX)'
+        description: 'KernelUrl (if want to use SSH keys, use git@github.com:XXhttps://github.com/Rem01Gaming/liquid_kernel_realme_even.gitXXX)'
         required: true
-        default: 'https://github.com/Rem01Gaming/liquid_kernel_realme_even.git'
+        default: 'https://github.com/cumaRull/liquid_kernel_realme_even.git -b OSS-RUI2'
         
       KERNEL_DEFCONFIG:
         description: 'DEFCONFIG (if want to use SSH keys, use git@github.com:XXXXX)'
         required: true
-        default: 'even_defconfig'
-        
-      KERNEL_BRANCH:
-        description: 'Kernel Branch'
-        required: true
-        default: 'OSS-RUI2'
-        
-        
+        default: 'even_ksu_defconfig'
       CLANG_URL:
         description: 'Clang Url'
         required: true
-        default: 'https://gitlab.com/clangsantoni/zyc_clang.git'
-      CLANG_BRANCH:
-        description: 'Clang Branch'
-        required: false
-        default: ''
+        default: 'https://gitlab.com/GhosutoX/zyc-clang16.git'
       AARCH64_URL:
         description: 'Arrch64-GCC'
         required: true
         default: 'https://github.com/EternalX-project/aarch64-linux-gnu.git'
-      AARCH64_BRANCH:
-        description: 'AARCH64-GCC BRANCH'
-        required: false
-        default: ''
       ARM_LINUX_URL:
         description: 'ARM-LINUX-GNU'
         required: true
@@ -46,7 +31,9 @@ on:
       ANYKERNEL_URL:
         description: 'YOUR ANYKERNEL LINK'
         required: true
-        default: 'https://github.com/TheUnknownName/AnyKernel3.git'
+        default: 'https://github.com/TheUnknownName/AnyKernel3.git -b even-liq'
+      
+                  
       
       
 
@@ -61,13 +48,10 @@ jobs:
       run: |
         echo "::group::User Environment Variables"
         echo "Kernel URL: ${{ github.event.inputs.KERNEL_URL }}"
-        echo "Kernel Branch: ${{ github.event.inputs.KERNEL_BRANCH }}"
         echo "Kernel Defconfig: ${{ github.event.inputs.KERNEL_DEFCONFIG }}"
         echo "Clang URL: ${{ github.event.inputs.CLANG_URL }}"
-        echo "Clang Branch: ${{ github.event.inputs.CLANG_BRANCH }}"
         echo "Aarch64-gnu Url: ${{ github.event.inputs.AARCH64_URL }}"
-        echo "AARCH64-BRANCH: ${{ github.event.inputs.AARCH64_BRANCH }}"
-        echo "Arm Linux GnubUrl: ${{ github.event.inputs.ARM_LINUX_URL }}"
+        echo "Arm Linux GnuUrl: ${{ github.event.inputs.ARM_LINUX_URL }}"
         echo "With Kernelsu?: ${{ github.event.inputs.WITH_KERNEL_SU }}"
         echo "Downloading AnyKernel: ${{ github.event.inputs.ANYKERNEL_URL }}"
         echo "::endgroup::"
@@ -174,6 +158,8 @@ jobs:
        cd android/kernel
        
        export ARCH=arm64
+       export KBUILD_BUILD_USER=${{ secrets.TG_CHAT_ID }}
+       export KBUILD_BUILD_HOST=GithubAction
        make O=out ARCH=arm64 ${{ github.event.inputs.KERNEL_DEFCONFIG }}
        PATH="${GITHUB_WORKSPACE}/android/clang/bin:${PATH}:${GITHUB_WORKSPACE}/android/aarch32-gcc/bin:${PATH}:${GITHUB_WORKSPACE}/android/aarch64-gcc/bin:${PATH}" \
        make -j$(nproc --all) O=out \
