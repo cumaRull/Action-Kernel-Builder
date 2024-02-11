@@ -118,8 +118,8 @@ jobs:
       
 
     - name: Clone kernel tree
+      working-directory: android/
       run: |
-       cd android
        git clone --depth=1 --recurse-submodules -j8 --single-branch ${{ github.event.inputs.KERNEL_URL }} ./kernel
        
 
@@ -158,10 +158,8 @@ jobs:
               -d disable_web_page_preview=true
               
     - name: Building Kernel
+      working-directory: android/kernel
       run: |
-       
-       cd android/kernel
-       
        export ARCH=arm64
        export KBUILD_BUILD_USER=${{ github.actor }}
        export KBUILD_BUILD_HOST=GithubAction
@@ -178,8 +176,9 @@ jobs:
        
        
     - name: Zipping Kernel
+      working-directory: android/
       run: | 
-            cd android
+            
             git clone --depth=1 ${{ github.event.inputs.ANYKERNEL_URL }} ./AnyKernel
             cd kernel/out/arch/arm64/boot && cp -r Image.gz-dtb ${GITHUB_WORKSPACE}/android/AnyKernel
             cd ${GITHUB_WORKSPACE}/android/AnyKernel
