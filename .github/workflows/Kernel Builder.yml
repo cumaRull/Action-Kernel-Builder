@@ -77,7 +77,7 @@ jobs:
           sudo apt-get install -y curl git ftp lftp wget libarchive-tools ccache python2 python2-dev
           sudo apt-get install -y zip unzip tar gzip bzip2 rar unrar
           sudo apt-get -y install gcc llvm lld python2 clang gcc-aarch64-linux-gnu git libxml2 device-tree-compiler default-jre automake lzop bison gperf build-essential zip curl zlib1g-dev libxml2-utils bzip2 libbz2-dev libbz2-1.0 libghc-bzlib-dev squashfs-tools pngcrush schedtool dpkg-dev liblz4-tool make cpio optipng bc libstdc++6 libncurses5 wget python3 python3-pip libssl-dev rsync flex git-lfs libz3-dev libz3-4 axel tar binutils-dev ca-certificates ccache cmake file libelf-dev ninja-build python3-dev texinfo u-boot-tools xz-utils libarchive-tools software-properties-common build-essential python-is-python3 libssl-dev openssl ssh
-
+          sudo apt-get install wget -y
     - name: Setup SSH Keys
       uses: webfactory/ssh-agent@v0.5.4
       with:
@@ -107,16 +107,22 @@ jobs:
 #        repo sync -j$(nproc --all) --force-sync
 #      working-directory: workspace
 
-    - name: Clone Clang And GCC
+    - name: Clone GCC
       run: |
        mkdir -p android && cd android
        git config --global advice.detachedHead false
-       git clone --depth=1 ${{ github.event.inputs.CLANG_URL }} ./clang
        git clone --depth=1 ${{ github.event.inputs.AARCH64_URL }} ./aarch64-gcc
        git clone --depth=1 ${{ github.event.inputs.ARM_LINUX_URL }} ./aarch32-gcc
        
-      
-
+     #  git clone --depth=1 ${{ github.event.inputs.CLANG_URL }} ./clang
+       
+    - name: Clone Clang
+      working-directory: android/
+      run: |
+       mkdir -p clang && cd clang
+       wget https://github.com/ZyCromerZ/Clang/releases/download/19.0.0git-20240212-release/Clang-19.0.0git-20240212.tar.gz
+       tar -xvzf Clang-19.0.0git-20240212.tar.gz
+       rm -f Clang-19.0.0git-20240212.tar.gz
     - name: Clone kernel tree
       working-directory: android/
       run: |
