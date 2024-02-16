@@ -120,9 +120,9 @@ jobs:
       working-directory: android/
       run: |
        mkdir -p clang && cd clang
-       wget https://github.com/ZyCromerZ/Clang/releases/download/19.0.0git-20240212-release/Clang-19.0.0git-20240212.tar.gz
-       tar -xvzf Clang-19.0.0git-20240212.tar.gz
-       rm -f Clang-19.0.0git-20240212.tar.gz
+       wget https://github.com/ZyCromerZ/Clang/releases/download/19.0.0git-20240216-release/Clang-19.0.0git-20240216.tar.gz
+       tar -xvzf Clang-19.0.0git-20240216.tar.gz
+       rm -f Clang-19.0.0git-20240216.tar.gz
     - name: Clone kernel tree
       working-directory: android/
       run: |
@@ -170,13 +170,13 @@ jobs:
        export KBUILD_BUILD_USER=${{ github.actor }}
        export KBUILD_BUILD_HOST=GithubAction
        make O=out ARCH=arm64 ${{ github.event.inputs.KERNEL_DEFCONFIG }}
-       PATH="${GITHUB_WORKSPACE}/android/clang/bin:${PATH}:${GITHUB_WORKSPACE}/android/clang/bin:${PATH}:${GITHUB_WORKSPACE}/android/clang/bin:${PATH}" \
+       PATH="${GITHUB_WORKSPACE}/android/clang/bin:${PATH}:${GITHUB_WORKSPACE}/android/aarch32-gcc/bin:${PATH}:${GITHUB_WORKSPACE}/android/aarch64-gcc/bin:${PATH}" \
        make -j$(nproc --all) O=out \
        ARCH=arm64 \
        CC="clang" \
        CLANG_TRIPLE=aarch64-linux-gnu- \
-       CROSS_COMPILE="${GITHUB_WORKSPACE}/android/clang/bin/aarch64-linux-gnu-" \
-       CROSS_COMPILE_ARM32="${GITHUB_WORKSPACE}/android/clang/bin/arm-linux-gnueabihf-" \
+       CROSS_COMPILE="${GITHUB_WORKSPACE}/android/aarch64-gcc/bin/aarch64-linux-gnu-" \
+       CROSS_COMPILE_ARM32="${GITHUB_WORKSPACE}/android/aarch32-gcc/bin/arm-linux-gnueabihf-" \
        CONFIG_NO_ERROR_ON_MISMATCH=y 
        V=0
        
