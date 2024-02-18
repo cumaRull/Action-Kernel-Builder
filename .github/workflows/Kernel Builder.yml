@@ -169,7 +169,7 @@ jobs:
        export ARCH=arm64
        export KBUILD_BUILD_USER=${{ github.actor }}
        export KBUILD_BUILD_HOST=GithubAction
-       make O=out ARCH=arm64 ${{ github.event.inputs.KERNEL_DEFCONFIG }}
+       make O=out ARCH=arm64 ${{ github.event.inputs.KERNEL_DEFCONFIG }} LLVM=1
        PATH="${GITHUB_WORKSPACE}/android/clang/bin:${PATH}:${GITHUB_WORKSPACE}/android/aarch32-gcc/bin:${PATH}:${GITHUB_WORKSPACE}/android/aarch64-gcc/bin:${PATH}" \
        make -j$(nproc --all) O=out \
        ARCH=arm64 \
@@ -177,6 +177,7 @@ jobs:
        CLANG_TRIPLE=aarch64-linux-gnu- \
        CROSS_COMPILE="${GITHUB_WORKSPACE}/android/aarch64-gcc/bin/aarch64-linux-gnu-" \
        CROSS_COMPILE_ARM32="${GITHUB_WORKSPACE}/android/aarch32-gcc/bin/arm-linux-gnueabihf-" \
+       CROSS_COMPILE_COMPAT="${GITHUB_WORKSPACE}/android/aarch32-gcc/bin/arm-linux-gnueabi-" \
        CONFIG_NO_ERROR_ON_MISMATCH=y \
        V=0 
        
@@ -188,8 +189,8 @@ jobs:
             cd kernel/out/arch/arm64/boot && cp -r Image.gz-dtb ${GITHUB_WORKSPACE}/android/AnyKernel
             cd ${GITHUB_WORKSPACE}/android/AnyKernel
             zip -r9 ${{ github.event.inputs.ZIP_NAME }}-${{ github.event.inputs.KERNEL_DEFCONFIG }}-${{ env.BUILD_DATE }}.zip * -x .git README.md *placeholder
-            chmod a+x ${GITHUB_WORKSPACE}/scripts/upload.sh
-            bash ${GITHUB_WORKSPACE}/scripts/upload.sh
+#            chmod a+x ${GITHUB_WORKSPACE}/scripts/upload.sh
+#            bash ${GITHUB_WORKSPACE}/scripts/upload.sh
 #    - name: Push To telegram
 #      working-directory: android/AnyKernel
 #      run: |
