@@ -120,9 +120,9 @@ jobs:
       working-directory: android/
       run: |
        mkdir -p clang && cd clang
-       wget https://github.com/ZyCromerZ/Clang/releases/download/19.0.0git-20240216-release/Clang-19.0.0git-20240216.tar.gz
-       tar -xvzf Clang-19.0.0git-20240216.tar.gz
-       rm -f Clang-19.0.0git-20240216.tar.gz
+       wget https://github.com/ZyCromerZ/Clang/releases/download/19.0.0git-20240218-release/Clang-19.0.0git-20240218.tar.gz
+       tar -xvzf Clang-19.0.0git-20240218.tar.gz
+       rm -f Clang-19.0.0git-20240218.tar.gz
     - name: Clone kernel tree
       working-directory: android/
       run: |
@@ -164,8 +164,8 @@ jobs:
               -d disable_web_page_preview=true
               
     - name: Building Kernel
-      working-directory: android/kernel
       run: |
+       cd android/kernel
        export ARCH=arm64
        export KBUILD_BUILD_USER=${{ github.actor }}
        export KBUILD_BUILD_HOST=GithubAction
