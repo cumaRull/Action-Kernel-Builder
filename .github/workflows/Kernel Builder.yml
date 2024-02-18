@@ -4,7 +4,7 @@ on:
   workflow_dispatch:
     inputs:
       KERNEL_URL:
-        description: 'KernelUrl (if want to use SSH keys, use git@github.com:XXhttps://github.com/Rem01Gaming/liquid_kernel_realme_even.gitXXX)'
+        description: 'Enter your Kernel Link'
         required: true
         default: 'https://github.com/cumaRull/liquid_kernel_realme_even.git -b OSS-RUI2'
         
