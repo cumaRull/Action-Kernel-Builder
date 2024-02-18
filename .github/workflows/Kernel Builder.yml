@@ -36,13 +36,7 @@ on:
         description: 'YOUR ANYKERNEL LINK'
         required: true
         default: 'https://github.com/TheUnknownName/AnyKernel3.git -b even-liq'
-      USING_CLANG_GCC:
-        description: 'Using Gcc Or Toolchains?'
-        required: true
-        type: choice
-        options:
-          - 'toolchains'
-          - 'gcc'
+      
                   
       
       
@@ -65,7 +59,6 @@ jobs:
         echo "With Kernelsu?: ${{ github.event.inputs.WITH_KERNEL_SU }}"
         echo "Zip name: ${{ github.event.inputs.ZIP_NAME }}"
         echo "Downloading AnyKernel: ${{ github.event.inputs.ANYKERNEL_URL }}"
-        echo "You can use gcc and also just clang: ${{ github.event.inputs.USING_CLANG_GCC }}"
         echo "::endgroup::"
  
     # You might want to Checkout your repo first, but not mandatory
