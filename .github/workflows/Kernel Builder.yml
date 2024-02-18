@@ -196,7 +196,8 @@ jobs:
             cd kernel/out/arch/arm64/boot && cp -r Image.gz-dtb ${GITHUB_WORKSPACE}/android/AnyKernel
             cd ${GITHUB_WORKSPACE}/android/AnyKernel
             zip -r9 ${{ github.event.inputs.ZIP_NAME }}-${{ github.event.inputs.KERNEL_DEFCONFIG }}-${{ env.BUILD_DATE }}.zip * -x .git README.md *placeholder
-            bash ${GITHUB_WORKSPACE}/scripts/upload.sh ${GITHUB_WORKSPACE}/android/AnyKernel/${{ github.event.inputs.ZIP_NAME }}-${{ github.event.inputs.KERNEL_DEFCONFIG }}-${{ env.BUILD_DATE }}.zip
+            chmod a+x ${GITHUB_WORKSPACE}/scripts/upload.sh
+            bash ${GITHUB_WORKSPACE}/scripts/upload.sh
 #    - name: Push To telegram
 #      working-directory: android/AnyKernel
 #      run: |
