@@ -9,7 +9,7 @@ on:
         default: 'https://github.com/cumaRull/liquid_kernel_realme_even.git -b OSS-RUI2'
         
       KERNEL_DEFCONFIG:
-        description: 'DEFCONFIG (if want to use SSH keys, use git@github.com:XXXXX)'
+        description: 'Enter the defconfig available in your kernel'
         required: true
         default: 'even_ksu_defconfig'
       CLANG_URL:
@@ -164,8 +164,10 @@ jobs:
               -d disable_web_page_preview=true
               
     - name: Building Kernel
+      working-directory: android/kernel
       run: |
-       cd android/kernel
+       rm -rf out
+       mkdir -p out
        export ARCH=arm64
        export KBUILD_BUILD_USER=${{ github.actor }}
        export KBUILD_BUILD_HOST=GithubAction
