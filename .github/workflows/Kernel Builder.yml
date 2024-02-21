@@ -172,8 +172,8 @@ jobs:
        export KBUILD_BUILD_USER=${{ github.actor }}
        export KBUILD_BUILD_HOST=GithubAction
        make O=out ARCH=arm64 ${{ github.event.inputs.KERNEL_DEFCONFIG }} LLVM=1
+       make clean && make mrpropler
        PATH="${GITHUB_WORKSPACE}/android/clang/bin:${PATH}:${GITHUB_WORKSPACE}/android/aarch32-gcc/bin:${PATH}:${GITHUB_WORKSPACE}/android/aarch64-gcc/bin:${PATH}" \
-       make clean 0=out \
        make -j$(nproc --all) O=out \
        ARCH=arm64 \
        CC="clang" \
