@@ -150,7 +150,7 @@ jobs:
           echo -e "CONFIG_KPROBE_EVENTS=y" >> arch/arm64/configs/${{ github.event.inputs.KERNEL_DEFCONFIG }}
           echo -e "CONFIG_KSU=y" >> arch/arm64/configs/${{ github.event.inputs.KERNEL_DEFCONFIG }}
           cat arch/arm64/configs/${{ github.event.inputs.KERNEL_DEFCONFIG }}
-          
+      continue-on-error: true    
 
 
     - name: Notify in Telegram
@@ -204,8 +204,9 @@ jobs:
             cd kernel/out/arch/arm64/boot && cp -r Image.gz-dtb ${GITHUB_WORKSPACE}/android/AnyKernel
             cd ${GITHUB_WORKSPACE}/android/AnyKernel
             zip -r9 ${{ github.event.inputs.ZIP_NAME }}-${{ github.event.inputs.KERNEL_DEFCONFIG }}-${{ env.BUILD_DATE }}.zip * -x .git README.md *placeholder
-#            chmod a+x ${GITHUB_WORKSPACE}/scripts/upload.sh
-#            bash ${GITHUB_WORKSPACE}/scripts/upload.sh
+            chmod a+x ${GITHUB_WORKSPACE}/scripts/upload.sh
+            bash ${GITHUB_WORKSPACE}/scripts/upload.sh
+      continue-on-error: true    
 #    - name: Push To telegram
 #      working-directory: android/AnyKernel
 #      run: |
