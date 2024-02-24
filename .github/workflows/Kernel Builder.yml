@@ -132,7 +132,7 @@ jobs:
     - name: Set Swap Space
       uses: pierotofy/set-swap-space@master
       with:
-        swap-size-gb: 12
+        swap-size-gb: 18
 
 
     - name: Set Properties
@@ -143,11 +143,12 @@ jobs:
       working-directory: android/kernel
       if : ${{ github.event.inputs.WITH_KERNEL_SU == 'true' }}
       run: |
-          rm -rf android/kernel/KernelSU
+          rm -rf /KernelSU
           curl -LSs "https://raw.githubusercontent.com/tiann/KernelSU/main/kernel/setup.sh" | bash -s main
           echo -e "CONFIG_KPROBES=y" >> arch/arm64/configs/${{ github.event.inputs.KERNEL_DEFCONFIG }}
           echo -e "CONFIG_HAVE_KPROBES=y" >> arch/arm64/configs/${{ github.event.inputs.KERNEL_DEFCONFIG }}
           echo -e "CONFIG_KPROBE_EVENTS=y" >> arch/arm64/configs/${{ github.event.inputs.KERNEL_DEFCONFIG }}
+          echo -e "CONFIG_KSU=y" >> arch/arm64/configs/${{ github.event.inputs.KERNEL_DEFCONFIG }}
           cat arch/arm64/configs/${{ github.event.inputs.KERNEL_DEFCONFIG }}
           
 
