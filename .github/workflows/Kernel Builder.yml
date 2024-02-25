@@ -120,9 +120,9 @@ jobs:
       working-directory: android/
       run: |
        mkdir -p clang && cd clang
-       wget https://android.googlesource.com/platform/prebuilts/clang/host/linux-x86/+archive/refs/heads/llvm-r487747/clang-r487747b.tar.gz
-       tar -xvzf clang-r487747b.tar.gz
-       rm -f clang-r487747b.tar.gz
+       wget https://android.googlesource.com/platform/prebuilts/clang/host/linux-x86/+archive/refs/heads/android14-s2-release/clang-r487747c.tar.gz
+       tar -xvzf *.gz
+       rm -f *.gz
     - name: Clone kernel tree
       working-directory: android/
       run: |
