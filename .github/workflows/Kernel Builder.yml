@@ -111,8 +111,8 @@ jobs:
       run: |
        mkdir -p android && cd android
        git config --global advice.detachedHead false
-       git clone --depth=1 ${{ github.event.inputs.AARCH64_URL }} ./aarch64-gcc
-       git clone --depth=1 ${{ github.event.inputs.ARM_LINUX_URL }} ./aarch32-gcc
+      # git clone --depth=1 ${{ github.event.inputs.AARCH64_URL }} ./aarch64-gcc
+      # git clone --depth=1 ${{ github.event.inputs.ARM_LINUX_URL }} ./aarch32-gcc
        
      #  git clone --depth=1 ${{ github.event.inputs.CLANG_URL }} ./clang
        
@@ -120,9 +120,19 @@ jobs:
       working-directory: android/
       run: |
        mkdir -p clang && cd clang
-       wget https://github.com/ZyCromerZ/Clang/releases/download/19.0.0git-20240218-release/Clang-19.0.0git-20240218.tar.gz
-       tar -xvzf Clang-19.0.0git-20240218.tar.gz
-       rm -f Clang-19.0.0git-20240218.tar.gz
+       wget https://android.googlesource.com/platform/prebuilts/gcc/linux-x86/x86/x86_64-linux-android-4.9/+archive/refs/heads/llvm-r416183.tar.gz
+       tar -xvzf llvm-r416183.tar.gz
+       rm -f llvm-r416183.tar.gz
+       cd ${GITHUB_WORKSPACE}/android/
+       mkdir -p aarch64-gcc && cd aarch64-gcc
+       wget https://android.googlesource.com/platform/prebuilts/gcc/linux-x86/aarch64/aarch64-linux-android-4.9/+archive/refs/heads/android-msm-sunfish-4.14-t-qpr3-beta-3.tar.gz
+       tar -xvzf android-msm-sunfish-4.14-t-qpr3-beta-3.tar.gz
+       rm -f android-msm-sunfish-4.14-t-qpr3-beta-3.tar.gz
+       cd ${GITHUB_WORKSPACE}/android/
+       mkdir -p aarch32-gcc && cd aarch32-gcc
+       wget https://android.googlesource.com/platform/prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.9/+archive/refs/heads/android-msm-sunfish-4.14-t-qpr3-beta-3.tar.gz
+       tar -xvzf android-msm-sunfish-4.14-t-qpr3-beta-3.tar.gz
+       rm -f android-msm-sunfish-4.14-t-qpr3-beta-3.tar.gz
     - name: Clone kernel tree
       working-directory: android/
       run: |
