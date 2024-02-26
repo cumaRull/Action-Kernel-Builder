@@ -148,11 +148,6 @@ jobs:
       with:
         swap-size-gb: 18
 
-
-    - name: Set Properties
-      run: |
-        echo "BUILD_DATE=$(TZ=Asia/Jakarta date +%Y-%m-%d)" >> $GITHUB_ENV
-
     - name: Setup KernelSU
       working-directory: android/kernel
       if : ${{ github.event.inputs.WITH_KERNEL_SU == 'true' }}
@@ -254,7 +249,7 @@ jobs:
       run: | 
               curl -s -X POST "https://api.telegram.org/bot${{ secrets.TG_BOT_TOKEN }}/sendMessage" \
               -d chat_id="${{ secrets.TG_CHAT_ID }}" \
-              -d text="<b>Hello ${{ github.actor }} Your Build Has Completed!!! And Push To Github Release</b>%0A USING DEFCONFIG:<b>${{ github.event.inputs.KERNEL_DEFCONFIG }}</b>%0AWITH BRANCH:<b>${{ github.event.inputs.KERNEL_BRANCH }}</b>%0AStarted On: <b>$(TZ=Asia/Jakarta date +%Y%m%d )</b>" \
+              -d text="<b>Hello ${{ github.actor }} Your Build Has Completed!!! And Push To Github Release</b>%0A USING DEFCONFIG:<b>${{ github.event.inputs.KERNEL_DEFCONFIG }}</b>%0AWITH BRANCH:<b>${{ github.event.inputs.KERNEL_BRANCH }}</b>%0AStarted On: <b>$(TZ=Asia/Jakarta date +%H:%M:%S  %Y-%m-%d )</b>" \
               -d parse_mode=html \
               -d disable_web_page_preview=true
               
