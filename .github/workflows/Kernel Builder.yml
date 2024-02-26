@@ -170,7 +170,7 @@ jobs:
               
               curl -s -X POST "https://api.telegram.org/bot${{ secrets.TG_BOT_TOKEN }}/sendMessage" \
               -d chat_id="${{ secrets.TG_CHAT_ID }}" \
-              -d text="Build Started With: <code>GithubAction</code>%0A USING DEFCONFIG:<b>${{ github.event.inputs.KERNEL_DEFCONFIG }}</b>%0ALast Commit:<b>$(git log --pretty=format:'"%h : %s"' -1)</b>%0AKernel Tree:${{ github.event.inputs.KERNEL_URL }}%0A%0AStarted On: <b>$(TZ=Asia/Jakarta date +%d-%m-%Y )</b> | <b>$(TZ=Asia/Jakarta date +%H:%M:%S)</b>" \
+              -d text="Build Started With: <code>GithubAction</code>%0AUSING DEFCONFIG:<b>${{ github.event.inputs.KERNEL_DEFCONFIG }}</b>%0ALast Commit:<b>$(git log --pretty=format:'"%h : %s"' -1)</b>%0AKernel Tree:${{ github.event.inputs.KERNEL_URL }}%0A%0AStarted On: <b>$(TZ=Asia/Jakarta date +%d-%m-%Y )</b> | <b>$(TZ=Asia/Jakarta date +%H:%M:%S)</b>" \
               -d parse_mode=html \
               -d disable_web_page_preview=true
               
@@ -250,7 +250,7 @@ jobs:
       run: | 
               curl -s -X POST "https://api.telegram.org/bot${{ secrets.TG_BOT_TOKEN }}/sendMessage" \
               -d chat_id="${{ secrets.TG_CHAT_ID }}" \
-              -d text="<b>Hello ${{ github.actor }} Your Build Has Completed!!! And Push To Github Release</b>%0A USING DEFCONFIG:<b>${{ github.event.inputs.KERNEL_DEFCONFIG }}</b>%0AWITH BRANCH:<b>${{ github.event.inputs.KERNEL_BRANCH }}</b>%0AStarted On: <b>$(TZ=Asia/Jakarta date +%Y-%m-%d )</b> | <b>$(TZ=Asia/Jakarta date +%H:%M:%S)</b>" \
+              -d text="<b>Hello ${{ github.actor }} Your Build Has Completed!!! And Push To Github Release</b>%0AUSING DEFCONFIG:<b>${{ github.event.inputs.KERNEL_DEFCONFIG }}</b>%0AStarted On: <b>$(TZ=Asia/Jakarta date +%Y-%m-%d )</b> | <b>$(TZ=Asia/Jakarta date +%H:%M:%S)</b>" \
               -d parse_mode=html \
               -d disable_web_page_preview=true
               
