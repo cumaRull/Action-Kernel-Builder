@@ -247,6 +247,7 @@ jobs:
           * Kernel were built/compiled using custom clang and gcc
           * Test at your own risk.
           * Use kernel flasher or any custom recoveries to flash the compressed kernel zip file.
+          * Use Compiler: $(${GITHUB_WORKSPACE}/android/clang/bin/clang --version | head -n 1 | perl -pe 's/\(http.*?\)//gs' | sed -e 's/ */ /g')
     - name: Notify If completed
       run: | 
               curl -s -X POST "https://api.telegram.org/bot${{ secrets.TG_BOT_TOKEN }}/sendMessage" \
