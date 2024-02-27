@@ -219,9 +219,9 @@ jobs:
       continue-on-error: true    
     - name: Push To telegram
       run: |
-             
-             img=${GITHUB_WORKSPACE}/android/AnyKernel/*.zip
-             curl -F document=@$img "https://api.telegram.org/bot${{ secrets.TG_BOT_TOKEN }}/sendDocument" \
+             cd ${GITHUB_WORKSPACE}/android/AnyKernel/
+             img=*.zip
+             curl -F "document=@$img" "https://api.telegram.org/bot${{ secrets.TG_BOT_TOKEN }}/sendDocument" \
              -F chat_id="${{ secrets.TG_CHAT_ID }}" \
              -F caption="<b>Finished!!</b>%0A Pushing!" \
              -F parse_mode=html \
