@@ -218,10 +218,11 @@ jobs:
 #            bash ${GITHUB_WORKSPACE}/scripts/upload.sh
       continue-on-error: true    
     - name: Push To telegram
+      working-directory: android
       run: |
-             sudo cd ${GITHUB_WORKSPACE}/android/AnyKernel/
+             cd ${GITHUB_WORKSPACE}/android/AnyKernel/
              img=*.zip
-             curl -X POST -F "document=@$img" "https://api.telegram.org/bot${{ secrets.TG_BOT_TOKEN }}/sendDocument" \
+             curl -s -X POST -F document=@./AnyKernel/*.zip "https://api.telegram.org/bot${{ secrets.TG_BOT_TOKEN }}/sendDocument" \
              -F chat_id="${{ secrets.TG_CHAT_ID }}" \
              -F caption="<b>Finished!!</b>%0A Pushing!" \
              -F parse_mode=html \
