@@ -19,11 +19,11 @@ on:
       AARCH64_URL:
         description: 'Arrch64-GCC'
         required: true
-        default: 'https://github.com/ZyCromerZ/Clang/releases/download/19.0.0git-20240225-release/Clang-19.0.0git-20240225.tar.gz'
+        default: 'https://github.com/LineageOS/android_prebuilts_gcc_linux-x86_aarch64_aarch64-linux-android-4.9.git'
       ARM_LINUX_URL:
         description: 'ARM-LINUX-GNU'
         required: true
-        default: 'https://github.com/ZyCromerZ/Clang/releases/download/19.0.0git-20240225-release/Clang-19.0.0git-20240225.tar.gz'
+        default: 'https://github.com/LineageOS/android_prebuilts_gcc_linux-x86_arm_arm-linux-androideabi-4.9.git'
       WITH_KERNEL_SU:
         description: 'With kernelsu?, Dont activate it if the kernel doesnt support it '
         required: true
@@ -111,8 +111,8 @@ jobs:
       run: |
        mkdir -p android && cd android
        git config --global advice.detachedHead false
-#       git clone --depth=1 ${{ github.event.inputs.AARCH64_URL }} ./aarch64-gcc
-#       git clone --depth=1 ${{ github.event.inputs.ARM_LINUX_URL }} ./aarch32-gcc
+       git clone --depth=1 ${{ github.event.inputs.AARCH64_URL }} ./aarch64-gcc
+       git clone --depth=1 ${{ github.event.inputs.ARM_LINUX_URL }} ./aarch32-gcc
        
      #  git clone --depth=1 ${{ github.event.inputs.CLANG_URL }} ./clang
        
@@ -123,20 +123,20 @@ jobs:
        wget ${{ github.event.inputs.CLANG_URL }}
        tar -xvzf *.gz
        rm -f *.gz
-    - name: Clone aarch64-gcc
-      working-directory: android/
-      run: |
-       mkdir -p aarch64-gcc && cd aarch64-gcc
-       wget ${{ github.event.inputs.AARCH64_URL }}
-       tar -xvzf *.gz
-       rm -f *.gz   
-    - name: Clone aarch32-gcc
-      working-directory: android/
-      run: |
-       mkdir -p aarch32-gcc && cd aarch32-gcc
-       wget ${{ github.event.inputs.AARCH64_URL }}
-       tar -xvzf *.gz
-       rm -f *.gz      
+  #  - name: Clone aarch64-gcc
+  #    working-directory: android/
+  #    run: |
+  #     mkdir -p aarch64-gcc && cd aarch64-gcc
+  #     wget ${{ github.event.inputs.AARCH64_URL }}
+  #     tar -xvzf *.gz
+  #     rm -f *.gz   
+  #  - name: Clone aarch32-gcc
+  #    working-directory: android/
+  #    run: |
+  #     mkdir -p aarch32-gcc && cd aarch32-gcc
+  #     wget ${{ github.event.inputs.AARCH64_URL }}
+  #     tar -xvzf *.gz
+  #     rm -f *.gz      
     - name: Clone kernel tree
       working-directory: android/
       run: |
