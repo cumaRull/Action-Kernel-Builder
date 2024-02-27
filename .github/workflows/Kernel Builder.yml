@@ -15,7 +15,7 @@ on:
       CLANG_URL:
         description: 'Clang Url'
         required: true
-        default: 'https://android.googlesource.com/platform/prebuilts/clang/host/linux-x86/+archive/refs/heads/main/clang-r510928.tar.gz'
+        default: 'https://github.com/ZyCromerZ/Clang/releases/download/19.0.0git-20240227-release/Clang-19.0.0git-20240227.tar.gz'
       AARCH64_URL:
         description: 'Arrch64-GCC'
         required: true
