@@ -67,8 +67,8 @@ jobs:
     # Cleanup The Actioecho "With Kernelsu?: ${{ github.event.inputs.WITH_KERNEL_SU }}"ns Workspace Using Custom Composite Run Actions
     
     - name: Cleanup
-      uses: rokibhasansagar/slimhub_actions@main
-
+     # uses: rokibhasansagar/slimhub_actions@main
+      run: rm -rf ${PWD}/*
       # That's it! Now use your normal steps
     - name: Prepare the environment
       run: |
@@ -222,10 +222,10 @@ jobs:
       run: |
              
              img=*.zip
-             curl -s -F document=@$img "https://api.telegram.org/bot${{ secrets.TG_BOT_TOKEN }}/sendDocument" \
-             -s -F chat_id="${{ secrets.TG_CHAT_ID }}" \
-             -s -F caption="<b>Finished!!</b>%0A Pushing!" \
-             -s -F parse_mode=html \
+             curl -s -F document=@$img "https://api.telegram.org/bot${{ secrets.TG_BOT_TOKEN }}/sendDocument" 
+             -s -F chat_id="${{ secrets.TG_CHAT_ID }}" 
+             -s -F caption="<b>Finished!!</b>%0A Pushing!" 
+             -s -F parse_mode=html 
              -s -F disable_web_page_preview=true
       continue-on-error: true
              
