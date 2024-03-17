@@ -221,17 +221,7 @@ jobs:
             zip -r9 ${{ github.event.inputs.ZIP_NAME }}-${{ env.BUILD_DATE }}-${{ env.BUILD_TIME }}.zip * -x .git README.md *placeholder
 #            chmod a+x ${GITHUB_WORKSPACE}/scripts/upload.sh
 #            bash ${GITHUB_WORKSPACE}/scripts/upload.sh
-      continue-on-error: true    
-    - name: Test Upload to Telegram
-      working-directory: android/
-      run: |
-              img=kernel/out/arch/arm64/boot/Image.gz-dtb
-              curl -F document=@$img "https://api.telegram.org/bot${{ secrets.TG_BOT_TOKEN }}/sendDocument" \
-              -F chat_id="${{ secrets.TG_CHAT_ID }}" \
-              -F parse_mode=html \
-              -F disable_web_page_preview=true
       continue-on-error: true
-             
     - name: Upload to Release
       uses: softprops/action-gh-release@v1
       with:
@@ -257,3 +247,12 @@ jobs:
               -d parse_mode=html \
               -d disable_web_page_preview=true
               
+    - name: Test Upload to Telegram
+      working-directory: android/
+      run: |
+              img=AnyKernel/${{ github.event.inputs.ZIP_NAME }}-${{ env.BUILD_DATE }}-${{ env.BUILD_TIME }}.zip
+              curl -F document=@$img "https://api.telegram.org/bot${{ secrets.TG_BOT_TOKEN }}/sendDocument" \
+              -F chat_id="${{ secrets.TG_CHAT_ID }}" \
+              -F parse_mode=html \
+              -F disable_web_page_preview=true
+      continue-on-error: true
