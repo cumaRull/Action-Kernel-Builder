@@ -31,7 +31,7 @@ on:
       ZIP_NAME:
         description: 'Name for the zip file'
         required: true
-        default: 'Liquid-Even' 
+        default: 'TridentNothDeath-Even' 
       ANYKERNEL_URL:
         description: 'YOUR ANYKERNEL LINK'
         required: true
