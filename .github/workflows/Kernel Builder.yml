@@ -35,7 +35,7 @@ on:
       ANYKERNEL_URL:
         description: 'YOUR ANYKERNEL LINK'
         required: true
-        default: 'https://github.com/TheUnknownName/AnyKernel3.git -b even-liq'
+        default: 'https://github.com/cumaRull/AnyKernel3.git -b master'
       
                   
       
