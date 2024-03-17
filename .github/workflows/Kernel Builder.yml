@@ -78,6 +78,11 @@ jobs:
           sudo apt-get install -y zip unzip tar gzip bzip2 rar unrar
           sudo apt-get -y install gcc llvm lld python2 clang gcc-aarch64-linux-gnu git libxml2 device-tree-compiler default-jre automake lzop bison gperf build-essential zip curl zlib1g-dev libxml2-utils bzip2 libbz2-dev libbz2-1.0 libghc-bzlib-dev squashfs-tools pngcrush schedtool dpkg-dev liblz4-tool make cpio optipng bc libstdc++6 libncurses5 wget python3 python3-pip libssl-dev rsync flex git-lfs libz3-dev libz3-4 axel tar binutils-dev ca-certificates ccache cmake file libelf-dev ninja-build python3-dev texinfo u-boot-tools xz-utils libarchive-tools software-properties-common build-essential python-is-python3 libssl-dev openssl ssh
           sudo apt-get install wget -y
+    - name: Set Properties
+      run: |
+        echo "BUILD_DATE=$(TZ=Asia/Jakarta date +%Y-%m-%d )" >> $GITHUB_ENV
+        echo "BUILD_TIME=$(TZ=Asia/Jakarta date +%H:%M:%S)" >> $GITHUB_ENV
+             
     - name: Setup SSH Keys
       uses: webfactory/ssh-agent@v0.5.4
       with:
@@ -141,7 +146,7 @@ jobs:
       working-directory: android/
       run: |
        git clone --depth=1 --recurse-submodules -j8 --single-branch ${{ github.event.inputs.KERNEL_URL }} ./kernel
-       echo "buildDate=$(TZ=Asia/Jakarta date +%Y-%m-%d )"
+       
 
     - name: Set Swap Space
       uses: pierotofy/set-swap-space@master
@@ -161,7 +166,7 @@ jobs:
           cat arch/arm64/configs/${{ github.event.inputs.KERNEL_DEFCONFIG }}
       continue-on-error: true    
 
-
+    
     - name: Notify in Telegram
       working-directory: android/kernel
       run: |
@@ -170,7 +175,7 @@ jobs:
               
               curl -s -X POST "https://api.telegram.org/bot${{ secrets.TG_BOT_TOKEN }}/sendMessage" \
               -d chat_id="${{ secrets.TG_CHAT_ID }}" \
-              -d text="Build Started With: <code>GithubAction</code>%0AUSING DEFCONFIG:<b>${{ github.event.inputs.KERNEL_DEFCONFIG }}</b>%0ALast Commit:<b>$(git log --pretty=format:'"%h : %s"' -1)</b>%0AKernel Tree:${{ github.event.inputs.KERNEL_URL }}%0A%0AStarted On: <b>${{ env.buildDate }}</b> | <b>$(TZ=Asia/Jakarta date +%H:%M:%S)</b>%0A Use Compiler: <b>$(${GITHUB_WORKSPACE}/android/clang/bin/clang --version | head -n 1 | perl -pe 's/\(http.*?\)//gs' | sed -e 's/ */ /g')</b>" \
+              -d text="Build Started With: <code>GithubAction</code>%0AUSING DEFCONFIG:<b>${{ github.event.inputs.KERNEL_DEFCONFIG }}</b>%0ALast Commit:<b>$(git log --pretty=format:'"%h : %s"' -1)</b>%0AKernel Tree:${{ github.event.inputs.KERNEL_URL }}%0A%0AStarted On: <b>${{ env.BUILD_DATE }}</b> | <b>${{ env.BUILD_TIME }}</b>%0A Use Compiler: <b>$(${GITHUB_WORKSPACE}/android/clang/bin/clang --version | head -n 1 | perl -pe 's/\(http.*?\)//gs' | sed -e 's/ */ /g')</b>" \
               -d parse_mode=html \
               -d disable_web_page_preview=true
               
@@ -213,7 +218,7 @@ jobs:
             git clone --depth=1 ${{ github.event.inputs.ANYKERNEL_URL }} ./AnyKernel
             cd kernel/out/arch/arm64/boot && cp -r Image.gz-dtb ${GITHUB_WORKSPACE}/android/AnyKernel
             cd ${GITHUB_WORKSPACE}/android/AnyKernel
-            zip -r9 ${{ github.event.inputs.ZIP_NAME }}-$(TZ=Asia/Jakarta date +%Y-%m-%d )|$(TZ=Asia/Jakarta date +%H:%M:%S).zip * -x .git README.md *placeholder
+            zip -r9 ${{ github.event.inputs.ZIP_NAME }}-${{ env.BUILD_DATE }}|${{ env.BUILD_TIME }}.zip * -x .git README.md *placeholder
 #            chmod a+x ${GITHUB_WORKSPACE}/scripts/upload.sh
 #            bash ${GITHUB_WORKSPACE}/scripts/upload.sh
       continue-on-error: true    
@@ -239,8 +244,8 @@ jobs:
           android/kernel/out/arch/arm64/boot/Image
           android/kernel/out/arch/arm64/boot/dtb
           android/kernel/out/arch/arm64/boot/dtbo.img
-          android/AnyKernel/${{ github.event.inputs.ZIP_NAME }}-$(TZ=Asia/Jakarta date +%Y-%m-%d )|$(TZ=Asia/Jakarta date +%H:%M:%S).zip
-        name: Kernel Build | ${{ env.buildDate }}
+          android/AnyKernel/${{ github.event.inputs.ZIP_NAME }}-${{ env.BUILD_DATE }}|${{ env.BUILD_TIME }}.zip
+        name: Kernel Build | ${{ env.BUILD_DATE }}
         tag_name: ${{ github.run_id }}
         body: |
          ### Notes
@@ -251,7 +256,7 @@ jobs:
       run: | 
               curl -s -X POST "https://api.telegram.org/bot${{ secrets.TG_BOT_TOKEN }}/sendMessage" \
               -d chat_id="${{ secrets.TG_CHAT_ID }}" \
-              -d text="<b>Hello ${{ github.actor }} Your Build Has Completed!!! And Push To Github Release</b>%0AUSING DEFCONFIG:<b>${{ github.event.inputs.KERNEL_DEFCONFIG }}</b>%0AStarted On: <b>$(TZ=Asia/Jakarta date +%Y-%m-%d )</b> | <b>$(TZ=Asia/Jakarta date +%H:%M:%S)</b>" \
+              -d text="<b>Hello ${{ github.actor }} Your Build Has Completed!!! And Push To Github Release</b>%0AUSING DEFCONFIG:<b>${{ github.event.inputs.KERNEL_DEFCONFIG }}</b>%0AStarted On: <b>${{ env.BUILD_DATE }}</b> | <b>${{ env.BUILD_TIME }}</b>" \
               -d parse_mode=html \
               -d disable_web_page_preview=true
               
