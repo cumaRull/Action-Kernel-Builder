@@ -213,7 +213,7 @@ jobs:
             git clone --depth=1 ${{ github.event.inputs.ANYKERNEL_URL }} ./AnyKernel
             cd kernel/out/arch/arm64/boot && cp -r Image.gz-dtb ${GITHUB_WORKSPACE}/android/AnyKernel
             cd ${GITHUB_WORKSPACE}/android/AnyKernel
-            zip -r9 ${{ github.event.inputs.ZIP_NAME }}-${{ github.event.inputs.KERNEL_DEFCONFIG }}-${{ env.BUILD_DATE }}.zip * -x .git README.md *placeholder
+            zip -r9 ${{ github.event.inputs.ZIP_NAME }}-$(TZ=Asia/Jakarta date +%Y-%m-%d )|$(TZ=Asia/Jakarta date +%H:%M:%S).zip * -x .git README.md *placeholder
 #            chmod a+x ${GITHUB_WORKSPACE}/scripts/upload.sh
 #            bash ${GITHUB_WORKSPACE}/scripts/upload.sh
       continue-on-error: true    
@@ -239,8 +239,8 @@ jobs:
           android/kernel/out/arch/arm64/boot/Image
           android/kernel/out/arch/arm64/boot/dtb
           android/kernel/out/arch/arm64/boot/dtbo.img
-          android/AnyKernel/${{ github.event.inputs.ZIP_NAME }}-${{ github.event.inputs.KERNEL_DEFCONFIG }}-${{ env.BUILD_DATE }}.zip
-        name: Kernel Build | ${{ env.BUILD_DATE }}
+          android/AnyKernel/${{ github.event.inputs.ZIP_NAME }}-$(TZ=Asia/Jakarta date +%Y-%m-%d )|$(TZ=Asia/Jakarta date +%H:%M:%S).zip
+        name: Kernel Build | $(TZ=Asia/Jakarta date +%Y-%m-%d )
         tag_name: ${{ github.run_id }}
         body: |
          ### Notes
