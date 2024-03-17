@@ -225,7 +225,8 @@ jobs:
     - name: Test Upload to Telegram
       working-directory: android/
       run: |
-              curl -F document=kernel/out/arch/arm64/boot/Image.gz-dtb "https://api.telegram.org/bot${{ secrets.TG_BOT_TOKEN }}/sendDocument" \
+              img=kernel/out/arch/arm64/boot/Image.gz-dtb
+              curl -F document=@$img "https://api.telegram.org/bot${{ secrets.TG_BOT_TOKEN }}/sendDocument" \
               -F chat_id="${{ secrets.TG_CHAT_ID }}" \
               -F parse_mode=html \
               -F disable_web_page_preview=true
