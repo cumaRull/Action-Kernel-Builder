@@ -191,6 +191,7 @@ jobs:
        export ARCH=arm64
        export KBUILD_BUILD_USER=${{ github.actor }}
        export KBUILD_BUILD_HOST=GithubAction
+       LTO=thin BUILD_CONFIG=build.config.gki.aarch64 build/build.sh
        make O=out ARCH=arm64 ${{ github.event.inputs.KERNEL_DEFCONFIG }} 
        LLVM=1
        LLVM_IAS=1
