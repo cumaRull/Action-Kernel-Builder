@@ -190,8 +190,7 @@ jobs:
        mkdir -p out
        export ARCH=arm64
        export KBUILD_BUILD_USER=${{ github.actor }}
-       export KBUILD_BUILD_HOST=GithubAction
-       LTO=thin BUILD_CONFIG=${GITHUB_WORKSPACE}/android/kernel/build.config.gki.aarch64 build/build.sh
+       export KBUILD_BUILD_HOST=rulllocalhost
        make O=out ARCH=arm64 ${{ github.event.inputs.KERNEL_DEFCONFIG }} 
        LLVM=1
        LLVM_IAS=1
