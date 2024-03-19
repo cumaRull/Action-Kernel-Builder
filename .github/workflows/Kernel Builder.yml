@@ -191,29 +191,14 @@ jobs:
        export ARCH=arm64
        export KBUILD_BUILD_USER=${{ github.actor }}
        export KBUILD_BUILD_HOST=rulllocalhost
-       make O=out ARCH=arm64 ${{ github.event.inputs.KERNEL_DEFCONFIG }} 
-       LLVM=1
-       LLVM_IAS=1
-       KERNEL_DIR=kernel-4.19
-       LD_LIBRARY_PATH=${GITHUB_WORKSPACE}/android/clang/lib64:$$LD_LIBRARY_PATH
-       LD=ld.lld
-       AR=llvm-ar
-       NM=llvm-nm
-       OBJCOPY=llvm-objcopy
-       OBJDUMP=llvm-objdump
-       READELF=llvm-readelf
-       OBJSIZE=llvm-size
-       STRIP=llvm-strip
+       make -j$(nproc --all) O=out ARCH=arm64 ${{ github.event.inputs.KERNEL_DEFCONFIG }} 
+       make -j$(nproc --all) ARCH=arm64 O=out \
        PATH="${GITHUB_WORKSPACE}/android/clang/bin:${PATH}:${GITHUB_WORKSPACE}/android/aarch32-gcc/bin:${PATH}:${GITHUB_WORKSPACE}/android/aarch64-gcc/bin:${PATH}" \
        make -j$(nproc --all) O=out \
-       ARCH=arm64 \
-       CC="clang" \
-       CLANG_TRIPLE=aarch64-linux-gnu- \
        CROSS_COMPILE="${GITHUB_WORKSPACE}/android/aarch64-gcc/bin/aarch64-linux-gnu-" \
        CROSS_COMPILE_ARM32="${GITHUB_WORKSPACE}/android/aarch32-gcc/bin/arm-linux-gnueabihf-" \
-       CROSS_COMPILE_COMPAT="${GITHUB_WORKSPACE}/android/aarch32-gcc/bin/arm-linux-gnueabi-" \
-       CONFIG_NO_ERROR_ON_MISMATCH=y \
-       V=0 
+       CROSS_COMPILE_COMPAT="${GITHUB_WORKSPACE}/android/aarch32-gcc/bin/arm-linux-gnueabi-" 
+       
        
     - name: Zipping Kernel
       working-directory: android/
