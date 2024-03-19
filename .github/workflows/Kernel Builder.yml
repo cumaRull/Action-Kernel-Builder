@@ -193,6 +193,7 @@ jobs:
        export KBUILD_BUILD_HOST=rulllocalhost
        make -j$(nproc --all) O=out ARCH=arm64 ${{ github.event.inputs.KERNEL_DEFCONFIG }} 
        make -j$(nproc --all) ARCH=arm64 O=out 
+       LTO=thin
        ARCH=arm64 \
        CC="clang" \
        CLANG_TRIPLE=aarch64-linux-gnu- \
@@ -200,7 +201,8 @@ jobs:
        CROSS_COMPILE="${GITHUB_WORKSPACE}/android/aarch64-gcc/bin/aarch64-linux-gnu-" \
        CROSS_COMPILE_ARM32="${GITHUB_WORKSPACE}/android/aarch32-gcc/bin/arm-linux-gnueabihf-" \
        CROSS_COMPILE_COMPAT="${GITHUB_WORKSPACE}/android/aarch32-gcc/bin/arm-linux-gnueabi-" 
-       
+       CONFIG_NO_ERROR_ON_MISMATCH=y \
+       V=0
        
     - name: Zipping Kernel
       working-directory: android/
