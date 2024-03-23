@@ -16,14 +16,14 @@ on:
         description: 'Clang Url'
         required: true
         default: 'https://github.com/ZyCromerZ/Clang/releases/download/19.0.0git-20240227-release/Clang-19.0.0git-20240227.tar.gz'
-      AARCH64_URL:
-        description: 'Arrch64-GCC'
-        required: true
-        default: 'https://github.com/EternalX-project/aarch64-linux-gnu.git'
-      ARM_LINUX_URL:
-        description: 'ARM-LINUX-GNU'
-        required: true
-        default: 'https://github.com/EternalX-project/arm-linux-gnueabi.git'
+#      AARCH64_URL:
+#        description: 'Arrch64-GCC'
+#        required: true
+#        default: 'https://github.com/EternalX-project/aarch64-linux-gnu.git'
+#      ARM_LINUX_URL:
+#        description: 'ARM-LINUX-GNU'
+ #       required: true
+#        default: 'https://github.com/EternalX-project/arm-linux-gnueabi.git'
       WITH_KERNEL_SU:
         description: 'With kernelsu?, Dont activate it if the kernel doesnt support it '
         required: true
@@ -54,8 +54,6 @@ jobs:
         echo "Kernel URL: ${{ github.event.inputs.KERNEL_URL }}"
         echo "Kernel Defconfig: ${{ github.event.inputs.KERNEL_DEFCONFIG }}"
         echo "Clang URL: ${{ github.event.inputs.CLANG_URL }}"
-        echo "Aarch64-gnu Url: ${{ github.event.inputs.AARCH64_URL }}"
-        echo "Arm Linux GnuUrl: ${{ github.event.inputs.ARM_LINUX_URL }}"
         echo "With Kernelsu?: ${{ github.event.inputs.WITH_KERNEL_SU }}"
         echo "Zip name: ${{ github.event.inputs.ZIP_NAME }}"
         echo "Downloading AnyKernel: ${{ github.event.inputs.ANYKERNEL_URL }}"
@@ -114,12 +112,12 @@ jobs:
 #        repo sync -j$(nproc --all) --force-sync
 #      working-directory: workspace
 
-    - name: Clone Gcc
+    - name: Create folder
       run: |
        mkdir -p android && cd android
        git config --global advice.detachedHead false
-       git clone --depth=1 ${{ github.event.inputs.AARCH64_URL }} ./aarch64-gcc
-       git clone --depth=1 ${{ github.event.inputs.ARM_LINUX_URL }} ./aarch32-gcc
+ #      git clone --depth=1 ${{ github.event.inputs.AARCH64_URL }} ./aarch64-gcc
+ #      git clone --depth=1 ${{ github.event.inputs.ARM_LINUX_URL }} ./aarch32-gcc
        
      #  git clone --depth=1 ${{ github.event.inputs.CLANG_URL }} ./clang
        
@@ -194,24 +192,15 @@ jobs:
        make O=out ARCH=arm64 ${{ github.event.inputs.KERNEL_DEFCONFIG }} 
        LLVM=1
        LLVM_IAS=1
-       LD=ld.lld
-       AR=llvm-ar
-       NM=llvm-nm
-       OBJCOPY=llvm-objcopy
-       OBJDUMP=llvm-objdump
-       READELF=llvm-readelf
-       OBJSIZE=llvm-size
-       STRIP=llvm-strip
        make -j$(nproc --all) O=out ARCH=arm64 ${{ github.event.inputs.KERNEL_DEFCONFIG }} 
-       PATH="${GITHUB_WORKSPACE}/android/clang/bin:${PATH}:${GITHUB_WORKSPACE}/android/aarch32-gcc/bin:${PATH}:${GITHUB_WORKSPACE}/android/aarch64-gcc/bin:${PATH}" \
+       PATH="${GITHUB_WORKSPACE}/android/clang/bin:${PATH}" \
        make -j$(nproc --all) O=out \
        ARCH=arm64 \
        CC="clang" \
        CLANG_TRIPLE=aarch64-linux-gnu- \
-       CROSS_COMPILE="${GITHUB_WORKSPACE}/android/aarch64-gcc/bin/aarch64-linux-gnu-" \
-       CROSS_COMPILE_ARM32="${GITHUB_WORKSPACE}/android/aarch32-gcc/bin/arm-linux-gnueabihf-" \
-       CROSS_COMPILE_COMPAT="${GITHUB_WORKSPACE}/android/aarch32-gcc/bin/arm-linux-gnueabi-" \
-       CONFIG_NO_ERROR_ON_MISMATCH=y \
+       CROSS_COMPILE="aarch64-linux-gnu-" \
+       CROSS_COMPILE_ARM32="arm-linux-gnueabihf-" \
+       CROSS_COMPILE_COMPAT="arm-linux-gnueabi-" \
        V=0 
        
        
