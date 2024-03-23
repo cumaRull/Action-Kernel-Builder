@@ -191,17 +191,15 @@ jobs:
        export KBUILD_BUILD_HOST=rulllocalhost
        make O=out ARCH=arm64 ${{ github.event.inputs.KERNEL_DEFCONFIG }} 
        LLVM=1
-       LLVM_IAS=1
        make -j$(nproc --all) O=out ARCH=arm64 ${{ github.event.inputs.KERNEL_DEFCONFIG }} 
        PATH="${GITHUB_WORKSPACE}/android/clang/bin:${PATH}" \
-       make -j$(nproc --all) O=out \
        ARCH=arm64 \
        CC="clang" \
        CLANG_TRIPLE=aarch64-linux-gnu- \
        CROSS_COMPILE="aarch64-linux-gnu-" \
        CROSS_COMPILE_ARM32="arm-linux-gnueabihf-" \
        CROSS_COMPILE_COMPAT="arm-linux-gnueabi-" \
-       V=0 
+       
        
        
     - name: Zipping Kernel
