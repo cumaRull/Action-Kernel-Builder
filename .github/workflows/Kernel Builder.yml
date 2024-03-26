@@ -188,13 +188,13 @@ jobs:
        mkdir -p out
        export ARCH=arm64
        export KBUILD_BUILD_USER=${{ github.actor }}
-       export KBUILD_BUILD_HOST=BauKancutLocalHOST♈
+       export KBUILD_BUILD_HOST=yukihimelocalhost
        make O=out ARCH=arm64 ${{ github.event.inputs.KERNEL_DEFCONFIG }} 
        LLVM=1
-       make LLVM=1
-       make LLVM=1 ARCH=arm64
-       LD=ld.lld AR=llvm-ar 
-       NM=llvm-nm STRIP=llvm-strip 
+       LD=ld.lld 
+       AR=llvm-ar 
+       NM=llvm-nm 
+       STRIP=llvm-strip 
        OBJCOPY=llvm-objcopy 
        OBJDUMP=llvm-objdump 
        READELF=llvm-readelf 
