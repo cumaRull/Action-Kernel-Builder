@@ -191,6 +191,13 @@ jobs:
        export KBUILD_BUILD_HOST=BauKancutLocalHOST♈
        make O=out ARCH=arm64 ${{ github.event.inputs.KERNEL_DEFCONFIG }} 
        LLVM=1
+       make LLVM=1
+       make LLVM=1 ARCH=arm64
+       LD=ld.lld AR=llvm-ar 
+       NM=llvm-nm STRIP=llvm-strip 
+       OBJCOPY=llvm-objcopy 
+       OBJDUMP=llvm-objdump 
+       READELF=llvm-readelf 
        make -j$(nproc --all) O=out ARCH=arm64 ${{ github.event.inputs.KERNEL_DEFCONFIG }} 
        PATH="${GITHUB_WORKSPACE}/android/clang/bin:${PATH}" \
        make -j$(nproc --all) O=out \
