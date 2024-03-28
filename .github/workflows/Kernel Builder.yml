@@ -177,7 +177,7 @@ jobs:
               seconds=$(($DIFF % 60))
               curl -s -X POST "https://api.telegram.org/bot${{ secrets.TG_BOT_TOKEN }}/sendMessage" \
               -d chat_id="${{ secrets.TG_CHAT_ID }}" \
-              -d text="Build took ${minutes} minute(s) and ${seconds} second(s). | Build Started With: <code>GithubAction</code>%0AUSING DEFCONFIG:<b>${{ github.event.inputs.KERNEL_DEFCONFIG }}</b>%0ALast Commit:<b>$(git log --pretty=format:'"%h : %s"' -1)</b>%0AKernel Tree:${{ github.event.inputs.KERNEL_URL }}%0A%0AStarted On: <b>${{ env.BUILD_DATE }}</b> | <b>${{ env.BUILD_TIME }}</b>%0A Use Compiler: <b>$(${GITHUB_WORKSPACE}/android/clang/bin/clang --version | head -n 1 | perl -pe 's/\(http.*?\)//gs' | sed -e 's/ */ /g')</b>" \
+              -d text="Build Started With: <code>GithubAction</code>%0AUSING DEFCONFIG:<b>${{ github.event.inputs.KERNEL_DEFCONFIG }}</b>%0ALast Commit:<b>$(git log --pretty=format:'"%h : %s"' -1)</b>%0AKernel Tree:${{ github.event.inputs.KERNEL_URL }}%0A%0AStarted On: <b>${{ env.BUILD_DATE }}</b> | <b>${{ env.BUILD_TIME }}</b>%0A Use Compiler: <b>$(${GITHUB_WORKSPACE}/android/clang/bin/clang --version | head -n 1 | perl -pe 's/\(http.*?\)//gs' | sed -e 's/ */ /g')</b>" \
               -d parse_mode=html \
               -d disable_web_page_preview=true
               
