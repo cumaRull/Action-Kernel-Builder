@@ -19,11 +19,11 @@ on:
       AARCH64_URL:
         description: 'Arrch64-GCC'
         required: true
-        default: 'https://github.com/ZyCromerZ/aarch64-zyc-linux-gnu -b 13 aarch64-gcc'
+        default: 'https://github.com/ZyCromerZ/aarch64-zyc-linux-gnu -b 13'
       ARM_LINUX_URL:
         description: 'ARM-LINUX-GNU'
         required: true
-        default: 'https://github.com/ZyCromerZ/arm-zyc-linux-gnueabi -b 13 aarch32-gcc'
+        default: 'https://github.com/ZyCromerZ/arm-zyc-linux-gnueabi -b 13'
       WITH_KERNEL_SU:
         description: 'With kernelsu?, Dont activate it if the kernel doesnt support it '
         required: true
