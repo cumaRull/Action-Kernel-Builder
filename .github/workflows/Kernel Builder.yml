@@ -6,7 +6,7 @@ on:
       KERNEL_URL:
         description: 'Enter your Kernel Link'
         required: true
-        default: 'https://github.com/cumaRull/liquid_kernel_realme_even.git -b OSS-RUI2'
+        default: 'https://github.com/cumaRull/kernel_realme_even.git -b master'
         
       KERNEL_DEFCONFIG:
         description: 'Enter the defconfig available in your kernel'
@@ -16,14 +16,14 @@ on:
         description: 'Clang Url'
         required: true
         default: 'https://github.com/ZyCromerZ/Clang/releases/download/19.0.0git-20240227-release/Clang-19.0.0git-20240227.tar.gz'
-#      AARCH64_URL:
-#        description: 'Arrch64-GCC'
-#        required: true
-#        default: 'https://github.com/EternalX-project/aarch64-linux-gnu.git'
-#      ARM_LINUX_URL:
-#        description: 'ARM-LINUX-GNU'
- #       required: true
-#        default: 'https://github.com/EternalX-project/arm-linux-gnueabi.git'
+      AARCH64_URL:
+        description: 'Arrch64-GCC'
+        required: true
+        default: 'https://android.googlesource.com/platform/prebuilts/gcc/linux-x86/aarch64/aarch64-linux-android-4.9/+archive/refs/heads/llvm-r416183.tar.gz'
+      ARM_LINUX_URL:
+        description: 'ARM-LINUX-GNU'
+        required: true
+        default: 'https://android.googlesource.com/platform/prebuilts/gcc/linux-x86/arm/arm-linux-androideabi-4.9/+archive/refs/heads/llvm-r416183.tar.gz'
       WITH_KERNEL_SU:
         description: 'With kernelsu?, Dont activate it if the kernel doesnt support it '
         required: true
@@ -128,20 +128,20 @@ jobs:
        wget ${{ github.event.inputs.CLANG_URL }}
        tar -xvzf *.gz
        rm -f *.gz
-  #  - name: Clone aarch64-gcc
-  #    working-directory: android/
-  #    run: |
-  #     mkdir -p aarch64-gcc && cd aarch64-gcc
-  #     wget ${{ github.event.inputs.AARCH64_URL }}
-  #     tar -xvzf *.gz
-  #     rm -f *.gz   
-  #  - name: Clone aarch32-gcc
-  #    working-directory: android/
-  #    run: |
-  #     mkdir -p aarch32-gcc && cd aarch32-gcc
-  #     wget ${{ github.event.inputs.AARCH64_URL }}
-  #     tar -xvzf *.gz
-  #     rm -f *.gz      
+    - name: Clone aarch64-gcc
+      working-directory: android/
+      run: |
+       mkdir -p aarch64-gcc && cd aarch64-gcc
+       wget ${{ github.event.inputs.AARCH64_URL }}
+       tar -xvzf *.gz
+       rm -f *.gz   
+    - name: Clone aarch32-gcc
+      working-directory: android/
+      run: |
+       mkdir -p aarch32-gcc && cd aarch32-gcc
+       wget ${{ github.event.inputs.ARM_LINUX_URL }}
+       tar -xvzf *.gz
+       rm -f *.gz      
     - name: Clone kernel tree
       working-directory: android/
       run: |
@@ -204,7 +204,7 @@ jobs:
        OBJDUMP=llvm-objdump 
        READELF=llvm-readelf 
        make -j$(nproc --all) O=out ARCH=arm64 ${{ github.event.inputs.KERNEL_DEFCONFIG }} 
-       PATH="${GITHUB_WORKSPACE}/android/clang/bin:${PATH}" \
+       PATH="${GITHUB_WORKSPACE}/android/clang/bin:${PATH}:${GITHUB_WORKSPACE}/android/aarch64-gcc/bin:${PATH}:${GITHUB_WORKSPACE}/android/aarch32-gcc/bin:${PATH}" \
        make -j$(nproc --all) O=out \
        AR=llvm-ar \
        AS=llvm-as \
@@ -214,9 +214,9 @@ jobs:
        ARCH=arm64 \
        CC="clang" \
        CLANG_TRIPLE=aarch64-linux-gnu- \
-       CROSS_COMPILE="aarch64-linux-gnu-" \
-       CROSS_COMPILE_ARM32="arm-linux-gnueabihf-" \
-       CROSS_COMPILE_COMPAT="arm-linux-gnueabi-" \
+       CROSS_COMPILE="${GITHUB_WORKSPACE}/android/aarch64-gcc/bin/aarch64-linux-gnu-" \
+       CROSS_COMPILE_ARM32="${GITHUB_WORKSPACE}/android/aarch32-gcc/bin/arm-linux-gnueabihf-" \
+       CROSS_COMPILE_COMPAT="${GITHUB_WORKSPACE}/android/aarch32-gcc/bin/arm-linux-gnueabi-" \
        
        
        
