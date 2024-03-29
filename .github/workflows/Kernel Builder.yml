@@ -112,10 +112,9 @@ jobs:
 #        repo sync -j$(nproc --all) --force-sync
 #      working-directory: workspace
 
-    - name: Create folder
+    - name: Clone GCC
       run: |
        mkdir -p android && cd android
-       git config --global advice.detachedHead false
        git clone --depth=1 ${{ github.event.inputs.AARCH64_URL }} ./aarch64-gcc
        git clone --depth=1 ${{ github.event.inputs.ARM_LINUX_URL }} ./aarch32-gcc
        
