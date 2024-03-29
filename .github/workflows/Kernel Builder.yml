@@ -187,12 +187,9 @@ jobs:
        mkdir -p out
        export ARCH=arm64
        export TZ=Asia/Jakarta
-       export KBUILD_BUILD_VERSION=1.0
        export KBUILD_BUILD_USER=${{ github.actor }}
        export KBUILD_BUILD_HOST=nekoAction😺
-       export KBUILD_BUILD_TIMESTAMP=${{ env.BUILD_DATE }}
-       make O=out clean
-       make O=out mrproper
+       export KBUILD_BUILD_TIMESTAMP=${{ env.BUILD_DATE }}|${{ env.BUILD_DATE }}
        make O=out ARCH=arm64 ${{ github.event.inputs.KERNEL_DEFCONFIG }} 
        LLVM=1
        LD=ld.lld 
