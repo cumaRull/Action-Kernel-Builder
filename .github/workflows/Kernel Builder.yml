@@ -12,6 +12,17 @@ on:
         description: 'Enter the defconfig available in your kernel'
         required: true
         default: 'even_defconfig'
+
+      KBUILD_USER:
+        description: 'Enter the custom username build available in your kernel'
+        required: true
+        default: 'cumaRull'
+
+      KBUILD_HOST:
+        description: 'Enter the user custom host name available in your kernel'
+        required: true
+        default: 'githubAction'  
+        
       CLANG_URL:
         description: 'Clang Url'
         required: true
@@ -187,8 +198,8 @@ jobs:
        mkdir -p out
        export ARCH=arm64
        export TZ=Asia/Jakarta
-       export KBUILD_BUILD_USER=${{ github.actor }}
-       export KBUILD_BUILD_HOST=nekoAction😺
+       export KBUILD_BUILD_USER=${{ github.event.inputs.KBUILD_USER }}
+       export KBUILD_BUILD_HOST=${{ github.event.inputs.KBUILD_HOST }}
        make O=out ARCH=arm64 ${{ github.event.inputs.KERNEL_DEFCONFIG }} 
        LLVM=1
        LD=ld.lld 
