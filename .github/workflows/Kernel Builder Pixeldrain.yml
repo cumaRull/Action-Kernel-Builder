@@ -1,4 +1,4 @@
-name: Kernel Builder Gofile 
+name: Kernel Builder Pixeldrain
 
 on:
   workflow_dispatch:
@@ -253,5 +253,5 @@ jobs:
       working-directory: android/
       run: |
               img=AnyKernel/${{ github.event.inputs.ZIP_NAME }}-${{ env.BUILD_DATE }}-${{ env.BUILD_TIME }}.zip
-              curl -X POST 'https://store1.gofile.io/contents/uploadfile' -H "${{ secrets.GOFILE_TOKEN_ID }}" -F "file=@$img" -F "folderId=${{ secrets.GOFILE_FOLDER_ID }}"
+              curl -T "@$img" -u ${{ secrets.PIXELDRAIN_API }} https://pixeldrain.com/api/file/
       continue-on-error: true
