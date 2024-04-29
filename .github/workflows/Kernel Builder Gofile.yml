@@ -1,0 +1,257 @@
+name: Kernel Builder by ismasrull
+
+on:
+  workflow_dispatch:
+    inputs:
+      KERNEL_URL:
+        description: 'Enter your Kernel Link'
+        required: true
+        default: 'https://github.com/cumaRull/kernel_realme_even.git -b master'
+        
+      KERNEL_DEFCONFIG:
+        description: 'Enter the defconfig available in your kernel'
+        required: true
+        default: 'even_defconfig'
+
+      KBUILD_USER:
+        description: 'Enter the custom username build available in your kernel'
+        required: true
+        default: 'cumaRull'
+
+      KBUILD_HOST:
+        description: 'Enter the user custom host name available in your kernel'
+        required: true
+        default: 'githubAction'  
+        
+      CLANG_URL:
+        description: 'Clang Url'
+        required: true
+        default: 'https://github.com/ZyCromerZ/Clang/releases/download/19.0.0git-20240227-release/Clang-19.0.0git-20240227.tar.gz'
+   #   AARCH64_URL:
+  #      description: 'Arrch64-GCC'
+  #      required: true
+  #      default: 'https://github.com/ZyCromerZ/aarch64-zyc-linux-gnu -b 13'
+  #    ARM_LINUX_URL:
+  #      description: 'ARM-LINUX-GNU'
+  #      required: true
+  #      default: 'https://github.com/ZyCromerZ/arm-zyc-linux-gnueabi -b 13'
+      WITH_KERNEL_SU:
+        description: 'With kernelsu?, Dont activate it if the kernel doesnt support it '
+        required: true
+        default: 'false'
+      ZIP_NAME:
+        description: 'Name for the zip file'
+        required: true
+        default: 'TridentNothDeath-Even' 
+      ANYKERNEL_URL:
+        description: 'YOUR ANYKERNEL LINK'
+        required: true
+        default: 'https://github.com/cumaRull/AnyKernel3.git -b master'
+      
+                  
+      
+      
+
+jobs:
+  build:
+    if: github.event.repository.owner.id == github.event.sender.id
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+    - name: Display Run Parameters
+      run: |
+        echo "::group::User Environment Variables"
+        echo "Kernel URL: ${{ github.event.inputs.KERNEL_URL }}"
+        echo "Kernel Defconfig: ${{ github.event.inputs.KERNEL_DEFCONFIG }}"
+        echo "Clang URL: ${{ github.event.inputs.CLANG_URL }}"
+        echo "With Kernelsu?: ${{ github.event.inputs.WITH_KERNEL_SU }}"
+        echo "Zip name: ${{ github.event.inputs.ZIP_NAME }}"
+        echo "Downloading AnyKernel: ${{ github.event.inputs.ANYKERNEL_URL }}"
+        echo "::endgroup::"
+ 
+    # You might want to Checkout your repo first, but not mandatory
+    - name: Check Out
+      uses: actions/checkout@v3
+    # Cleanup The Actioecho "With Kernelsu?: ${{ github.event.inputs.WITH_KERNEL_SU }}"ns Workspace Using Custom Composite Run Actions
+    
+    - name: Cleanup
+     # uses: rokibhasansagar/slimhub_actions@main
+      run: rm -rf ${PWD}/*
+      # That's it! Now use your normal steps
+    - name: Prepare the environment
+      run: |
+          sudo apt-get update && sudo apt-get upgrade
+          sudo apt-get install -y build-essential bc gcc-aarch64-linux-gnu gcc-arm-linux-gnueabi libssl-dev libfl-dev
+          sudo apt-get install -y curl git ftp lftp wget libarchive-tools ccache python2 python2-dev
+          sudo apt-get install -y zip unzip tar gzip bzip2 rar unrar
+          sudo apt-get -y install gcc llvm lld python2 clang gcc-aarch64-linux-gnu git libxml2 device-tree-compiler default-jre automake lzop bison gperf build-essential zip curl zlib1g-dev libxml2-utils bzip2 libbz2-dev libbz2-1.0 libghc-bzlib-dev squashfs-tools pngcrush schedtool dpkg-dev liblz4-tool make cpio optipng bc libstdc++6 libncurses5 wget python3 python3-pip libssl-dev rsync flex git-lfs libz3-dev libz3-4 axel tar binutils-dev ca-certificates ccache cmake file libelf-dev ninja-build python3-dev texinfo u-boot-tools xz-utils libarchive-tools software-properties-common build-essential python-is-python3 libssl-dev openssl ssh
+          sudo apt-get install wget -y
+    - name: Set Properties
+      run: |
+        echo "BUILD_DATE=$(TZ=Asia/Jakarta date +%Y-%m-%d )" >> $GITHUB_ENV
+        echo "BUILD_TIME=$(TZ=Asia/Jakarta date +%H:%M:%S)" >> $GITHUB_ENV
+        echo "START=$(date +"%s")" >> $GITHUB_ENV
+        echo "END=$(date +"%s")" >> $GITHUB_ENV
+        
+    - name: Setup SSH Keys
+      uses: webfactory/ssh-agent@v0.5.4
+      with:
+          ssh-private-key: |
+              ${{ secrets.SSH_PRIVATE_KEY }}
+
+    
+#    - name: Install repo
+#      run: |
+#        mkdir ~/bin
+#        curl https://storage.googleapis.com/git-repo-downloads/repo > ~/bin/repo
+#        chmod a+x ~/bin/repo
+#        sudo ln -sf ~/bin/repo /usr/bin/repo
+      
+#    - name: Initialize repo
+#      run: |
+#        mkdir workspace
+#        cd workspace
+#        echo "workspace-folder=$(pwd)" >> $GITHUB_OUTPUT
+#        git config --global user.name "cumaRull"
+#        git config --global user.email "rulsmods@gmail.com"
+#        repo init -depth=1 -u ${{ github.event.inputs.MANIFEST_URL }} -b ${{ github.event.inputs.MANIFEST_BRANCH }}
+#      id: pwd
+    
+#    - name: Repo Sync
+#      run: |
+#        repo sync -j$(nproc --all) --force-sync
+#      working-directory: workspace
+
+    - name: Clone GCC
+      run: |
+       mkdir -p android && cd android
+   #    git clone --depth=1 ${{ github.event.inputs.AARCH64_URL }} ./aarch64-gcc
+      # git clone --depth=1 ${{ github.event.inputs.ARM_LINUX_URL }} ./aarch32-gcc
+       
+     #  git clone --depth=1 ${{ github.event.inputs.CLANG_URL }} ./clang
+       
+    - name: Clone Clang
+      working-directory: android/
+      run: |
+       mkdir -p clang && cd clang
+       wget ${{ github.event.inputs.CLANG_URL }}
+       tar -xvzf *.gz
+       rm -f *.gz
+  #  - name: Clone aarch64-gcc
+  #    working-directory: android/
+  #    run: |
+  #     mkdir -p aarch64-gcc && cd aarch64-gcc
+  #     wget ${{ github.event.inputs.AARCH64_URL }}
+  #     tar -xvzf *.gz
+  #     rm -f *.gz   
+  #  - name: Clone aarch32-gcc
+  #    working-directory: android/
+  #    run: |
+  #     mkdir -p aarch32-gcc && cd aarch32-gcc
+  #     wget ${{ github.event.inputs.ARM_LINUX_URL }}
+  #     tar -xvzf *.gz
+  #     rm -f *.gz      
+    - name: Clone kernel tree
+      working-directory: android/
+      run: |
+       git clone --depth=1 --recurse-submodules -j8 --single-branch ${{ github.event.inputs.KERNEL_URL }} ./kernel
+       
+
+    - name: Set Swap Space
+      uses: pierotofy/set-swap-space@master
+      with:
+        swap-size-gb: 32
+
+    - name: Setup KernelSU
+      working-directory: android/kernel
+      if : ${{ github.event.inputs.WITH_KERNEL_SU == 'true' }}
+      run: |
+          rm -rf /KernelSU
+          curl -LSs "https://raw.githubusercontent.com/tiann/KernelSU/main/kernel/setup.sh" | bash -s main
+          echo -e "CONFIG_KPROBES=y" >> arch/arm64/configs/${{ github.event.inputs.KERNEL_DEFCONFIG }}
+          echo -e "CONFIG_HAVE_KPROBES=y" >> arch/arm64/configs/${{ github.event.inputs.KERNEL_DEFCONFIG }}
+          echo -e "CONFIG_KPROBE_EVENTS=y" >> arch/arm64/configs/${{ github.event.inputs.KERNEL_DEFCONFIG }}
+          echo -e "CONFIG_KSU=y" >> arch/arm64/configs/${{ github.event.inputs.KERNEL_DEFCONFIG }}
+          cat arch/arm64/configs/${{ github.event.inputs.KERNEL_DEFCONFIG }}
+      continue-on-error: true    
+
+    
+    - name: Notify in Telegram
+      working-directory: android/kernel
+      run: |
+              
+              
+              DIFF=$((${{ env.END }} - ${{ env.START }}))
+              minutes=$(($DIFF / 60))
+              seconds=$(($DIFF % 60))
+              curl -s -X POST "https://api.telegram.org/bot${{ secrets.TG_BOT_TOKEN }}/sendMessage" \
+              -d chat_id="${{ secrets.TG_CHAT_ID }}" \
+              -d text="Build Started With: <code>GithubAction</code>%0AUSING DEFCONFIG:<b>${{ github.event.inputs.KERNEL_DEFCONFIG }}</b>%0ALast Commit:<b>$(git log --pretty=format:'"%h : %s"' -1)</b>%0AKernel Tree:${{ github.event.inputs.KERNEL_URL }}%0A%0AStarted On: <b>${{ env.BUILD_DATE }}</b> | <b>${{ env.BUILD_TIME }}</b>%0A Use Compiler: <b>$(${GITHUB_WORKSPACE}/android/clang/bin/clang --version | head -n 1 | perl -pe 's/\(http.*?\)//gs' | sed -e 's/ */ /g')</b>" \
+              -d parse_mode=html \
+              -d disable_web_page_preview=true
+              
+    - name: Building Kernel
+      working-directory: android/kernel
+      run: |
+       rm -rf out
+       mkdir -p out
+       export USE_CCACHE=1 
+       export CCACHE_COMPRESS=1 
+       export CCACHE_MAXSIZE=50G 
+       export ARCH=arm64
+       export TZ=Asia/Jakarta
+       export KBUILD_BUILD_USER=${{ github.event.inputs.KBUILD_USER }}
+       export KBUILD_BUILD_HOST=${{ github.event.inputs.KBUILD_HOST }}
+       make O=out ARCH=arm64 ${{ github.event.inputs.KERNEL_DEFCONFIG }} 
+       LLVM=1
+       LD=ld.lld 
+       AR=llvm-ar 
+       NM=llvm-nm 
+       STRIP=llvm-strip 
+       OBJCOPY=llvm-objcopy 
+       OBJDUMP=llvm-objdump 
+       READELF=llvm-readelf 
+       make -j$(nproc --all) O=out ARCH=arm64 ${{ github.event.inputs.KERNEL_DEFCONFIG }} 
+       PATH="${GITHUB_WORKSPACE}/android/clang/bin:${PATH}" \
+       make -j$(nproc --all) O=out \
+       AR=llvm-ar \
+       AS=llvm-as \
+       NM=llvm-nm \
+       OBJDUMP=llvm-objdump \
+       STRIP=llvm-strip \
+       ARCH=arm64 \
+       CC="clang" \
+       CLANG_TRIPLE="aarch64-linux-gnu-" \
+       CROSS_COMPILE="aarch64-linux-gnu-" \
+       CROSS_COMPILE_ARM32="arm-linux-gnueabihf-" \
+       CROSS_COMPILE_COMPAT="arm-linux-gnueabihf-" \
+       
+       
+       
+    - name: Zipping Kernel
+      working-directory: android/
+      run: | 
+            
+            git clone --depth=1 ${{ github.event.inputs.ANYKERNEL_URL }} ./AnyKernel
+            cd kernel/out/arch/arm64/boot && cp -r Image.gz-dtb ${GITHUB_WORKSPACE}/android/AnyKernel
+            cd ${GITHUB_WORKSPACE}/android/AnyKernel
+            zip -r9 ${{ github.event.inputs.ZIP_NAME }}-${{ env.BUILD_DATE }}-${{ env.BUILD_TIME }}.zip * -x .git README.md *placeholder
+#            chmod a+x ${GITHUB_WORKSPACE}/scripts/upload.sh
+#            bash ${GITHUB_WORKSPACE}/scripts/upload.sh
+      continue-on-error: true
+   
+    - name: Notify If completed
+      run: | 
+              curl -s -X POST "https://api.telegram.org/bot${{ secrets.TG_BOT_TOKEN }}/sendMessage" \
+              -d chat_id="${{ secrets.TG_CHAT_ID }}" \
+              -d text="<b>Hello ${{ github.actor }} Your Build Has Completed!!! And Push To Github Release</b>%0AUSING DEFCONFIG:<b>${{ github.event.inputs.KERNEL_DEFCONFIG }}</b>%0AStarted On: <b>${{ env.BUILD_DATE }}</b> | <b>${{ env.BUILD_TIME }}</b>" \
+              -d parse_mode=html \
+              -d disable_web_page_preview=true
+              
+    - name: Upload to gofile
+      working-directory: android/
+      run: |
+              img=AnyKernel/${{ github.event.inputs.ZIP_NAME }}-${{ env.BUILD_DATE }}-${{ env.BUILD_TIME }}.zip
+              curl -X POST 'https://store1.gofile.io/contents/uploadfile' -H "${{ secrets.GOFILE_TOKEN_ID }}" -F "file=@$img" -F "folderId=${{ secrets.GOFILE_FOLDER_ID }}"
+      continue-on-error: true
