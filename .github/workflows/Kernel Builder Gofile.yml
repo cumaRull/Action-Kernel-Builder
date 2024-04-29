@@ -1,4 +1,4 @@
-name: Kernel Builder by ismasrull
+name: Kernel Builder Gofile 
 
 on:
   workflow_dispatch:
