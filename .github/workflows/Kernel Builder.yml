@@ -187,7 +187,7 @@ jobs:
       uses: appleboy/telegram-action@master
       with:
         to: ${{ secrets.TG_CHAT_ID }}
-        token: ${{ secrets.TELEGRAM_TOKEN }}
+        token: ${{ secrets.TG_BOT_TOKEN }}
         message: | 
               <b>Build Started With:</b> GithubAction
               <b>USING DEFCONFIG:</b> ${{ github.event.inputs.KERNEL_DEFCONFIG }}
