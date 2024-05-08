@@ -6,8 +6,13 @@ on:
       KERNEL_URL:
         description: 'Enter your Kernel Link'
         required: true
-        default: 'https://github.com/cumaRull/kernel_realme_even.git -b master'
-        
+        default: 'https://github.com/cumaRull/kernel_realme_even.git'
+
+      KERNEL_BRANCH:
+        description: 'Enter your Kernel branch'
+        required: true
+        default: 'OSS-RUI2'
+         
       KERNEL_DEFCONFIG:
         description: 'Enter the defconfig available in your kernel'
         required: true
@@ -63,6 +68,7 @@ jobs:
       run: |
         echo "::group::User Environment Variables"
         echo "Kernel URL: ${{ github.event.inputs.KERNEL_URL }}"
+        echo "Kernel BRANCH: ${{ github.event.inputs.KERNEL_BRANCH }}"
         echo "Kernel Defconfig: ${{ github.event.inputs.KERNEL_DEFCONFIG }}"
         echo "Clang URL: ${{ github.event.inputs.CLANG_URL }}"
         echo "With Kernelsu?: ${{ github.event.inputs.WITH_KERNEL_SU }}"
@@ -155,7 +161,7 @@ jobs:
     - name: Clone kernel tree
       working-directory: android/
       run: |
-       git clone --depth=1 --recurse-submodules -j8 --single-branch ${{ github.event.inputs.KERNEL_URL }} ./kernel
+       git clone --depth=1 --recurse-submodules -j8 --single-branch ${{ github.event.inputs.KERNEL_URL }} -b ${{ github.event.inputs.KERNEL_BRANCH }} ./kernel
        
 
     - name: Set Swap Space
@@ -185,7 +191,7 @@ jobs:
               <b>Build Started With:</b> GithubAction
               <b>USING DEFCONFIG:</b><b>${{ github.event.inputs.KERNEL_DEFCONFIG }}</b>
               <b>Last Commit:</b> $(git log --pretty=format:'"%h : %s"' -1)
-              <b>Kernel Tree:</b> <a href=\"${{ github.event.inputs.KERNEL_URL }}">Tree</a>
+              <b>Kernel Tree:</b> <a href=\"${{ github.event.inputs.KERNEL_URL }}/tree/${{ github.event.inputs.KERNEL_BRANCH }}\">Device tree/Branch</a>
               <b>Started On:</b> ${{ env.BUILD_DATE }} | ${{ env.BUILD_TIME }}
               <b>Use Compiler:</b> $(${GITHUB_WORKSPACE}/android/clang/bin/clang --version | head -n 1 | perl -pe 's/\(http.*?\)//gs' | sed -e 's/ */ /g')"
               
