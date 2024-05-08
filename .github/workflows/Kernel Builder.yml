@@ -193,7 +193,6 @@ jobs:
               
               <b>Build Started With:</b> GithubAction
               <b>USING DEFCONFIG:</b> ${{ github.event.inputs.KERNEL_DEFCONFIG }}
-              <b>Kernel Tree:</b> <a href=\"${{ github.event.inputs.KERNEL_URL }}/tree/${{ github.event.inputs.KERNEL_BRANCH }}\">Device tree/Branch</a>
               <b>Started On:</b> ${{ env.BUILD_DATE }} | ${{ env.BUILD_TIME }}
               
             
