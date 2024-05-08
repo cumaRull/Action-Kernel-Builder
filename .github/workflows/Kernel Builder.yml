@@ -6,7 +6,7 @@ on:
       KERNEL_URL:
         description: 'Enter your Kernel Link'
         required: true
-        default: 'https://github.com/cumaRull/kernel_realme_even.git'
+        default: 'https://github.com/yuzumi86/kernel_realme_even'
 
       KERNEL_BRANCH:
         description: 'Enter your Kernel branch'
