@@ -185,7 +185,7 @@ jobs:
               <b>Build Started With:</b> GithubAction
               <b>USING DEFCONFIG:</b><b>${{ github.event.inputs.KERNEL_DEFCONFIG }}</b>
               <b>Last Commit:</b> $(git log --pretty=format:'"%h : %s"' -1)
-              <b>Kernel Tree:</b> <a href=\"${{ github.event.inputs.KERNEL_URL }}/Tree/"</a>
+              <b>Kernel Tree:</b> <a href=\"${{ github.event.inputs.KERNEL_URL }}">Tree</a>
               <b>Started On:</b> ${{ env.BUILD_DATE }} | ${{ env.BUILD_TIME }}
               <b>Use Compiler:</b> $(${GITHUB_WORKSPACE}/android/clang/bin/clang --version | head -n 1 | perl -pe 's/\(http.*?\)//gs' | sed -e 's/ */ /g')"
               
