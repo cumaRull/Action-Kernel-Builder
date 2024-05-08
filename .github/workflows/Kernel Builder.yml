@@ -197,7 +197,7 @@ jobs:
               <b>Started On:</b> ${{ env.BUILD_DATE }} | ${{ env.BUILD_TIME }}
               <b>Use Compiler:</b> $(${GITHUB_WORKSPACE}/android/clang/bin/clang --version | head -n 1 | perl -pe 's/\(http.*?\)//gs' | sed -e 's/ */ /g')
               
-              
+        format: html     
               
               
     - name: Building Kernel
