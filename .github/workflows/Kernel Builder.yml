@@ -101,6 +101,12 @@ jobs:
           ssh-private-key: |
               ${{ secrets.SSH_PRIVATE_KEY }}
 
+              
+    - name: Set Properties
+      run: |
+        echo "BUILD_DATE=$(TZ=Asia/Jakarta date +%Y-%m-%d )" >> $GITHUB_ENV
+        echo "BUILD_TIME=$(TZ=Asia/Jakarta date +%H:%M:%S)" >> $GITHUB_ENV
+        
     
 #    - name: Install repo
 #      run: |
@@ -176,30 +182,21 @@ jobs:
           echo -e "CONFIG_KSU=y" >> arch/arm64/configs/${{ github.event.inputs.KERNEL_DEFCONFIG }}
           cat arch/arm64/configs/${{ github.event.inputs.KERNEL_DEFCONFIG }}
       continue-on-error: true    
-
-    - name: Set Properties
-      run: |
-        echo "BUILD_DATE=$(TZ=Asia/Jakarta date +%Y-%m-%d )" >> $GITHUB_ENV
-        echo "BUILD_TIME=$(TZ=Asia/Jakarta date +%H:%M:%S)" >> $GITHUB_ENV
-        echo "BUILD_STARTED=<b>Build Started With:</b> GithubAction" >> $GITHUB_ENV
-        echo "USE_DEFCONFIG=<b>USING DEFCONFIG:</b> ${{ github.event.inputs.KERNEL_DEFCONFIG }}" >> $GITHUB_ENV
-        echo "LAST_COMMIT=<b>Last Commit:</b> ${GITHUB_WORKSPACE}/android/kernel/$(git log --pretty=format:'"%h : %s"' -1)" >> $GITHUB_ENV
-        echo "KERNEL_TREE=<b>Kernel Tree:</b> <a href=\"${{ github.event.inputs.KERNEL_URL }}/tree/${{ github.event.inputs.KERNEL_BRANCH }}\">Device tree/Branch</a>" >> $GITHUB_ENV
-        echo "STARTED_ON=<b>Started On:</b> ${{ env.BUILD_DATE }} | ${{ env.BUILD_TIME }}" >> $GITHUB_ENV
-        echo "USE_COMPILER=<b>Use Compiler:</b> $(${GITHUB_WORKSPACE}/android/clang/bin/clang --version | head -n 1 | perl -pe 's/\(http.*?\)//gs' | sed -e 's/ */ /g')" >> $GITHUB_ENV
-        
+      
     - name: Notify in Telegram
       uses: appleboy/telegram-action@master
       with:
         to: ${{ secrets.TG_CHAT_ID }}
         token: ${{ secrets.TG_BOT_TOKEN }}
+        format: html
+        disable_web_page_preview: true
         message: | 
-               ${{ env.BUILD_STARTED }}
-               ${{ env.USE_DEFCONFIG }}
-               ${{ env.LAST_COMMIT }}
-               ${{ env.KERNEL_TREE }}
-               ${{ env.STARTED_ON }}
-               ${{ env.USE_COMPILER }}
+              <b>Build Started With:</b> GithubAction
+              <b>USING DEFCONFIG:</b> ${{ github.event.inputs.KERNEL_DEFCONFIG }}
+              <b>Last Commit:</b> ${GITHUB_WORKSPACE}/android/kernel/$(git log --pretty=format:'"%h : %s"' -1)
+              <b>Kernel Tree:</b> <a href=\"${{ github.event.inputs.KERNEL_URL }}/tree/${{ github.event.inputs.KERNEL_BRANCH }}\">Device tree/Branch</a>
+              <b>Started On:</b> ${{ env.BUILD_DATE }} | ${{ env.BUILD_TIME }}
+              <b>Use Compiler:</b> $(${GITHUB_WORKSPACE}/android/clang/bin/clang --version | head -n 1 | perl -pe 's/\(http.*?\)//gs' | sed -e 's/ */ /g')
               
               
               
