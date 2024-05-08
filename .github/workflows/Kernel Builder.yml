@@ -184,10 +184,10 @@ jobs:
 
     
     - name: Notify in Telegram
+      working-directory: android/
       run: |
-              ls
-              cd ..
-              photoku=${GITHUB_WORKSPACE}/image/tridentnotdeath.jpg
+              wget https://github.com/cumaRull/Action-Kernel-Builder/blob/master/image/tridentnotdeath.jpg
+              photoku=${GITHUB_WORKSPACE}/android/tridentnotdeath.jpg
               MESSAGES="
               <b>Build Started With:</b> GithubAction
               <b>USING DEFCONFIG:</b> ${{ github.event.inputs.KERNEL_DEFCONFIG }}
