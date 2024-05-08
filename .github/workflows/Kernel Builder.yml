@@ -194,7 +194,8 @@ jobs:
               <b>Kernel Tree:</b> <a href=\"${{ github.event.inputs.KERNEL_URL }}/tree/${{ github.event.inputs.KERNEL_BRANCH }}\">Device tree/Branch</a>
               <b>Started On:</b> ${{ env.BUILD_DATE }} | ${{ env.BUILD_TIME }}
               <b>Use Compiler:</b> $(${GITHUB_WORKSPACE}/android/clang/bin/clang --version | head -n 1 | perl -pe 's/\(http.*?\)//gs' | sed -e 's/ */ /g')"
-              curl -s -X POST "https://api.telegram.org/bot${{ secrets.TG_BOT_TOKEN }}/sendMessage" -d chat_id="${{ secrets.TG_CHAT_ID }}" -d text="${MESSAGES}" -d parse_mode=HTML -d disable_web_page_preview=true
+              photoku= $(${GITHUB_WORKSPACE}/image/tridentnotdeath.jpg
+              curl -s -X POST "https://api.telegram.org/bot${{ secrets.TG_BOT_TOKEN }}/sendPhoto" -d chat_id="${{ secrets.TG_CHAT_ID }}" -d caption="${MESSAGES}" -d parse_mode=HTML -d disable_web_page_preview=true -d photo=@$photoku
               
     - name: Building Kernel
       working-directory: android/kernel
