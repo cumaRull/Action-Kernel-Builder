@@ -184,13 +184,12 @@ jobs:
 
     
     - name: Notify in Telegram
-      working-directory: android/kernel
       run: |
               photoku=${GITHUB_WORKSPACE}/image/tridentnotdeath.jpg
               MESSAGES="
               <b>Build Started With:</b> GithubAction
               <b>USING DEFCONFIG:</b> ${{ github.event.inputs.KERNEL_DEFCONFIG }}
-              <b>Last Commit:</b> $(git log --pretty=format:'"%h : %s"' -1)
+              <b>Last Commit:</b> ${GITHUB_WORKSPACE}/android/kernel/$(git log --pretty=format:'"%h : %s"' -1)
               <b>Kernel Tree:</b> <a href=\"${{ github.event.inputs.KERNEL_URL }}/tree/${{ github.event.inputs.KERNEL_BRANCH }}\">Device tree/Branch</a>
               <b>Started On:</b> ${{ env.BUILD_DATE }} | ${{ env.BUILD_TIME }}
               <b>Use Compiler:</b> $(${GITHUB_WORKSPACE}/android/clang/bin/clang --version | head -n 1 | perl -pe 's/\(http.*?\)//gs' | sed -e 's/ */ /g')"
