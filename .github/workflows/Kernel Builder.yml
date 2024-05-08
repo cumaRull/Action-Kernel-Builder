@@ -93,12 +93,7 @@ jobs:
           sudo apt-get install -y zip unzip tar gzip bzip2 rar unrar
           sudo apt-get -y install gcc llvm lld python2 clang gcc-aarch64-linux-gnu git libxml2 device-tree-compiler default-jre automake lzop bison gperf build-essential zip curl zlib1g-dev libxml2-utils bzip2 libbz2-dev libbz2-1.0 libghc-bzlib-dev squashfs-tools pngcrush schedtool dpkg-dev liblz4-tool make cpio optipng bc libstdc++6 libncurses5 wget python3 python3-pip libssl-dev rsync flex git-lfs libz3-dev libz3-4 axel tar binutils-dev ca-certificates ccache cmake file libelf-dev ninja-build python3-dev texinfo u-boot-tools xz-utils libarchive-tools software-properties-common build-essential python-is-python3 libssl-dev openssl ssh
           sudo apt-get install wget -y
-    - name: Set Properties
-      run: |
-        echo "BUILD_DATE=$(TZ=Asia/Jakarta date +%Y-%m-%d )" >> $GITHUB_ENV
-        echo "BUILD_TIME=$(TZ=Asia/Jakarta date +%H:%M:%S)" >> $GITHUB_ENV
-        echo "START=$(date +"%s")" >> $GITHUB_ENV
-        echo "END=$(date +"%s")" >> $GITHUB_ENV
+    
         
     - name: Setup SSH Keys
       uses: webfactory/ssh-agent@v0.5.4
@@ -182,19 +177,32 @@ jobs:
           cat arch/arm64/configs/${{ github.event.inputs.KERNEL_DEFCONFIG }}
       continue-on-error: true    
 
-    
+    - name: Set Properties
+      run: |
+        echo "BUILD_DATE=$(TZ=Asia/Jakarta date +%Y-%m-%d )" >> $GITHUB_ENV
+        echo "BUILD_TIME=$(TZ=Asia/Jakarta date +%H:%M:%S)" >> $GITHUB_ENV
+        echo "BUILD_STARTED=<b>Build Started With:</b> GithubAction" >> $GITHUB_ENV
+        echo "USE_DEFCONFIG=<b>USING DEFCONFIG:</b> ${{ github.event.inputs.KERNEL_DEFCONFIG }}" >> $GITHUB_ENV
+        echo "LAST_COMMIT=<b>Last Commit:</b> ${GITHUB_WORKSPACE}/android/kernel/$(git log --pretty=format:'"%h : %s"' -1)" >> $GITHUB_ENV
+        echo "KERNEL_TREE=<b>Kernel Tree:</b> <a href=\"${{ github.event.inputs.KERNEL_URL }}/tree/${{ github.event.inputs.KERNEL_BRANCH }}\">Device tree/Branch</a>" >> $GITHUB_ENV
+        echo "STARTED_ON=<b>Started On:</b> ${{ env.BUILD_DATE }} | ${{ env.BUILD_TIME }}" >> $GITHUB_ENV
+        echo "USE_COMPILER=<b>Use Compiler:</b> $(${GITHUB_WORKSPACE}/android/clang/bin/clang --version | head -n 1 | perl -pe 's/\(http.*?\)//gs' | sed -e 's/ */ /g')" >> $GITHUB_ENV
+        
     - name: Notify in Telegram
       uses: appleboy/telegram-action@master
       with:
         to: ${{ secrets.TG_CHAT_ID }}
         token: ${{ secrets.TG_BOT_TOKEN }}
         message: | 
-              <b>Build Started With:</b> GithubAction
-              <b>USING DEFCONFIG:</b> ${{ github.event.inputs.KERNEL_DEFCONFIG }}
-              <b>Last Commit:</b> ${GITHUB_WORKSPACE}/android/kernel/$(git log --pretty=format:'"%h : %s"' -1)
-              <b>Kernel Tree:</b> <a href=\"${{ github.event.inputs.KERNEL_URL }}/tree/${{ github.event.inputs.KERNEL_BRANCH }}\">Device tree/Branch</a>
-              <b>Started On:</b> ${{ env.BUILD_DATE }} | ${{ env.BUILD_TIME }}
-              <b>Use Compiler:</b> $(${GITHUB_WORKSPACE}/android/clang/bin/clang --version | head -n 1 | perl -pe 's/\(http.*?\)//gs' | sed -e 's/ */ /g')
+               ${{ env.BUILD_STARTED }}
+               ${{ env.USE_DEFCONFIG }}
+               ${{ env.LAST_COMMIT }}
+               ${{ env.KERNEL_TREE }}
+               ${{ env.STARTED_ON }}
+               ${{ env.USE_COMPILER }}
+              
+              
+              
               
     - name: Building Kernel
       working-directory: android/kernel
