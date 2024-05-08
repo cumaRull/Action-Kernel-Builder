@@ -129,7 +129,7 @@ jobs:
 #        repo sync -j$(nproc --all) --force-sync
 #      working-directory: workspace
 
-    - name: Clone GCC
+    - name: Create Folder
       run: |
        mkdir -p android && cd android
    #    git clone --depth=1 ${{ github.event.inputs.AARCH64_URL }} ./aarch64-gcc
@@ -185,6 +185,8 @@ jobs:
     
     - name: Notify in Telegram
       run: |
+              ls
+              cd ..
               photoku=${GITHUB_WORKSPACE}/image/tridentnotdeath.jpg
               MESSAGES="
               <b>Build Started With:</b> GithubAction
