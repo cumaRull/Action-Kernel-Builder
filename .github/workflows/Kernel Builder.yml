@@ -133,7 +133,7 @@ jobs:
     - name: Create Folder
       run: |
        mkdir -p android && cd android
-       wget https://github.com/cumaRull/Action-Kernel-Builder/blob/master/image/tridentnotdeath.png
+       # wget https://github.com/cumaRull/Action-Kernel-Builder/blob/master/image/tridentnotdeath.png
    #    git clone --depth=1 ${{ github.event.inputs.AARCH64_URL }} ./aarch64-gcc
       # git clone --depth=1 ${{ github.event.inputs.ARM_LINUX_URL }} ./aarch32-gcc
        
