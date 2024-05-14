@@ -255,8 +255,12 @@ jobs:
           android/kernel/out/arch/arm64/boot/Image.gz-dtb
           android/kernel/out/arch/arm64/boot/Image.gz
           android/kernel/out/arch/arm64/boot/Image
-          android/kernel/out/arch/arm64/boot/dtb
-          android/kernel/out/arch/arm64/boot/dtbo.img
+          android/kernel/out/arch/arm64/boot/*.dtb
+          android/kernel/out/arch/arm64/boot/*.img
+          android/kernel/out/arch/arm64/boot/dts/mediatek/*.dtb
+          android/kernel/out/arch/arm64/boot/dts/mediatek/*.img
+          android/kernel/out/arch/arm64/boot/dts/*.dtb
+          android/kernel/out/arch/arm64/boot/dts/*.img
           android/AnyKernel/${{ github.event.inputs.ZIP_NAME }}-${{ env.BUILD_DATE }}-${{ env.BUILD_TIME }}.zip
         name: Kernel Build | ${{ env.BUILD_DATE }}
         tag_name: ${{ github.run_id }}
