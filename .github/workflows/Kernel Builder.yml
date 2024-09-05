@@ -213,6 +213,7 @@ jobs:
        export KBUILD_BUILD_HOST=${{ github.event.inputs.KBUILD_HOST }}
        make O=out ARCH=arm64 ${{ github.event.inputs.KERNEL_DEFCONFIG }} 
        LLVM=1
+       LD=ld.lld
        AR=llvm-ar 
        NM=llvm-nm 
        STRIP=llvm-strip 
