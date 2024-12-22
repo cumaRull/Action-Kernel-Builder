@@ -142,6 +142,7 @@ jobs:
     - name: Clone Clang
       working-directory: android/
       run: |
+       git clone -b thirteen https://github.com/techyminati/android_vendor_oplus.git ./vendor/oplus
        mkdir -p clang && cd clang
        wget ${{ github.event.inputs.CLANG_URL }}
        tar -xvzf *.gz
