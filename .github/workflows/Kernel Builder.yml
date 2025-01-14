@@ -125,11 +125,7 @@ jobs:
 #        repo init -depth=1 -u ${{ github.event.inputs.MANIFEST_URL }} -b ${{ github.event.inputs.MANIFEST_BRANCH }}
 #      id: pwd
     
-    - name: Repo Sync
-      run: |
-        git clone -b thirteen https://github.com/techyminati/android_vendor_oplus.git ./vendor/oplus
-      
-
+    
     - name: Create Folder
       run: |
        mkdir -p android && cd android
