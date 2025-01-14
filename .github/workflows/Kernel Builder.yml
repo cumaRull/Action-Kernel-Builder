@@ -284,8 +284,4 @@ jobs:
               -F disable_web_page_preview=true
       continue-on-error: true
       
-    - name: Test Upload to file transfer
-      working-directory: android/
-      run: |
-       curl -sL https://git.io/file-transfer | sh
-       ./transfer wet AnyKernel/${{ github.event.inputs.ZIP_NAME }}-${{ env.BUILD_DATE }}-${{ env.BUILD_TIME }}.zip
+    
