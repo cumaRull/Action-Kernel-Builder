@@ -91,7 +91,7 @@ jobs:
           sudo apt-get install -y build-essential bc gcc-aarch64-linux-gnu gcc-arm-linux-gnueabi libssl-dev libfl-dev
           sudo apt-get install -y curl git ftp lftp wget libarchive-tools ccache 
           sudo apt-get install -y zip unzip tar gzip bzip2 rar unrar
-          sudo apt-get -y install gcc llvm lld python-is-python3 clang gcc-aarch64-linux-gnu git libxml2 device-tree-compiler default-jre automake lzop bison gperf build-essential zip curl zlib1g-dev libxml2-utils bzip2 libbz2-dev libbz2-1.0 libghc-bzlib-dev squashfs-tools pngcrush schedtool dpkg-dev liblz4-tool make cpio optipng bc libstdc++6 libncurses5 wget python3 python3-pip libssl-dev rsync flex git-lfs libz3-dev libz3-4 axel tar binutils-dev ca-certificates ccache cmake file libelf-dev ninja-build python3-dev texinfo u-boot-tools xz-utils libarchive-tools software-properties-common build-essential python-is-python3 libssl-dev openssl ssh
+          sudo apt-get -y install gcc llvm lld python-is-python3 clang gcc-aarch64-linux-gnu git libxml2 device-tree-compiler default-jre automake lzop bison gperf build-essential zip curl zlib1g-dev libxml2-utils bzip2 libbz2-dev libbz2-1.0 libghc-bzlib-dev squashfs-tools pngcrush schedtool dpkg-dev liblz4-tool make cpio optipng bc libstdc++6 libncurses5 libncurses5:i386 wget python3 python3-pip libssl-dev rsync flex git-lfs libz3-dev libz3-4 axel tar binutils-dev ca-certificates ccache cmake file libelf-dev ninja-build python3-dev texinfo u-boot-tools xz-utils libarchive-tools software-properties-common build-essential python-is-python3 libssl-dev openssl ssh
           sudo apt-get install wget -y
     
         
