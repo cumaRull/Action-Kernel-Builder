@@ -202,13 +202,11 @@ jobs:
     - name: Zipping Kernel
       working-directory: android/
       run: | 
-            
             git clone --depth=1 ${{ github.event.inputs.ANYKERNEL_URL }} ./AnyKernel
             cd kernel/out/arch/arm64/boot && cp -r Image.gz-dtb ${GITHUB_WORKSPACE}/android/AnyKernel
             cd ${GITHUB_WORKSPACE}/android/AnyKernel
             zip -r9 ${{ github.event.inputs.ZIP_NAME }}-${{ env.BUILD_DATE }}-${{ env.BUILD_TIME }}.zip * -x .git README.md *placeholder
-#            chmod a+x ${GITHUB_WORKSPACE}/scripts/upload.sh
-#            bash ${GITHUB_WORKSPACE}/scripts/upload.sh
+
       continue-on-error: true
     - name: Upload to Release
       uses: softprops/action-gh-release@v1
