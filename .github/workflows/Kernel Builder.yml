@@ -186,8 +186,8 @@ jobs:
        CC="clang" \
        CLANG_TRIPLE="aarch64-linux-gnu-" \
        CROSS_COMPILE="${GITHUB_WORKSPACE}/android/aarch64-gcc/bin/aarch64-linux-gnu-" \
-       CROSS_COMPILE_ARM32="${GITHUB_WORKSPACE}/android/arm-gcc/bin/arm-linux-gnueabihf-" \
-       CROSS_COMPILE_COMPAT="${GITHUB_WORKSPACE}/android/arm-gcc/bin/arm-linux-gnueabihf-"           
+       CROSS_COMPILE_ARM32="${GITHUB_WORKSPACE}/android/arm-gcc/bin/arm-linux-gnueabi-" \
+       CROSS_COMPILE_COMPAT="${GITHUB_WORKSPACE}/android/arm-gcc/bin/arm-linux-gnueabi-"           
        
     - name: Zipping Kernel
       working-directory: android/
