@@ -32,14 +32,14 @@ on:
         description: 'Clang Url'
         required: true
         default: 'https://github.com/ZyCromerZ/Clang/releases/download/19.0.0git-20240227-release/Clang-19.0.0git-20240227.tar.gz'
-   #   AARCH64_URL:
-  #      description: 'Arrch64-GCC'
-  #      required: true
-  #      default: 'https://github.com/ZyCromerZ/aarch64-zyc-linux-gnu -b 13'
-  #    ARM_LINUX_URL:
-  #      description: 'ARM-LINUX-GNU'
-  #      required: true
-  #      default: 'https://github.com/ZyCromerZ/arm-zyc-linux-gnueabi -b 13'
+      AARCH64_URL:
+        description: 'Arrch64-GCC'
+        required: true
+        default: 'https://github.com/ZyCromerZ/aarch64-zyc-linux-gnu -b 13'
+      ARM_LINUX_URL:
+        description: 'ARM-LINUX-GNU'
+        required: true
+        default: 'https://github.com/ZyCromerZ/arm-zyc-linux-gnueabi -b 13'
       WITH_KERNEL_SU:
         description: 'With kernelsu?, Dont activate it if the kernel doesnt support it '
         required: true
@@ -115,25 +115,17 @@ jobs:
 #        chmod a+x ~/bin/repo
 #        sudo ln -sf ~/bin/repo /usr/bin/repo
       
-#    - name: Initialize repo
-#      run: |
-#        mkdir workspace
-#        cd workspace
-#        echo "workspace-folder=$(pwd)" >> $GITHUB_OUTPUT
-#        git config --global user.name "cumaRull"
-#        git config --global user.email "rulsmods@gmail.com"
-#        repo init -depth=1 -u ${{ github.event.inputs.MANIFEST_URL }} -b ${{ github.event.inputs.MANIFEST_BRANCH }}
-#      id: pwd
-    
+    - name: Initialize user
+      run: |
+        git config --global user.name "cumaRull"
+        git config --global user.email "rulsmods@gmail.com"
+
     
     - name: Create Folder
       run: |
        mkdir -p android && cd android
-       # wget https://github.com/cumaRull/Action-Kernel-Builder/blob/master/image/tridentnotdeath.png
-   #    git clone --depth=1 ${{ github.event.inputs.AARCH64_URL }} ./aarch64-gcc
-      # git clone --depth=1 ${{ github.event.inputs.ARM_LINUX_URL }} ./aarch32-gcc
-       
-     #  git clone --depth=1 ${{ github.event.inputs.CLANG_URL }} ./clang
+       git clone --depth=1 ${{ github.event.inputs.AARCH64_URL }} ./aarch64-gcc
+       git clone --depth=1 ${{ github.event.inputs.ARM_LINUX_URL }} ./arm-gcc
        
     - name: Clone Clang
       working-directory: android/
@@ -143,20 +135,7 @@ jobs:
        wget ${{ github.event.inputs.CLANG_URL }}
        tar -xvzf *.gz
        rm -f *.gz
-  #  - name: Clone aarch64-gcc
-  #    working-directory: android/
-  #    run: |
-  #     mkdir -p aarch64-gcc && cd aarch64-gcc
-  #     wget ${{ github.event.inputs.AARCH64_URL }}
-  #     tar -xvzf *.gz
-  #     rm -f *.gz   
-  #  - name: Clone aarch32-gcc
-  #    working-directory: android/
-  #    run: |
-  #     mkdir -p aarch32-gcc && cd aarch32-gcc
-  #     wget ${{ github.event.inputs.ARM_LINUX_URL }}
-  #     tar -xvzf *.gz
-  #     rm -f *.gz      
+       
     - name: Clone kernel tree
       working-directory: android/
       run: |
@@ -186,7 +165,7 @@ jobs:
       with:
         to: ${{ secrets.TG_CHAT_ID }}
         token: ${{ secrets.TG_BOT_TOKEN }}
-        photo: '${GITHUB_WORKSPACE}/android/tridentnotdeath.png'
+        photo: '${GITHUB_WORKSPACE}/tridentnotdeath.png'
         format: html
         message: |
               
@@ -218,7 +197,7 @@ jobs:
        OBJDUMP=llvm-objdump 
        READELF=llvm-readelf 
        make -j$(nproc --all) O=out ARCH=arm64 ${{ github.event.inputs.KERNEL_DEFCONFIG }} 
-       PATH="${GITHUB_WORKSPACE}/android/clang/bin:${PATH}" \
+       PATH="${GITHUB_WORKSPACE}/android/clang/bin:${PATH}:${GITHUB_WORKSPACE}/android/arm-gcc/bin:${PATH}:${GITHUB_WORKSPACE}/android/aarch64-gcc/bin:${PATH}" \
        make -j$(nproc --all) O=out \
        AR=llvm-ar \
        AS=llvm-as \
@@ -228,11 +207,9 @@ jobs:
        ARCH=arm64 \
        CC="clang" \
        CLANG_TRIPLE="aarch64-linux-gnu-" \
-       CROSS_COMPILE="aarch64-linux-gnu-" \
-       CROSS_COMPILE_ARM32="arm-linux-gnueabi-" \
-       CROSS_COMPILE_COMPAT="arm-linux-gnueabi-" \
-       
-       
+       CROSS_COMPILE="${GITHUB_WORKSPACE}/android/aarch64-gcc/bin/aarch64-linux-gnu-" \
+       CROSS_COMPILE_ARM32="${GITHUB_WORKSPACE}/android/arm-gcc/bin/arm-linux-gnueabihf-" \
+       CROSS_COMPILE_COMPAT="${GITHUB_WORKSPACE}/android/arm-gcc/bin/arm-linux-gnueabihf-"           
        
     - name: Zipping Kernel
       working-directory: android/
