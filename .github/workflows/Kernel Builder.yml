@@ -71,6 +71,8 @@ jobs:
         echo "Kernel BRANCH: ${{ github.event.inputs.KERNEL_BRANCH }}"
         echo "Kernel Defconfig: ${{ github.event.inputs.KERNEL_DEFCONFIG }}"
         echo "Clang URL: ${{ github.event.inputs.CLANG_URL }}"
+        echo "AARCH64_URL URL: ${{ github.event.inputs.AARCH64_URL }}"
+        echo "ARM_LINUX_URL URL: ${{ github.event.inputs.ARM_LINUX_URL }}"
         echo "With Kernelsu?: ${{ github.event.inputs.WITH_KERNEL_SU }}"
         echo "Zip name: ${{ github.event.inputs.ZIP_NAME }}"
         echo "Downloading AnyKernel: ${{ github.event.inputs.ANYKERNEL_URL }}"
@@ -93,13 +95,6 @@ jobs:
           sudo apt-get install -y zip unzip tar gzip bzip2 rar unrar
           sudo apt-get -y install gcc llvm lld python-is-python3 clang gcc-aarch64-linux-gnu git libxml2 device-tree-compiler default-jre automake lzop bison gperf build-essential zip curl zlib1g-dev libxml2-utils bzip2 libbz2-dev libbz2-1.0 libghc-bzlib-dev squashfs-tools pngcrush schedtool dpkg-dev liblz4-tool make cpio optipng bc libstdc++6 libncurses5 wget python3 python3-pip libssl-dev rsync flex git-lfs libz3-dev libz3-4 axel tar binutils-dev ca-certificates ccache cmake file libelf-dev ninja-build python3-dev texinfo u-boot-tools xz-utils libarchive-tools software-properties-common build-essential python-is-python3 libssl-dev openssl ssh
           sudo apt-get install wget -y
-    
-        
-    - name: Setup SSH Keys
-      uses: webfactory/ssh-agent@v0.5.4
-      with:
-          ssh-private-key: |
-              ${{ secrets.SSH_PRIVATE_KEY }}
 
               
     - name: Set Properties
@@ -107,13 +102,6 @@ jobs:
         echo "BUILD_DATE=$(TZ=Asia/Jakarta date +%Y-%m-%d )" >> $GITHUB_ENV
         echo "BUILD_TIME=$(TZ=Asia/Jakarta date +%H:%M:%S)" >> $GITHUB_ENV
         
-    
-#    - name: Install repo
-#      run: |
-#        mkdir ~/bin
-#        curl https://storage.googleapis.com/git-repo-downloads/repo > ~/bin/repo
-#        chmod a+x ~/bin/repo
-#        sudo ln -sf ~/bin/repo /usr/bin/repo
       
     - name: Initialize user
       run: |
