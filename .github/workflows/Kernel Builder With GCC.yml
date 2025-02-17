@@ -1,4 +1,4 @@
-name: Kernel Builder With clang
+name: Kernel Builder With gcc
 
 on:
   workflow_dispatch:
