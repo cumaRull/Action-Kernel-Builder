@@ -203,6 +203,9 @@ jobs:
           android/kernel/out/arch/arm64/boot/*.img
           android/kernel/out/arch/arm64/boot/dts/mediatek/*.dtb
           android/kernel/out/arch/arm64/boot/dts/mediatek/*.img
+          android/kernel/out/arch/arm64/boot/dts/mediatek/dtbo.img
+          android/kernel/out/arch/arm64/boot/dts/mediatek/*dtbo.img
+          android/kernel/out/arch/arm64/boot/dts/mediatek/*.dtbo
           android/kernel/out/arch/arm64/boot/dts/*.dtb
           android/kernel/out/arch/arm64/boot/dts/*.img
           android/AnyKernel/${{ github.event.inputs.ZIP_NAME }}-${{ env.BUILD_DATE }}-${{ env.BUILD_TIME }}.zip
