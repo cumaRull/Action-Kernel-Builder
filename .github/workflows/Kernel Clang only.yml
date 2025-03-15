@@ -103,8 +103,7 @@ jobs:
     - name: Clone Clang
       working-directory: android/
       run: |
-       mkdir -p clang && cd clang
-       git clone --depth=1 ${{ github.event.inputs.CLANG_URL }}
+       git clone --depth=1 ${{ github.event.inputs.CLANG_URL }} ./clang
        # tar -xvzf *.gz
        # rm -f *.gz
        
