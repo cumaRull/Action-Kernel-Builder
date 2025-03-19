@@ -161,7 +161,6 @@ jobs:
        make O=out ARCH=arm64 ${{ github.event.inputs.KERNEL_DEFCONFIG }} 
        export CONFIG_NO_ERROR_ON_MISMATCH=y 
        export CONFIG_DEBUG_SECTION_MISMATCH=y 
-       bacon
        LLVM=1
        LD=ld.lld
        AR=llvm-ar 
