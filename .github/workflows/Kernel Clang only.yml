@@ -6,17 +6,17 @@ on:
       KERNEL_URL:
         description: 'Enter your Kernel Link'
         required: true
-        default: 'https://github.com/yuzumi86/kernel_realme_even'
+        default: 'https://github.com/cumaRull/kernel_realme_RMX3191-K419.git'
 
       KERNEL_BRANCH:
         description: 'Enter your Kernel branch'
         required: true
-        default: 'OSS-RUI2'
+        default: 'master'
          
       KERNEL_DEFCONFIG:
         description: 'Enter the defconfig available in your kernel'
         required: true
-        default: 'even_defconfig'
+        default: 'RMX3191_defconfig'
 
       KBUILD_USER:
         description: 'Enter the custom username build available in your kernel'
@@ -26,7 +26,7 @@ on:
       CLANG_URL:
         description: 'Clang Url'
         required: true
-        default: 'https://github.com/ZyCromerZ/Clang/releases/download/19.0.0git-20240227-release/Clang-19.0.0git-20240227.tar.gz'
+        default: 'https://github.com/picasso09/clang-12.0.5-r416183b.git'
       WITH_KERNEL_SU:
         description: 'With kernelsu?, Dont activate it if the kernel doesnt support it '
         required: true
