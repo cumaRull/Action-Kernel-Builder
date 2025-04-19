@@ -184,7 +184,21 @@ jobs:
        CONFIG_NO_ERROR_ON_MISMATCH=y \
        CONFIG_DEBUG_SECTION_MISMATCH=y \
         V=0 2>&1 | tee out/build.log
-       
+
+
+        
+
+
+    - name: Send BuildLog to Telegram
+      working-directory: android/
+      run: |
+              img=kernel/out/build.log
+              curl -F document=@$img "https://api.telegram.org/bot${{ secrets.TG_BOT_TOKEN }}/sendDocument" \
+              -F chat_id="${{ secrets.TG_CHAT_ID }}" \
+              -F parse_mode=html \
+              -F disable_web_page_preview=true
+      continue-on-error: true
+      
     - name: Zipping Kernel
       working-directory: android/
       run: | 
