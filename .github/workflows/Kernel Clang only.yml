@@ -208,30 +208,6 @@ jobs:
             zip -r9 ${{ github.event.inputs.ZIP_NAME }}-${{ env.BUILD_DATE }}-${{ env.BUILD_TIME }}.zip * -x .git README.md *placeholder
 
       continue-on-error: true
-    - name: Upload to Release
-      uses: softprops/action-gh-release@v1
-      with:
-        files: |
-          android/kernel/out/arch/arm64/boot/Image.gz-dtb
-          android/kernel/out/arch/arm64/boot/Image.gz
-          android/kernel/out/arch/arm64/boot/Image
-          android/kernel/out/arch/arm64/boot/*.dtb
-          android/kernel/out/arch/arm64/boot/*.img
-          android/kernel/out/arch/arm64/boot/dts/mediatek/*.dtb
-          android/kernel/out/arch/arm64/boot/dts/mediatek/*.img
-          android/kernel/out/arch/arm64/boot/dts/mediatek/dtbo.img
-          android/kernel/out/arch/arm64/boot/dts/mediatek/*dtbo.img
-          android/kernel/out/arch/arm64/boot/dts/mediatek/*.dtbo
-          android/kernel/out/arch/arm64/boot/dts/*.dtb
-          android/kernel/out/arch/arm64/boot/dts/*.img
-          android/AnyKernel/${{ github.event.inputs.ZIP_NAME }}-${{ env.BUILD_DATE }}-${{ env.BUILD_TIME }}.zip
-        name: Kernel Build | ${{ env.BUILD_DATE }}
-        tag_name: ${{ github.run_id }}
-        body: |
-         ### Notes
-          * Kernel were built/compiled using custom clang and gcc
-          * Test at your own risk.
-          * Use kernel flasher or any custom recoveries to flash the compressed kernel zip file.
     - name: Notify If completed
       run: | 
               curl -s -X POST "https://api.telegram.org/bot${{ secrets.TG_BOT_TOKEN }}/sendMessage" \
