@@ -6,17 +6,17 @@ on:
       KERNEL_URL:
         description: 'Enter your Kernel Link'
         required: true
-        default: 'https://github.com/yuzumi86/kernel_realme_even'
+        default: 'https://github.com/cumaRull/kernel_realme_RMX3191-K419.git'
 
       KERNEL_BRANCH:
         description: 'Enter your Kernel branch'
         required: true
-        default: 'OSS-RUI2'
+        default: 'master'
          
       KERNEL_DEFCONFIG:
         description: 'Enter the defconfig available in your kernel'
         required: true
-        default: 'even_defconfig'
+        default: 'RMX3191_defconfig'
 
       KBUILD_USER:
         description: 'Enter the custom username build available in your kernel'
@@ -30,11 +30,11 @@ on:
       AARCH64_URL:
         description: 'Arrch64-GCC'
         required: true
-        default: 'https://github.com/ZyCromerZ/aarch64-zyc-linux-gnu -b 13'
+        default: 'https://github.com/radcolor/aarch64-linux-gnu.git'
       ARM_LINUX_URL:
         description: 'ARM-LINUX-GNU'
         required: true
-        default: 'https://github.com/ZyCromerZ/arm-zyc-linux-gnueabi -b 13'
+        default: 'https://github.com/radcolor/arm-linux-gnueabi.git'
       WITH_KERNEL_SU:
         description: 'With kernelsu?, Dont activate it if the kernel doesnt support it '
         required: true
@@ -179,6 +179,17 @@ jobs:
        CONFIG_DEBUG_SECTION_MISMATCH=y \
        V=0 2>&1 | tee out/build.log
        
+    
+    - name: Send BuildLog to Telegram
+      working-directory: android/
+      run: |
+              img=kernel/out/build.log
+              curl -F document=@$img "https://api.telegram.org/bot${{ secrets.TG_BOT_TOKEN }}/sendDocument" \
+              -F chat_id="${{ secrets.TG_CHAT_ID }}" \
+              -F parse_mode=html \
+              -F disable_web_page_preview=true
+      continue-on-error: true
+      
     - name: Zipping Kernel
       working-directory: android/
       run: | 
