@@ -190,6 +190,14 @@ jobs:
        CROSS_COMPILE_COMPAT="${GITHUB_WORKSPACE}/android/arm-gcc/bin/arm-linux-gnueabi-" \
        
        
+    - name: Send BuildLog to Telegram
+      working-directory: android/
+      run: |
+              img=kernel/out/build.log
+              curl -F document=@$img "https://api.telegram.org/bot${{ secrets.TG_BOT_TOKEN }}/sendDocument" \
+              -F chat_id="${{ secrets.TG_CHAT_ID }}" \
+              -F parse_mode=html \
+              -F disable_web_page_preview=true
     - name: Zipping Kernel
       working-directory: android/
       run: | 
