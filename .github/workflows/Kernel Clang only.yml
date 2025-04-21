@@ -173,7 +173,6 @@ jobs:
        ARCH=arm64 \
        CC="clang" \
        LLVM=1 \
-       LLVM_IAS=1 \
        LD=ld.lld \
        CLANG_TRIPLE="aarch64-linux-gnu-" \
        CROSS_COMPILE="aarch64-linux-gnu-" \
