@@ -162,18 +162,8 @@ jobs:
        make -j$(nproc --all) O=out ARCH=arm64 ${{ github.event.inputs.KERNEL_DEFCONFIG }} 
        PATH="${GITHUB_WORKSPACE}/android/clang/bin:${PATH}" \
        make -j$(nproc --all) O=out \
-       AR=llvm-ar \
-       AS=llvm-as \
-       NM=llvm-nm \
-       STRIP=llvm-strip \ 
-       OBJCOPY=llvm-objcopy  \
-       OBJDUMP=llvm-objdump \
-       READELF=llvm-readelf  \
-       STRIP=llvm-strip \
-       ARCH=arm64 \
        CC="clang" \
        LLVM=1 \
-       LD=ld.lld \
        CLANG_TRIPLE="aarch64-linux-gnu-" \
        CROSS_COMPILE="aarch64-linux-gnu-" \
        CROSS_COMPILE_ARM32="arm-linux-gnueabi-" \
