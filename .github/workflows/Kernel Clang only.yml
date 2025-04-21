@@ -159,8 +159,8 @@ jobs:
        export KBUILD_BUILD_USER=${{ github.event.inputs.KBUILD_USER }}
        export KBUILD_BUILD_HOST=${{ github.event.inputs.KBUILD_HOST }}
        make O=out ARCH=arm64 ${{ github.event.inputs.KERNEL_DEFCONFIG }} 
-       export LLVM=1
-       export LLVM_IAS=1
+       LLVM=1
+       LLVM_IAS=1
        LD=ld.lld
        AR=llvm-ar 
        NM=llvm-nm 
