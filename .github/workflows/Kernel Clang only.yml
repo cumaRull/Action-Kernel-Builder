@@ -162,7 +162,6 @@ jobs:
        PATH="${GITHUB_WORKSPACE}/android/clang/bin:${PATH}" \
        make -j$(nproc --all) O=out \
        CC="clang" \
-       LLVM=1 \
        CROSS_COMPILE_ARM32="arm-linux-gnueabi-" \
        CROSS_COMPILE_COMPAT="arm-linux-gnueabi-" \
        CONFIG_NO_ERROR_ON_MISMATCH=y \
