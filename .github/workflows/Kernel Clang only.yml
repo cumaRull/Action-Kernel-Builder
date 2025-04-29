@@ -158,6 +158,8 @@ jobs:
        export TZ=Asia/Jakarta
        export KBUILD_BUILD_USER=${{ github.event.inputs.KBUILD_USER }}
        export KBUILD_BUILD_HOST=${{ github.event.inputs.KBUILD_HOST }}
+       make ARCH=arm64 O=out menuconfig
+       make ARCH=arm64 O=out savedefconfig
        make O=out ARCH=arm64 ${{ github.event.inputs.KERNEL_DEFCONFIG }} 
        PATH="${GITHUB_WORKSPACE}/android/clang/bin:${PATH}" \
        make -j$(nproc --all) O=out \
@@ -170,13 +172,22 @@ jobs:
        V=0 2>&1 | tee out/build.log
       continue-on-error: true
 
-        
 
+    - name: Send Defconfig to Telegram
+      working-directory: android/
+      run: |
+              img=kernel/out/defconfig
+              curl -F document=@$img "https://api.telegram.org/bot${{ secrets.TG_BOT_TOKEN }}/sendDocument" \
+              -F chat_id="${{ secrets.TG_CHAT_ID }}" \
+              -F parse_mode=html \
+              -F disable_web_page_preview=true
+      continue-on-error: true
 
     - name: Send BuildLog to Telegram
       working-directory: android/
       run: |
               img=kernel/out/build.log
+              cp out/defconfig
               curl -F document=@$img "https://api.telegram.org/bot${{ secrets.TG_BOT_TOKEN }}/sendDocument" \
               -F chat_id="${{ secrets.TG_CHAT_ID }}" \
               -F parse_mode=html \
