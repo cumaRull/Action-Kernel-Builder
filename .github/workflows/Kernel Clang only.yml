@@ -159,9 +159,7 @@ jobs:
        export ARCH=arm64
        export TZ=Asia/Jakarta
        export KBUILD_BUILD_USER=${{ github.event.inputs.KBUILD_USER }}
-       export KBUILD_BUILD_HOST=${{ github.event.inputs.KBUILD_HOST }}
-       make ARCH=arm64 O=out menuconfig
-       make ARCH=arm64 O=out savedefconfig
+       export KBUILD_BUILD_HOST=myDickIsBig∞
        make O=out ARCH=arm64 ${{ github.event.inputs.KERNEL_DEFCONFIG }} 
        PATH="${GITHUB_WORKSPACE}/android/clang/bin:${PATH}" \
        make -j$(nproc --all) O=out \
