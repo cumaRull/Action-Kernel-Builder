@@ -169,6 +169,7 @@ jobs:
        CROSS_COMPILE_ARM32="arm-linux-gnueabi-" \
        CROSS_COMPILE_COMPAT="arm-linux-gnueabi-" \
        CONFIG_NO_ERROR_ON_MISMATCH=y \
+       CONFIG_DEBUG_SECTION_MISMATCH=y
        V=0 2>&1 | tee out/build.log
       continue-on-error: true
 
@@ -176,7 +177,6 @@ jobs:
       working-directory: android/
       run: |
               img=kernel/out/build.log
-              cp out/defconfig
               curl -F document=@$img "https://api.telegram.org/bot${{ secrets.TG_BOT_TOKEN }}/sendDocument" \
               -F chat_id="${{ secrets.TG_CHAT_ID }}" \
               -F parse_mode=html \
